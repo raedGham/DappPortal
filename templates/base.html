@@ -33,7 +33,11 @@
 </head>
 
 <body>
-    {% include 'includes/navbar.html'%} {% include 'includes/sidebar.html'%} {% block content%} {% endblock%}
+    {% include 'includes/navbar.html'%} {% include 'includes/sidebar.html'%} 
+    
+    {% block content%} 
+    {% endblock%}
+    
     {% include 'includes/footer.html'%}
 
     <script src=" {% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>

@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Data Tables</h1>
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Positions</li>
+          <li class="breadcrumb-item active">List</li>
+        </ol>
+      </nav>
+      
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Employee Positions </h5>  
+              <a  href = {% url 'positions' %} class="btn btn-primary float-right">Add Position</a>
+                                      
+          
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Description</th>           
+                    
+                  </tr>
+                </thead>
+                
+                <tbody>
+                {% for pos in positions %}       
+                  <tr>
+                    <td>{{pos.title}}</td>
+                    <td>{{pos.description}}</td>                   
+                  </tr>
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+{% endblock %}
