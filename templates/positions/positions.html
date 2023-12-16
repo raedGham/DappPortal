@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container mt-5 pt-4">
+<div class="container d-flex justify-content-center mt-5 pt-4">
 <div class="col-lg-6">
 
     <div class="card">
@@ -8,7 +8,7 @@
         <h5 class="card-title">Employee Position</h5>
 
         <!-- Vertical Form -->
-        <form action="{% url 'positions' %}" method="POST" class="form-row row g-3">
+        <form action="{% url 'positions' %} {{form.id }}" method="POST" class="form-row row g-3">
             {% csrf_token %}    
           <div class="form-group col-12">
             <label for="" class="form-label">Title</label>

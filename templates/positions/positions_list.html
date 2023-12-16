@@ -16,12 +16,14 @@
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Employee Positions </h5>  
-              <a  href = {% url 'positions' %} class="btn btn-primary float-right">Add Position</a>
+              <h5 class="card-title">Employee Positions </h5>            
+
+             
+           
                                       
           
 
@@ -30,8 +32,9 @@
                 <thead>
                   <tr>
                     <th>Title</th>
-                    <th>Description</th>           
-                    
+                    <th >Description</th>  
+                    <th> </th>         
+                    <th>  <a  href = {% url 'positions' %} class="btn btn-outline-primary">Add Position</a> </th>
                   </tr>
                 </thead>
                 
@@ -39,7 +42,13 @@
                 {% for pos in positions %}       
                   <tr>
                     <td>{{pos.title}}</td>
-                    <td>{{pos.description}}</td>                   
+                    <td>{{pos.description}}</td> 
+                    <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit"></i> </a> </td>
+                    <td> <form action ="{% url 'del_position' pos.id %}" method ="POST" >
+                            {% csrf_token %}
+                              <button type="submit" class="bx bxs-trash"></i>
+                          </form>   
+                    </td>                  
                   </tr>
                  {% endfor%} 
                 </tbody>
