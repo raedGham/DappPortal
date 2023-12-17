@@ -26,7 +26,7 @@ def positions(request, id = 0):
             position = Position.objects.get(pk=id)
             form = PositionForm(request.POST, instance = position)  
             if form.is_valid():
-               pos.save()
+               position.save()
                return redirect('list_positions')
             
     else:   # GET

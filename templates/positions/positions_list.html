@@ -34,7 +34,7 @@
                     <th>Title</th>
                     <th >Description</th>  
                     <th> </th>         
-                    <th>  <a  href = {% url 'positions' %} class="btn btn-outline-primary">Add Position</a> </th>
+                    <th>  <a  href = "{% url 'positions' %}" class="btn btn-outline-primary">Add Position</a> </th>
                   </tr>
                 </thead>
                 
@@ -45,7 +45,7 @@
                     <td>{{pos.description}}</td> 
                     <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit"></i> </a> </td>
                   
-                    <td> <a href = {% url 'del_position' pos.id %} > <i class="bx bxs-trash"></i> </a> </td>
+                    <td> <a href = " {% url 'del_position' pos.id %}" > <i class="bx bxs-trash"></i> </a> </td>
                   </tr>
                  {% endfor%} 
                 </tbody>
