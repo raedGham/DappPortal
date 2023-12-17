@@ -44,4 +44,10 @@ def positions(request, id = 0):
 
    
 def del_position(request, id = 0):
-       return redirect('list_positions') 
+     
+       position = Position.objects.get(id=id)
+
+       position.delete()
+
+
+       return redirect('list_positions')

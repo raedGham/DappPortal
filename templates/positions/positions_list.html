@@ -44,11 +44,8 @@
                     <td>{{pos.title}}</td>
                     <td>{{pos.description}}</td> 
                     <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit"></i> </a> </td>
-                    <td> <form action ="{% url 'del_position' pos.id %}" method ="POST" >
-                            {% csrf_token %}
-                              <button type="submit" class="bx bxs-trash"></i>
-                          </form>   
-                    </td>                  
+                  
+                    <td> <a href = {% url 'del_position' pos.id %} > <i class="bx bxs-trash"></i> </a> </td>
                   </tr>
                  {% endfor%} 
                 </tbody>
