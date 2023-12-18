@@ -5,29 +5,26 @@ from positions.models import Position
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self,first_name, middle_name, last_name, username, email, phone_number,password, ):
+    def create_user(self, username, email, password):
         if not email:
             raise ValueError('User must have an email address')
         if not username:
             raise ValueError('User must have an username')
         user = self.model(
             email = self.normalize_email(email),
-            username= username,
-            first_name = first_name,
-            last_name = last_name,
+            username= username,   
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self,first_name, last_name, username, email, password):
+    def create_superuser(self, username, email,password):
         user = self.create_user(
-            email = self.normalize_email(email),
+           email = self.normalize_email(email),
             username= username,
-            password= password,
-            first_name = first_name,
-            last_name = last_name,  
+            password = password, 
+            
         )
         user.is_admin = True
         user.is_active = True
@@ -40,19 +37,19 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     first_name      = models.CharField(max_length=50)
-    middle_name     = models.CharField(max_length=50)
-    last_name       = models.CharField(max_length=50)
+    middle_name     = models.CharField(max_length=50,null=True)
+    last_name       = models.CharField(max_length=50, null=True)
     username        = models.CharField(max_length=50, unique=True)
     email           = models.EmailField(max_length=100, unique=True)
-    phone_number    = models.CharField(max_length=50)
-    ps_number       = models.CharField(max_length=50)
-    financial_number= models.CharField(max_length=50)
-    nssf_number     = models.CharField(max_length=50)
-    work_start_date  = models.DateTimeField()
-    work_finish_date = models.DateTimeField()
-    departrment    = models.ForeignKey(Department, on_delete = models.CASCADE) 
-    position       = models.ForeignKey(Position, on_delete = models.CASCADE)
-    head_dep       = models.ForeignKey('self')
+    phone_number    = models.CharField(max_length=50, null=True)
+    ps_number       = models.CharField(max_length=50, null=True)
+    financial_number= models.CharField(max_length=50, null=True)
+    nssf_number     = models.CharField(max_length=50,null=True )
+    work_start_date  = models.DateTimeField(null=True)
+    work_finish_date = models.DateTimeField(null=True)
+    departrment    = models.ForeignKey(Department, on_delete = models.CASCADE,  null=True ) 
+    position       = models.ForeignKey(Position, on_delete = models.CASCADE,  null=True )
+    head_dep       = models.ForeignKey('self', on_delete = models.RESTRICT, null=True )
     # user_group
 
 
@@ -66,7 +63,7 @@ class Account(AbstractBaseUser):
     is_superadmin   = models.BooleanField(default=False)
 
     USERNAME_FIELD  = 'email'
-    REQUIRED_FIELDS = ['username','first_name','last_name','ps_number','departrment','position','head_dep'] 
+    REQUIRED_FIELDS = ['username'] 
 
     objects = MyAccountManager()
 
