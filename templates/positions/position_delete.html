@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container mt-5 pt-4">
+<h4>Delete Position</h4>
+
+<p>Are you sure you want to delete this Position?: <span class="text-danger fw-bolder">{{ position.title }}</span> </p>
+
+<form action="" method="post">
+{% csrf_token %}
+<input type="submit" value="Delete" class="btn btn-primary ms-2">
+<a href= "{% url 'list_positions'%}" class="btn btn-outline-primary mx-1" > Back </a>
+</form>
+<div class="mb-4">
+
+</div>
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@
        <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item">Positions</li>
+          <li class="breadcrumb-item">Departments</li>
           <li class="breadcrumb-item active">Employee</li>
         </ol>
       </nav>
@@ -15,7 +15,7 @@
     <div class="card">
       <div class="card-body">
   
-        <h5 class="card-title">Employee Position</h5>
+        <h5 class="card-title">Department</h5>
         
         <!-- Vertical Form -->
       
@@ -24,8 +24,8 @@
             {% csrf_token %}    
        
           <div class="form-group col-12">
-            <label for="" class="form-label">Title</label>
-            {{ form.title }}
+            <label for="" class="form-label">Name</label>
+            {{ form.name }}
           </div>
           <div class="col-12">
             <label for="" class="form-label">Description</label>
@@ -34,7 +34,7 @@
           
           <div class="text-center">
             <button type="submit" class="btn btn-primary">Submit</button>           
-            <a href = "{% url 'list_positions' %}"  class="btn btn-outline-primary">Back</a>
+            <a href = "{% url 'list_departments' %}"  class="btn btn-outline-primary">Back</a>
           </div>
         
         </form><!-- Vertical Form -->

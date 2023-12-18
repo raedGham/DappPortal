@@ -7,7 +7,7 @@
        <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item">Positions</li>
+          <li class="breadcrumb-item">Departments</li>
           <li class="breadcrumb-item active">List</li>
         </ol>
       </nav>
@@ -20,7 +20,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Employee Positions </h5>            
+              <h5 class="card-title">Departments </h5>            
 
              
            
@@ -31,21 +31,21 @@
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th>Title</th>
+                    <th>Name</th>
                     <th >Description</th>  
                     <th> </th>         
-                    <th>  <a  href = "{% url 'positions' %}" class="btn btn-outline-primary">Add Position</a> </th>
+                    <th>  <a  href = "{% url 'departments' %}" class="btn btn-outline-primary">Add Department</a> </th>
                   </tr>
                 </thead>
                 
                 <tbody>
-                {% for pos in positions %}       
+                {% for dep in departments %}       
                   <tr>
-                    <td>{{pos.title}}</td>
-                    <td>{{pos.description}}</td> 
-                    <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit "></i> </a> </td>
+                    <td>{{dep.name}}</td>
+                    <td>{{dep.description}}</td> 
+                    <td> <a href="{% url 'dep_update' dep.id %}"> <i class="bx bx-edit "></i> </a> </td>
                   
-                    <td> <a href = " {% url 'position_delete' pos.id %}" > <i class="bx bxs-trash"></i> </a> </td>
+                    <td> <a href = " {% url 'department_delete' dep.id %}" > <i class="bx bxs-trash"></i> </a> </td>
                   </tr>
                  {% endfor%} 
                 </tbody>

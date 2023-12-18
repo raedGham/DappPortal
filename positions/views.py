@@ -21,6 +21,7 @@ def positions(request, id = 0):
                 pos = Position.objects.create(title=title, description = description)
                 pos.save()
                 return redirect('list_positions')
+            
        else: # to update the edited record in the table
             print("the update submitted")
             position = Position.objects.get(pk=id)
@@ -43,11 +44,14 @@ def positions(request, id = 0):
     
 
    
-def del_position(request, id = 0):
-     
-       position = Position.objects.get(id=id)
 
+
+def position_delete(request, id):
+    position = Position.objects.get(id=id)
+    if request.method == "POST":
        position.delete()
-
-
        return redirect('list_positions')
+    
+    return render(request,
+                'positions/position_delete.html',
+                {'position': position})
