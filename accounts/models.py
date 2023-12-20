@@ -51,8 +51,8 @@ class Account(AbstractBaseUser):
     position       = models.ForeignKey(Position, on_delete = models.CASCADE,  null=True )
     head_dep       = models.ForeignKey('self', on_delete = models.RESTRICT, null=True )
     # user_group
-
-
+    remarks        = models.TextField(blank=True)
+    address        = models.TextField(blank=True)
     #required field
 
     date_joined     = models.DateTimeField(auto_now_add=True)
