@@ -22,7 +22,7 @@ class EmployeeAccountForm(forms.ModelForm):
   
   class Meta:
     model = Account
-    fields = ['email','first_name','last_name','password', 'confirm_password','ps_number',
+    fields = ['email','first_name','middle_name', 'last_name','password', 'confirm_password','ps_number',
               'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep']
     
     # ,'departrment','position','head_dep'

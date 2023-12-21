@@ -42,12 +42,12 @@
                 <tbody>
                 {% for profile in profiles %}       
                   <tr>
-                    <td>{{profile.ps_number}}</td>
+                    <td class="text-center" scope="col">{{profile.ps_number}}</td>
                     <td>{{ profile.first_name}} {{profile.middle_name}}  {{profile.last_name}}</td> 
                     <td>{{profile.position}}</td>
-                    <td >{{profile.department}}</td>
+                    <td class="text-center" scope="col" >{{profile.department}}</td>
                                  
-                    <td> <a href="#"> <i class="bx bx-edit "></i> </a> </td>
+                    <td> <a href="{% url 'profile_update' profile.id %}"> <i class="bx bx-edit "></i> </a> </td>
                   
                     <td> <a href = "#" > <i class="bx bxs-trash"></i> </a> </td>
                   </tr>
