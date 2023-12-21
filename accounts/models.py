@@ -47,7 +47,7 @@ class Account(AbstractBaseUser):
     nssf_number     = models.CharField(max_length=50,null=True )
     work_start_date  = models.DateTimeField(null=True)
     work_finish_date = models.DateTimeField(null=True)
-    departrment    = models.ForeignKey(Department, on_delete = models.CASCADE,  null=True ) 
+    department    = models.ForeignKey(Department, on_delete = models.CASCADE,  null=True ) 
     position       = models.ForeignKey(Position, on_delete = models.CASCADE,  null=True )
     head_dep       = models.ForeignKey('self', on_delete = models.RESTRICT, null=True )
     # user_group

@@ -1,0 +1,66 @@
+{% extends 'base.html' %} 
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Data Tables</h1>
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item">Employee</li>
+          <li class="breadcrumb-item active">Profiles List</li>
+        </ol>
+      </nav>
+      
+    </div><!-- End Page Title -->
+ 
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-8">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Employee Profiles/Accounts List </h5>            
+
+             
+           
+                                      
+          
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>PS no</th>
+                    <th>Name </th>  
+                    <th>Position </th>   
+                    <th>Department </th>        
+                    <th>  <a  href = "{% url 'profiles' %}" class="btn btn-outline-primary">Add Employee</a> </th>
+                  </tr>
+                </thead>
+                
+                <tbody>
+                {% for profile in profiles %}       
+                  <tr>
+                    <td>{{profile.ps_number}}</td>
+                    <td>{{ profile.first_name}} {{profile.middle_name}}  {{profile.last_name}}</td> 
+                    <td>{{profile.position}}</td>
+                    <td >{{profile.department}}</td>
+                                 
+                    <td> <a href="#"> <i class="bx bx-edit "></i> </a> </td>
+                  
+                    <td> <a href = "#" > <i class="bx bxs-trash"></i> </a> </td>
+                  </tr>
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+{% endblock %}
