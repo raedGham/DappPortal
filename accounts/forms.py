@@ -11,19 +11,19 @@ class EmployeeAccountForm(forms.ModelForm):
   ps_number       = forms.CharField(max_length=50)
   financial_number= forms.CharField(max_length=50)
   nssf_number     = forms.CharField(max_length=50)
-  work_start_date  = forms.DateTimeField()
-  work_finish_date = forms.DateTimeField()
+  work_start_date  = forms.DateTimeField(widget = forms.DateInput(format="%d-%m-%Y", attrs={"type": "date"}))
+  work_finish_date = forms.DateTimeField(widget = forms.DateInput(format="%d-%m-%Y", attrs={"type": "date"}))
   phone_number    = forms.CharField(max_length=50)
   remarks        = forms.CharField(widget=forms.Textarea(attrs={'rows':'4'}))
   address        = forms.CharField(widget=forms.Textarea(attrs={'rows':'4'}))
-  # departrment    = forms.ForeignKey(Department, on_delete = forms.CASCADE,  null=True ) 
-  # position       = forms.ForeignKey(Position, on_delete = forms.CASCADE,  null=True )
-  # head_dep       = forms.ForeignKey('self', on_delete = forms.RESTRICT, null=True )
+  department    = forms.ModelChoiceField(queryset=Department.objects.all())
+  position       = forms.ModelChoiceField(queryset=Position.objects.all())
+  head_dep       = forms.ModelChoiceField(queryset=Account.objects.all())
   
   class Meta:
     model = Account
     fields = ['email','first_name','last_name','password', 'confirm_password','ps_number',
-              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address']
+              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep']
     
     # ,'departrment','position','head_dep'
 
