@@ -1,6 +1,11 @@
 from django.shortcuts import render
-
+from .forms import EmployeeAccountForm
 # Create your views here.
 
 def profiles(request):
-    return render(request, 'profiles\profiles.html')
+    form = EmployeeAccountForm()
+    context = {
+                    'form':form,
+              }
+    
+    return render(request, 'profiles\profiles.html', context)
