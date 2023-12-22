@@ -19,11 +19,13 @@ class EmployeeAccountForm(forms.ModelForm):
   department    = forms.ModelChoiceField(queryset=Department.objects.all())
   position       = forms.ModelChoiceField(queryset=Position.objects.all())
   head_dep       = forms.ModelChoiceField(queryset=Account.objects.all())
+  profile_pic     = forms.ImageField()
+
   
   class Meta:
     model = Account
     fields = ['email','first_name','middle_name', 'last_name','password', 'confirm_password','ps_number',
-              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep']
+              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep','profile_pic']
     
     # ,'departrment','position','head_dep'
 

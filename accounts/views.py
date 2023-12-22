@@ -33,13 +33,14 @@ def profiles(request, id = 0):
                 head_dep= form.cleaned_data['head_dep']
                 remarks= form.cleaned_data['remarks']
                 address= form.cleaned_data['address']
+                profile_pic = form.cleaned_data['profile_pic']
              
                 profile = Account.objects.create(first_name=first_name, middle_name=middle_name, last_name=last_name,
                                                  phone_number=phone_number,email=email, username=username, password = password,
                                                  ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
                                                  work_start_date=work_start_date,work_finish_date=work_finish_date,
                                                  department=department,position=position,head_dep=head_dep, remarks = remarks,
-                                                 address= address)
+                                                 address= address, profile_pic= profile_pic)
                 profile.save()
                 return redirect('list_profiles')
             

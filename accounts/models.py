@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from departments.models import Department
 from positions.models import Position
+
+
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
@@ -53,6 +55,7 @@ class Account(AbstractBaseUser):
     # user_group
     remarks        = models.TextField(blank=True)
     address        = models.TextField(blank=True)
+    profile_pic     = models.ImageField(null=True, blank=True, upload_to = 'images/photos/employee')
     #required field
 
     date_joined     = models.DateTimeField(auto_now_add=True)
