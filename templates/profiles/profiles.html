@@ -18,30 +18,18 @@
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Employee Profile/Account</h5>
              
-              <form action="" method="POST"   autocomplete="off" class="form-row row g-3" enctype="multipart/form-data">
+              <form action="" method="POST"   autocomplete="off" class=" row g-3" enctype="multipart/form-data">
                 {% csrf_token %}  
                 <div class="row mt-2">                 
-                  <div class="form-group col-2">
-                
-                  {% comment %} <img src="{{form.profile_pic.url}}" alt="NOT" width="100px"> {% endcomment %}
-                  {% if form.profile_pic %}
-                  
-                  <h5> image </h5>
-                  {{form.profile_pic.url}}
+           
 
-                  {% else %}
-                  <h5> No image url</h5>
-                  {% endif%}
-
-                   </div>  
-
-                   <div class="form-group col-2">
+                   <div class="form-group col-2 mb-2">
                     <label for="" class="form-label"><strong>First Name</strong></label>
                     {{ form.first_name }}
                   </div>
@@ -53,124 +41,89 @@
                     <label for="" class="form-label"><strong>Middle Name</strong></label>
                     {{ form.middle_name}}
                   </div>  
-                  {% comment %} <div class="form-group col-2">
-
-                    {{ form.profile_pic}}
-                  </div>   {% endcomment %}
-
+               
+                  <div class="form-group col-3">
                 
+                    {% comment %} <img src="{{form.profile_pic.url}}" alt="NOT" width="100px"> {% endcomment %}
+                    {% comment %} {% if form.profile_pic %}
+                    
+                    <h5> Profile Picture </h5>
+                    {{form.profile_pic}}
+
+                    {% else %}
+                    <h5> No image url</h5>
+                    {% endif%} {% endcomment %}
+
+                  </div> 
                 </div>
-              <!-- Default Tabs -->
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active " id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Account</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
-                </li>
-              </ul>
-              <div class="tab-content pt-2" id="myTabContent">
-                <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab">
-                  
+           
+              
+                 
                 <div class="row mt-2">
-                  <div class="form-group col-4">
+
+                  <div class="form-group col-3">
                     <label for="" class="form-label ">Email</label>
                     {{ form.email }}
-                  </div>
-                </div>
-                <div class="row mt-2">
-                  <div class="form-group col-4">
                     <label for="" class="form-label">Password</label>
                     {{ form.password }}
-                  </div>
-                </div>
-                <div class="row mt-2">
-                  <div class="form-group col-4">
                     <label for="" class="form-label">Confirm Password</label>
                     {{ form.confirm_password }}
                   </div>
+
+                  <div class="form-group col-3">                    
+                    <label for="" class="form-label">PS Number</label>
+                    {{ form.ps_number}}
+                    <label for="" class="form-label">Financial Number</label>
+                    {{ form.financial_number}}
+                    <label for="" class="form-label">NSSF Number</label>
+                    {{ form.nssf_number}}
+                  </div>
+                  <div class="form-group col-3">
+                    <label for="" class="form-label">Department</label>
+                    {{ form.department }}
+                    <label for="" class="form-label">Position</label>
+                        {{ form.position }}
+                    <label for="" class="form-label">Head Department</label>
+                        {{ form.head_dep }}                        
+                  </div> 
+
                 </div>
-               </div>
-
-                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    
-                                
-                    <div class="row mt-2">
                       
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">PS Number</label>
-                        {{ form.ps_number}}
-                      </div> 
-                      
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">Financial Number</label>
-                        {{ form.financial_number}}
-                      </div> 
-                      
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">NSSF Number</label>
-                        {{ form.nssf_number}}
-                      </div>
-
-                    </div> 
-
-                    <div class="row mt-2">
-                      <div class="form-group col-2">
+                  <div class="row mt-2">
+                      <div class="form-group col-3">
                         <label for="" class="form-label">Start Date</label>
                         {{ form.work_start_date }}
                       </div>
 
-                      <div class="form-group col-2">
+                      <div class="form-group col-3">
                         <label for="" class="form-label">Finish Date</label>
                         {{ form.work_finish_date }}
                       </div>   
 
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">Department</label>
-                        {{ form.department }}
-                      </div>   
-                      
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">Position</label>
-                        {{ form.position }}
-                      </div>  
-
-                      <div class="form-group col-2">
-                        <label for="" class="form-label">Head Department</label>
-                        {{ form.head_dep }}
-                      </div>  
-
-                    </div> 
-
-
-
-
+                    
                   </div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                  <div class="row mt-2">
+               
+                  <div class="row mt-3">
                     <div class="form-group col-2">
                       <label for="" class="form-label">Phone no</label>
                     {{ form.phone_number }}                      
                     </div>                                          
                   </div>  
                   <div class="row mt-2">
-                    <div class="form-group col-12">
+                    <div class="form-group col-8">
                       <label for="" class="form-label">Address</label>
                     {{ form.address }}                      
                     </div>                                                               
                   </div>
                   <div class="row mt-2">
-                    <div class="form-group col-12">
+                    <div class="form-group col-8">
                       <label for="" class="form-label">Remarks</label>
                     {{ form.remarks }}                      
                     </div> 
                   </div>
-                </div>
+               
 
-              </div><!-- End Default Tabs -->
+         
 
               <div class="text-center mt-3">
                 <button type="submit" class="btn btn-primary">Submit</button>           
