@@ -21,11 +21,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Employee Profiles/Accounts List </h5>            
-
-                 
-                                      
-          
-
+             
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -59,6 +55,54 @@
           </div>
 
         </div>
+
+        {% comment %} search card {% endcomment %}
+        <div class="col-lg-3">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Search Profiles </h5>
+              
+              <form action="" method="GET" class="row g-3">
+                <div class="form-group col-12">
+                  <label for="" class="form-label">PS No</label>
+                 <input name='PSno_search' class ="form-control"/>
+                </div>
+
+                <div class="form-group col-12">
+                  <label for="" class="form-label">Name</label>
+                 <input name='name_search' class ="form-control"/>
+                </div>
+
+                <div class="form-group col-12">
+                  <label for="" class="form-label">Position</label>
+                  <select class="form-select" aria-label="Default select example" name="position_search">
+                    <option selected>Select Pos...</option>
+                    {%for pos in positions %}
+                    <option value={{pos.id}}>{{pos.title}}</option>
+                    {% endfor%}
+                  </select>
+                </div>
+                    <div class="form-group col-12">
+                  <label for="" class="form-label">Department</label>
+                  <select class="form-select" aria-label="Default select example" name="department_search">
+                    <option selected>Select Dep...</option>
+                    {%for dep in departments %}
+                    <option value={{dep.id}}>{{dep.name}}</option>
+                    {% endfor%}
+                  </select>
+
+               
+                </div>
+
+                <button type="submit" class = "btn btn-outline-primary">Search</button>
+              </form>
+              
+            </div>
+          </div>
+
+        </div> 
       </div>
+     
     </section>
 {% endblock %}

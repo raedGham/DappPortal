@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
-from .models import Account
+from .models import Account,Department,Position
 # Create your views here.
 
 def list_profiles(request):
+   
    profiles = Account.objects.all()
-   context = { 'profiles': profiles}
+   departments = Department.objects.all()
+   positions = Position.objects.all()
+   context = { 'profiles': profiles, 'departments':departments,'positions':positions}
    return render(request,"profiles\profiles_list.html", context)
 
 
