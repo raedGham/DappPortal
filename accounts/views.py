@@ -1,14 +1,46 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
 from .models import Account,Department,Position
+# import pagination stuff
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 def list_profiles(request):
    
-   profiles = Account.objects.all()
+
    departments = Department.objects.all()
    positions = Position.objects.all()
-   context = { 'profiles': profiles, 'departments':departments,'positions':positions}
+   
+   # set up pagination
+   name_search = request.GET.get('name_search')
+   PSno_search = request.GET.get('PSno_search')
+   department_search  = request.GET.get('department_search')
+   position_search = request.GET.get('position_search')
+
+   data = Account.objects.all()
+     
+   if name_search !='' and name_search is not None:
+     data = data.filter(first_name__icontains= name_search)
+
+   if PSno_search !='' and PSno_search is not None:
+     data = data.filter(ps_number__icontains= PSno_search)
+
+   if department_search !='' and department_search !='Select Dep...' and department_search is not None:
+     data = data.filter(department= department_search)
+   
+   if position_search !='' and position_search != 'Select Pos...'  and position_search is not None:
+     data = data.filter(position = position_search)  
+
+   for d in data:
+       print(d.first_name)
+
+   p = Paginator(data,3)
+   page = request.GET.get('page')
+   p_profiles = p.get_page(page)
+   
+
+   context = { 'p_profiles':p_profiles, 'departments':departments,'positions':positions}
    return render(request,"profiles\profiles_list.html", context)
 
 
