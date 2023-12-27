@@ -38,7 +38,11 @@
                 {% for profile in p_profiles %}       
                   <tr>
                     <td class="text-center" scope="col">{{profile.ps_number}}</td>
+                    {% if profile.middle_name != None or  profile.middle_name is not None %}
                     <td>{{ profile.first_name}} {{profile.middle_name}}  {{profile.last_name}}</td> 
+                    {% else %}
+                    <td>{{ profile.first_name}} {{profile.last_name}}</td> 
+                    {% endif%}
                     <td>{{profile.position}}</td>
                     <td class="text-center" scope="col" >{{profile.department}}</td>   
                     {% comment %} <td><img src="{{profile.profile_pic.url}}"  width =100>   </td>                                          {% endcomment %}

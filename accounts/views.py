@@ -18,7 +18,7 @@ def list_profiles(request):
    department_search  = request.GET.get('department_search')
    position_search = request.GET.get('position_search')
 
-   data = Account.objects.all()
+   data = Account.objects.all().order_by('ps_number')
      
    if name_search !='' and name_search is not None:
      data = data.filter(first_name__icontains= name_search)
@@ -35,7 +35,7 @@ def list_profiles(request):
    for d in data:
        print(d.first_name)
 
-   p = Paginator(data,3)
+   p = Paginator(data,20)
    page = request.GET.get('page')
    p_profiles = p.get_page(page)
    

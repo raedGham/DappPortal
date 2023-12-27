@@ -39,22 +39,22 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     first_name      = models.CharField(max_length=50)
-    middle_name     = models.CharField(max_length=50,null=True)
+    middle_name     = models.CharField(max_length=50,null=True,blank=True )
     last_name       = models.CharField(max_length=50, null=True)
     username        = models.CharField(max_length=50, unique=True)
     email           = models.EmailField(max_length=100, unique=True)
-    phone_number    = models.CharField(max_length=50, null=True)
+    phone_number    = models.CharField(max_length=50, null=True,blank=True )
     ps_number       = models.CharField(max_length=50, null=True)
-    financial_number= models.CharField(max_length=50, null=True)
+    financial_number= models.CharField(max_length=50, null=True,blank=True )
     nssf_number     = models.CharField(max_length=50,null=True,blank=True )
-    work_start_date  = models.DateField(blank=True, null=True)
-    work_finish_date = models.DateField(blank=True, null=True)
+    work_start_date  = models.DateField(blank=True, null=True )
+    work_finish_date = models.DateField(blank=True, null=True )
     department    = models.ForeignKey(Department, on_delete = models.CASCADE,  null=True ) 
     position       = models.ForeignKey(Position, on_delete = models.CASCADE,  null=True )
     head_dep       = models.ForeignKey('self', on_delete = models.RESTRICT, null=True )
     # user_group
-    remarks        = models.TextField(blank=True)
-    address        = models.TextField(blank=True)
+    remarks        = models.TextField(blank=True, null=True)
+    address        = models.TextField(blank=True, null=True)
     #profile_pic     = models.ImageField(null=True, blank=True, upload_to = 'images/photos/employee')
     #required field
 
