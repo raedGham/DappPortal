@@ -17,24 +17,41 @@ def list_profiles(request):
    PSno_search = request.GET.get('PSno_search')
    department_search  = request.GET.get('department_search')
    position_search = request.GET.get('position_search')
+   
+   sortby = request.GET.get('sortby')
+   print(sortby)
+   if sortby is not None:
+    data = Account.objects.all().order_by(sortby)
+   else:
+    data = Account.objects.all()     
 
-   data = Account.objects.all().order_by('ps_number')
-     
-   if name_search !='' and name_search is not None:
-     data = data.filter(first_name__icontains= name_search)
+
+   if name_search !='' and name_search is not None:     
+     if sortby is not None:
+      data = data.filter(first_name__icontains= name_search).order_by(sortby)
+     else:
+      data = data.filter(first_name__icontains= name_search)   
 
    if PSno_search !='' and PSno_search is not None:
-     data = data.filter(ps_number__icontains= PSno_search)
+     if sortby is not None:
+      data = data.filter(ps_number__icontains= PSno_search).order_by(sortby)
+     else:
+      data = data.filter(ps_number__icontains= PSno_search)   
 
    if department_search !='' and department_search !='Select Dep...' and department_search is not None:
-     data = data.filter(department= department_search)
+     if sortby is not None:
+      data = data.filter(department= department_search).order_by(sortby)
+     else:
+      data = data.filter(department= department_search)   
+
    
    if position_search !='' and position_search != 'Select Pos...'  and position_search is not None:
-     data = data.filter(position = position_search)  
+     if sortby is not None:
+       data = data.filter(position = position_search).order_by(sortby)  
+     else:
+       data = data.filter(position = position_search)   
 
-   for d in data:
-       print(d.first_name)
-
+   
    p = Paginator(data,20)
    page = request.GET.get('page')
    p_profiles = p.get_page(page)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'positions',
     'departments',
     'accounts',
+    'vacations',
     'import_export',
 ]
 
