@@ -10,7 +10,7 @@ class Vacation (models.Model):
     from_date = models.DateField(blank=True, null=True )
     to_date   = models.DateField(blank=True, null=True )
     nodays    = models.DecimalField(decimal_places=1, max_digits=3)
-    ampm      =  models.CharField(max_length =2, blank=True, null=True)
+    ampm      = models.CharField(max_length =2, blank=True, null=True)
     remarks   = models.TextField(blank=True)
 
     def __str__(self) :

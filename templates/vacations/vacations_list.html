@@ -16,7 +16,7 @@
  
     <section class="section">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9">
 
           <div class="card">
            <div class="card-body">
@@ -38,7 +38,7 @@
                     <th>Name </th>                     
                     <th>From Date </th>   
                     <th>To Date </th>
-                    <th>No od Days </th>                
+                    <th>No of Days </th>                
                     <th>AM/PM </th>                
                      {% comment %}  <th> 
                         <form method="GET">
@@ -66,10 +66,9 @@
                     <td>{{vacation.from_date}}</td>
                     <td >{{vacation.to_date}}</td>   
                     <td >{{vacation.nodays}}</td>   
-                    <td >{{vacation.ampm}}</td>   
-                    {% comment %} <td><img src="{{vacation.profile_pic.url}}"  width =100>   </td>                                          {% endcomment %}
-                    <td> <a href="{% url 'profile_update' vacation.id %}"> <i class="bx bx-edit "></i> </a> </td>                  
-                    <td> <a href = "{% url 'profile_delete' vacation.id %}" > <i class="bx bxs-trash"></i> </a> </td>
+                    <td >{{vacation.ampm}}</td>                                                             
+                    <td> <a href="{% url 'vac_update' vacation.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                    <td> <a href = "{% url 'vacation_delete' vacation.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                   </tr>
                            
                  {% endfor%} 

@@ -43,9 +43,9 @@
                   <tr>
                     <td>{{dep.name}}</td>
                     <td>{{dep.description}}</td> 
-                    <td> <a href="{% url 'dep_update' dep.id %}"> <i class="bx bx-edit "></i> </a> </td>
+                    <td> <a href="{% url 'dep_update' dep.id %}"> <i class="bx bx-edit text-success"></i> </a> </td>
                   
-                    <td> <a href = " {% url 'department_delete' dep.id %}" > <i class="bx bxs-trash"></i> </a> </td>
+                    <td> <a href = " {% url 'department_delete' dep.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                   </tr>
                  {% endfor%} 
                 </tbody>

@@ -1,0 +1,73 @@
+{% extends 'base.html' %} {% block content %}
+<main id="main" class="main">
+<div class="pagetitle">
+   <h4>Vacations</h4>
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item">Vacation</li>
+          <li class="breadcrumb-item active">Vacations</li>
+        </ol>
+      </nav>
+    </div>
+
+<div class="col-lg-10">
+
+    <div class="card">
+      <div class="card-body">
+  
+        <h5 class="card-title">Register Vacation</h5>
+        
+        <!-- Vertical Form -->
+      
+
+        {% comment %} <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
+            {% csrf_token %}    
+       
+          <div class="form-group col-10">
+            <label for="" class="form-label text-primary">Employee</label>
+            {{ form.employee }}
+          </div>
+          <div class="form-group col-3">
+            <label for="" class="form-label text-primary">Date</label>
+            {{ form.vac_date }}
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-3">
+              <label for="" class="form-label text-primary">From Date</label>
+              {{ form.from_date }}
+            </div>
+            <div class="form-group col-lg-3">
+              <label for="" class="form-label text-primary">To Date</label>
+              {{ form.to_date }}
+            </div>
+            <div class="form-group col-lg-1">
+              <label for="" class="form-label text-primary">AM/PM</label>
+              {{ form.ampm }}
+            </div>
+            <div class="form-group col-lg-2">
+              <label for="" class="form-label text-primary"># Days</label>
+              {{ form.nodays }}
+            </div>
+          </div>
+          <div class="row mt-2 " >
+           <div class="form-group col-lg-10">
+            <label for="" class="form-label text-primary">Remarks</label>
+              {{form.remarks}}
+           </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>           
+            <a href = "{% url 'list_vacations' %}"  class="btn btn-outline-primary">Back</a>
+          </div>
+        
+        </form><!-- Vertical Form --> {% endcomment %}
+{{form.as_p}}
+      </div>
+    </div>
+
+</div>
+</section>
+
+</main><!-- End #main -->
+{% endblock %}

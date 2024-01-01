@@ -11,14 +11,15 @@
 --------------------------------------------------------------*/
 .form-label {
   font-size: 32px;
-  font-weight: 600;  
+  font-weight: 600;
 }
+
 :root {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Open Sans", sans-serif; 
+  font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
   color: #444444;
 }

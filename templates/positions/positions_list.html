@@ -43,9 +43,9 @@
                   <tr>
                     <td>{{pos.title}}</td>
                     <td>{{pos.description}}</td> 
-                    <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit "></i> </a> </td>
+                    <td> <a href="{% url 'pos_update' pos.id %}"> <i class="bx bx-edit text-success"></i> </a> </td>
                   
-                    <td> <a href = " {% url 'position_delete' pos.id %}" > <i class="bx bxs-trash"></i> </a> </td>
+                    <td> <a href = " {% url 'position_delete' pos.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                   </tr>
                  {% endfor%} 
                 </tbody>

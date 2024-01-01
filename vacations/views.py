@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,HttpResponse
 from vacations.models import Vacation
 from django.core.paginator import Paginator
+from .forms import VacationForm
 
 # Create your views here.
 def list_vacations(request):
@@ -56,9 +57,60 @@ def list_vacations(request):
    return render(request,"vacations\\vacations_list.html", context)
 
 
-def vacations():
-    pass
+def vacations(request, id=0):
+     
+     if request.method == "POST":
+       if id == 0: # to create a new record and append it to the table  
+            print("create new record")
+            form = VacationForm(request.POST)
+            if form.is_valid():
+               employee= form.cleaned_data['employee']
+               vac_date= form.cleaned_data['vac_date']
+               from_date= form.cleaned_data['from_date']
+               to_date= form.cleaned_data['to_date']
+               nodays= form.cleaned_data['nodays']
+               ampm  = form.cleaned_data['ampm']
+               remarks  = form.cleaned_data['remarks']
+               vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
+                                                  nodays=nodays,ampm=ampm, remarks=remarks  )
+               vacation.save()
+               return redirect('list_vacations')
+            else:
+                return HttpResponse('invalid form')
+            
+       else: # to update the edited record in the table
+            print("the update submitted")
+            vacation = Vacation.objects.get(pk=id)
+         
+            form = VacationForm(request.POST, instance = vacation)  
+            if form.is_valid():
+               vacation.save()
+               return redirect('list_vacations')
+            else:
+                return redirect('list_vacations')
+                
+     else:   # GET
+         if id == 0 : # to open a blank from
+          
+            form = VacationForm()
+         else: # to populate the form with the data needed to be updated
+            vacation = Vacation.objects.get(pk=id)
+           
+            form = VacationForm(instance=vacation)
+
+         context = {
+                    'form':form,
+               }
+    
+         return render(request, 'vacations\\vacations.html', context)
 
 
-def vacation_delete():
-    pass
+def vacation_delete(request,id):
+      vac = Vacation.objects.get(id=id)
+      if request.method == "POST":
+         vac.delete()
+         return redirect('list_vacations')
+      
+      return render(request,
+                  'vacations/vacation_delete.html',
+                  {'vac': vac}) 
