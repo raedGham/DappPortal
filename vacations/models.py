@@ -15,6 +15,8 @@ class Vacation (models.Model):
 
     def __str__(self) :
         return self.employee.first_name+ " "+ self.employee.last_name
+  
+       
 
 class EmployeeLeaveStat (models.Model):
     employee = models.OneToOneField(Account, on_delete=models.CASCADE)
