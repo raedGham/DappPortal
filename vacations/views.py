@@ -98,8 +98,11 @@ def vacations(request, id=0):
            
             form = VacationForm(instance=vacation)
 
+
+
          context = {
                     'form':form,
+
                }
     
          return render(request, 'vacations\\vacations.html', context)
@@ -114,3 +117,11 @@ def vacation_delete(request,id):
       return render(request,
                   'vacations/vacation_delete.html',
                   {'vac': vac}) 
+
+def test(request):
+  vac = Vacation.objects.get(id=2)
+  print()
+  return HttpResponse(vac.getnod)
+
+
+

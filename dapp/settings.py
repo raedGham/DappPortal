@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'vacations',
     'import_export',
-    'calculation', 
+    
     
 ]
 

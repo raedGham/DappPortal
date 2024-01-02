@@ -17,15 +17,15 @@
       <div class="card-body">
   
         <h5 class="card-title">Register Vacation</h5>
-        
+     
         <!-- Vertical Form -->
       
-      <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
+   <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
             {% csrf_token %}    
        
           <div class="form-group col-10">
             <label for="" class="form-label text-primary">Employee</label>
-            {{ form.employee }}
+             {{ form.employee }} 
           </div>
           <div class="form-group col-3">
             <label for="" class="form-label text-primary">Date</label>
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group col-lg-2">
               <label for="" class="form-label text-primary"># Days</label>
-              {{ form.nodays }}
+              {{ form.getnod }}
             </div>
           </div>
           <div class="row mt-2 " >
@@ -60,7 +60,7 @@
             <a href = "{% url 'list_vacations' %}"  class="btn btn-outline-primary">Back</a>
           </div>
         
-        </form><!-- Vertical Form --> 
+        </form><!-- Vertical Form -->  
       </div>
     </div>
 

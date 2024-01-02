@@ -71,7 +71,10 @@ class Account(AbstractBaseUser):
     objects = MyAccountManager()
 
     def __str__(self):
+      if self.last_name is not None:
         return self.first_name+" "+self.last_name
+      else:
+        return self.email  
     
     def has_perm(self, perm, obj=None):
         return self.is_admin

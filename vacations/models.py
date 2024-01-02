@@ -14,9 +14,19 @@ class Vacation (models.Model):
     remarks   = models.TextField(blank=True)
 
     def __str__(self) :
-        return self.employee.first_name+ " "+ self.employee.last_name
-  
-       
+        if self.employee.last_name is not None:
+          return self.employee.first_name+ " "+ self.employee.last_name
+        else:  
+          return self.employee.email 
+         
+    @property
+    def getnod(self):
+       return 41
+    
+      #  if self.from_date is not None and self.to_date is not None:
+      #   return self.to_date - self.from_date
+      #  else:
+      #   return 0  
 
 class EmployeeLeaveStat (models.Model):
     employee = models.OneToOneField(Account, on_delete=models.CASCADE)

@@ -56,6 +56,7 @@
                 <tbody>
                 {% for vacation in p_vacations %}       
                   <tr>
+                   
                     <td>{{vacation.vac_date}}</td>
                     <td class="text-start" scope="col">{{vacation.employee.ps_number}}</td>
                     {% if vacation.middle_name != None or  vacation.middle_name is not None %}
@@ -107,7 +108,7 @@
 
 
      {% comment %} search card {% endcomment %}
-     {% comment %}
+     
         <div class="col-lg-3">
 
           <div class="card">
@@ -115,6 +116,7 @@
               <h5 class="card-title">Search vacations </h5>
               
               <form action="" method="GET" class="row g-3">
+
                 <div class="form-group col-12">
                   <label for="" class="form-label">PS No</label>
                  <input name='PSno_search' class ="form-control"/>
@@ -126,25 +128,11 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <label for="" class="form-label">Position</label>
-                  <select class="form-select" aria-label="Default select example" name="position_search">
-                    <option selected>Select Pos...</option>
-                    {%for pos in positions %}
-                    <option value={{pos.id}}>{{pos.title}}</option>
-                    {% endfor%}
-                  </select>
-                </div>
-                    <div class="form-group col-12">
-                  <label for="" class="form-label">Department</label>
-                  <select class="form-select" aria-label="Default select example" name="department_search">
-                    <option selected>Select Dep...</option>
-                    {%for dep in departments %}
-                    <option value={{dep.id}}>{{dep.name}}</option>
-                    {% endfor%}
-                  </select>
-
+                  <label for="" class="form-label">Vac Date</label>
+                    <input name='date_search' class ="form-control" type="date"/>                                  
+                </div>                 
+               </div>                 
                
-                </div>
 
                 <button type="submit" class = "btn btn-outline-primary">Search</button>
               </form>
@@ -156,5 +144,5 @@
       </div>
      
     </section>
-    {% endcomment %}
+    
 {% endblock %}

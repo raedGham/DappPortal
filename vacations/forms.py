@@ -11,7 +11,7 @@ class VacationForm(forms.ModelForm):
   from_date = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   to_date   = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}) )
   nodays    = forms.DecimalField(decimal_places=1, max_digits=3)
-  ampm      = forms.ChoiceField(choices=(('','--'),('am','AM'),('pm','PM')))
+  ampm      = forms.ChoiceField(required=False, choices=(('','--'),('am','AM'),('pm','PM')))
 
   remarks   = forms.Textarea()
   
@@ -19,7 +19,7 @@ class VacationForm(forms.ModelForm):
     model = Vacation
     fields = ['employee','vac_date','from_date', 'to_date','nodays', 'ampm','remarks']
     
-    
+   
 
 
   def __init__(self,*args, **kwargs):
