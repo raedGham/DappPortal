@@ -10,7 +10,7 @@ class VacationForm(forms.ModelForm):
   vac_date = forms.DateField(initial=datetime.today , widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   from_date = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   to_date   = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}) )
-  nodays    = forms.DecimalField(decimal_places=1, max_digits=3)
+  nodays    = forms.DecimalField(decimal_places=1, max_digits=3,required=False, disabled=True)
   ampm      = forms.ChoiceField(required=False, choices=(('','--'),('am','AM'),('pm','PM')))
 
   remarks   = forms.Textarea()

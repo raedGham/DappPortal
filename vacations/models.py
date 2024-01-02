@@ -9,7 +9,7 @@ class Vacation (models.Model):
     vac_date = models.DateField(default=datetime.now)
     from_date = models.DateField(blank=True, null=True )
     to_date   = models.DateField(blank=True, null=True )
-    nodays    = models.DecimalField(decimal_places=1, max_digits=3)
+    nodays    = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     ampm      = models.CharField(max_length =2, blank=True, null=True)
     remarks   = models.TextField(blank=True)
 

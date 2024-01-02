@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from vacations.models import Vacation
 from django.core.paginator import Paginator
 from .forms import VacationForm
-
+from datetime import timedelta
 # Create your views here.
 def list_vacations(request):
 #    departments = Department.objects.all()
@@ -15,7 +15,7 @@ def list_vacations(request):
    position_search = request.GET.get('position_search')
    
    sortby = request.GET.get('sortby')
-   print(sortby)
+   
    if sortby is not None:
     data = Vacation.objects.all().order_by(sortby)
    else:
@@ -71,8 +71,11 @@ def vacations(request, id=0):
                nodays= form.cleaned_data['nodays']
                ampm  = form.cleaned_data['ampm']
                remarks  = form.cleaned_data['remarks']
+               x = RequestedVac(from_date, to_date)
+               print("create:"+ str(x))
+               
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                  nodays=nodays,ampm=ampm, remarks=remarks  )
+                                                  nodays=x,ampm=ampm, remarks=remarks  )
                vacation.save()
                return redirect('list_vacations')
             else:
@@ -81,7 +84,8 @@ def vacations(request, id=0):
        else: # to update the edited record in the table
             print("the update submitted")
             vacation = Vacation.objects.get(pk=id)
-         
+            vacation.nodays = vacation.to_date-vacation.from_date
+            print(vacation.nodays)
             form = VacationForm(request.POST, instance = vacation)  
             if form.is_valid():
                vacation.save()
@@ -120,8 +124,18 @@ def vacation_delete(request,id):
 
 def test(request):
   vac = Vacation.objects.get(id=2)
-  print()
+
   return HttpResponse(vac.getnod)
 
 
+def RequestedVac( from_date , to_date):
+   print("Entered function")
+   excluded = (6, 7)
+   days = 0
+   while from_date <= to_date:
+            if from_date.isoweekday() not in excluded: #if you want to get only weekdays
+                days += 1
+            from_date+= timedelta(days=1)
+   return days
 
+ 
