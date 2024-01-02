@@ -5,10 +5,19 @@ from .models import Account,Department,Position
 from django.core.paginator import Paginator
 
 # Create your views here.
+def hierarchy(request):
+   em = request.GET.get('employee')
+   print(em)
+   emps = Account.objects.all()
+   team = Account.objects.filter(head_dep=em)
+   context = { 
+      'emps': emps,
+      'team': team,
 
+   }
+   return render(request, 'profiles\\hierarchy.html',context)
 def list_profiles(request):
-   
-
+ 
    departments = Department.objects.all()
    positions = Position.objects.all()
    
