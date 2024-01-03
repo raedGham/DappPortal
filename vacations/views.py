@@ -139,3 +139,9 @@ def RequestedVac( from_date , to_date):
    return days
 
  
+def single_vacation(request, id):
+  vac = Vacation.objects.get(id=id)
+  context = {
+     'vac' : vac
+  }
+  return render(request, 'vacations\\single_vacation.html',context)

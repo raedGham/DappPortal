@@ -5,5 +5,5 @@ urlpatterns = [
   path('form/', views.vacations, name='vacations'),
   path('form/<int:id>/', views.vacations, name='vac_update'),
   path('delete/<int:id>/', views.vacation_delete, name='vacation_delete'),
-  path('test',views.test)
+  path('single/<int:id>/',views.single_vacation, name='single_vacation'),
 ]

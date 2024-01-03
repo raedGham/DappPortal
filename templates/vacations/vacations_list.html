@@ -68,6 +68,7 @@
                     <td >{{vacation.to_date}}</td>   
                     <td >{{vacation.nodays}}</td>   
                     <td >{{vacation.ampm}}</td>                                                             
+                    <td> <a href="{% url 'single_vacation' vacation.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>   
                     <td> <a href="{% url 'vac_update' vacation.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'vacation_delete' vacation.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                   </tr>
