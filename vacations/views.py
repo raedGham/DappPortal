@@ -154,7 +154,7 @@ def single_vacation(request, id):
   context = {
      'vac' : vac
   }
-  return render(request, 'vacations\\single_vacation.html',context)
+  return render(request, 'vacations\\single_vacationPDF.html',context)
 
 def single_vacationPDF(request, id):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")

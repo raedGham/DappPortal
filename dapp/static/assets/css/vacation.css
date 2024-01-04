@@ -1,0 +1,34 @@
+.datacolor {
+    color:blue;    
+}
+
+.BorderAll {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.BorderTop {
+    border-top-style: solid;
+    border-width: 1px;
+}
+
+.BorderBottom {
+    border-bottom-style: solid;
+    border-width: 1px;
+}
+
+.BorderLeft {
+    border-left-style: solid;
+    border-width: 1px;
+}
+
+.BorderRight {
+    border-right-style: solid;
+    border-width: 1px;
+}
+
+
+body {
+  font-family: "Helvetica";
+}
+
