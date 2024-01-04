@@ -2,92 +2,93 @@
 {% block content %}
 {% load static %}
 
-  <div class="container">
+  <div class="Container">
      <!-- Header  -->
     
-    <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "1100px"  alt="">
+    <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "600px"  alt="">
     <h4 class="fw-bold">LEAVE APPLICATION FORM</h4>
-    <div class="row my-2">
+    <div class="row mt-2">
      <!-- employee info  --> 
     </div>
-    <div class="row">
+    <div class="FLX">
 
-      <div class="col-lg-2">
+      <div class="LabelMargin">
         <label> Name : </label>
       </div>
-      <div class="col-lg-2  BorderBottom  datacolor">
+
+      <div class="  BorderBottom  datacolor">
          {{vac.employee.first_name}} {{vac.employee.last_name}}
       </div>
-      <div class="col-lg-3">
+      <div class="">
         
      </div>
-     <div class="col-lg-2">
+     <div class="LabelMargin">
         <label> Personal : </label>
      </div>
-     <div class="col-lg-1  BorderBottom  datacolor">
+     <div class="BorderBottom  datacolor">
         {{vac.employee.ps_number}}
      </div>
 
-    </div>
+   </div>
 
-    <div class="row my-2"> </div>
+    <div class=""> </div>
 
-    <div class="row">
-        <div class="col-lg-2">
+    <div class="FLX">
+        <div class="LabelMargin">
             <label> Department : </label>
-          </div>
-          <div class="col-lg-2 BorderBottom  datacolor">
+        </div>
+          <div class="BorderBottom  datacolor">
              {{vac.employee.department.name}}
           </div>
-          <div class="col-lg-3">
+          <div class="">
             
          </div>
-         <div class="col-lg-2">
+         <div class="LabelMargin">
             <label> Shift personnel : </label>
          </div>
-         <div class="col-lg-1 BorderBottom ">
+         <div class="BorderBottom ">
             
          </div>
     </div>
 
     
     <div class = "row mt-3">
-        <div class="col-lg-2">
+        <div class="">
             <p style="font-size: 10px;"> Date to be taken : </p>
           </div>
-          <div class="col-lg-7"> </div>
-          <div class="col-lg-1">
+          <div class=""> </div>
+          <div class="">
             <p style="font-size: 10px;" class="mx-3"> AM/PM : </p>
           </div>
     </div>
 
  
 
-    <div class="row">
-        <div class="col-lg-2">
+    <div class="">
+        <div class="">
             <label> From : </label>
           </div>
-          <div class="col-lg-2 BorderBottom  datacolor">
+          <div class="BorderBottom  datacolor">
              {{vac.from_date}}
           </div>                            
-         <div class="col-lg-1">
+         <div class="">
             <label> To : </label>            
          </div>
-         <div class="col-lg-2 BorderBottom  datacolor">
+         <div class="BorderBottom  datacolor">
             {{vac.to_date}}
          </div>                            
-         <div class="col-lg-1 ">
+         <div class="">
             <label> No of Days: </label>            
          </div>
-         <div class="col-lg-1 border  datacolor">
+         <div class="border  datacolor">
             {{vac.nodays}}
          </div>           
-         <div class="col-lg-1  mx-3 border  datacolor">
+         <div class="border  datacolor">
             {{vac.ampm}}
          </div>
     </div>
 
-    <!-- Annual Leave-->
+    {% comment %} <!-- Annual Leave-->
     <div class="row mt-4"> 
         <div class="col-lg-2 BorderAll">
             <label> Annual Leave </label>            
@@ -288,7 +289,7 @@
         
     </div>
 
-</div>  
+</div>   {% endcomment %}
     
 
 {% endblock %}

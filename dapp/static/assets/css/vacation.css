@@ -32,3 +32,17 @@ body {
   font-family: "Helvetica";
 }
 
+.Container {
+    padding-right: 25px;
+    padding-left: 25px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+.FLX {
+    display: flex;
+}  
+
+.LabelMargin {
+    margin-right: 50px;
+}
