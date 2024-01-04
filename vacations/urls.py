@@ -6,4 +6,5 @@ urlpatterns = [
   path('form/<int:id>/', views.vacations, name='vac_update'),
   path('delete/<int:id>/', views.vacation_delete, name='vacation_delete'),
   path('single/<int:id>/',views.single_vacation, name='single_vacation'),
+  path('singlePDF/<int:id>/',views.single_vacationPDF, name='single_vacationPDF'),
 ]

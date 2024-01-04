@@ -2,7 +2,17 @@ from django.shortcuts import render,redirect,HttpResponse
 from vacations.models import Vacation
 from django.core.paginator import Paginator
 from .forms import VacationForm
-from datetime import timedelta
+from datetime import timedelta, datetime
+from django.conf import settings
+from pathlib import Path
+
+# imports for pdf generator
+import os
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
+from  django.db.models import Sum
+
 # Create your views here.
 def list_vacations(request):
 #    departments = Department.objects.all()
@@ -145,3 +155,31 @@ def single_vacation(request, id):
      'vac' : vac
   }
   return render(request, 'vacations\\single_vacation.html',context)
+
+def single_vacationPDF(request, id):
+  os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
+
+  response = HttpResponse(content_type='application/pdf')
+  response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
+  response['Content-Transfer-Encoding'] = 'binary'
+
+
+  vac = Vacation.objects.get(id=id)
+  context = {
+     'vac' : vac
+  }
+  html_string = render_to_string('vacations\\single_vacationPDF.html', context)
+  html=HTML(string=html_string, base_url=request.build_absolute_uri())
+  result= html.write_pdf(response , presentational_hints=True)
+  return response  
+
+  with tempfile.NamedTemporaryFile(delete=True) as output:
+     output.write(result)
+     output.flush()
+     print(output.name)
+     output.seek(0)
+     response.write(output.read())
+
+  return response  
+
+  
