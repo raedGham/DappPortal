@@ -5,45 +5,45 @@
   <div class="Container">
      <!-- Header  -->
     
-    <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "600px"  alt="">
+    <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "700px"  alt="">
     <h4 class="fw-bold">LEAVE APPLICATION FORM</h4>
     <div class="row mt-2">
      <!-- employee info  --> 
     </div>
     <div class="FLX">
 
-      <div class="LabelMargin">
+      <div class="LabelMargin w4">
         <label> Name : </label>
       </div>
 
-      <div class="  BorderBottom  datacolor">
+      <div class="  BorderBottom  datacolor w6" style="text-align:center;" >
          {{vac.employee.first_name}} {{vac.employee.last_name}}
       </div>
-      <div class="">
+      <div class=" w5">
         
      </div>
-     <div class="LabelMargin">
-        <label> Personal : </label>
+     <div class="LabelMargin w4">
+        <label> Personal No: </label>
      </div>
-     <div class="BorderBottom  datacolor">
+     <div class="BorderBottom  datacolor w3" style="text-align:center;">
         {{vac.employee.ps_number}}
      </div>
 
    </div>
 
-    <div class=""> </div>
+    <div class="w5"> </div>
 
     <div class="FLX">
-        <div class="LabelMargin">
-            <label> Department : </label>
+        <div class="LabelMargin w4 mt1">
+            <label>Department :</label>
         </div>
-          <div class="BorderBottom  datacolor">
+          <div class="BorderBottom  datacolor w6 mt1" style="text-align:center;">
              {{vac.employee.department.name}}
           </div>
-          <div class="">
+          <div class="w5 mt1">
             
          </div>
-         <div class="LabelMargin">
+         <div class="LabelMargin w5 mt1">
             <label> Shift personnel : </label>
          </div>
          <div class="BorderBottom ">
@@ -52,244 +52,258 @@
     </div>
 
     
-    <div class = "row mt-3">
+    <div class = "FLX">
         <div class="">
-            <p style="font-size: 10px;"> Date to be taken : </p>
+            <p style="font-size: 10px;" class = "mt1"> Date to be taken : </p>
           </div>
           <div class=""> </div>
           <div class="">
-            <p style="font-size: 10px;" class="mx-3"> AM/PM : </p>
+            <p style="font-size: 10px; margin-left:510px;" class="w3 mt1">AM/PM</p>
           </div>
     </div>
 
  
 
-    <div class="">
-        <div class="">
+    <div class="FLX">
+        <div class="LabelMargin w3">
             <label> From : </label>
           </div>
-          <div class="BorderBottom  datacolor">
+          <div class="BorderBottom  datacolor w4">
              {{vac.from_date}}
           </div>                            
-         <div class="">
+         <div class="w3 ml1">
             <label> To : </label>            
          </div>
-         <div class="BorderBottom  datacolor">
+         <div class="BorderBottom  datacolor w4">
             {{vac.to_date}}
          </div>                            
-         <div class="">
+         <div class="w3 w4 ml1">
             <label> No of Days: </label>            
          </div>
-         <div class="border  datacolor">
+         <div class="BorderAll datacolor wb3">
             {{vac.nodays}}
          </div>           
-         <div class="border  datacolor">
+         <div class="BorderAll datacolor wb3 ml2">
             {{vac.ampm}}
          </div>
     </div>
 
-    {% comment %} <!-- Annual Leave-->
-    <div class="row mt-4"> 
-        <div class="col-lg-2 BorderAll">
+    <!-- Annual Leave-->
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
             <label> Annual Leave </label>            
          </div>
-         <div class="col-lg-2 BorderAll">
+         <div class="BorderTop BorderBottom mt1 wb4">
             <label> No of days : </label>            
          </div>
-         <div class="col-lg-5  BorderTop">
+         <div class="BorderTop BorderLeft mt1 wb10">
             <label> Annual leave entitlement for the current year: </label>            
          </div>
-         <div class="col-lg-1 BorderTop BorderRight BorderBottom"></div>
+         <div class="BorderTop BorderRight BorderBottom mt1 w3"> 
+            <label class="">  </label>
+         </div>         
     </div>
-    <div class="row"> 
-        <div class="col-lg-2 "></div>        
-        <div class="col-lg-2 "></div>        
-        <div class="col-lg-5 BorderLeft">
-           <label> Annual leave entitlement for previous year: </label>            
-        </div>     
-        <div class="col-lg-1  BorderBottom BorderRight "></div>
-    </div>
-    <div class="row"> 
-        <div class="col-lg-4 "></div>        
-        <div class="col-lg-1 BorderLeft ">
-            <p style="font-size: 10px; height:5px;" > (if approved ) </p>
+
+    <div class="FLX"> 
+        <div class="w9">
+         <p></p>
         </div>        
+        
+        <div class="BorderLeft wb10">
+           <label> Annual leave entitlement for previous year(if approved): </label>                    
+        </div>     
+        <div class=" BorderRight BorderBottom w3"> 
+         <label class="">  </label>
+      </div>         
     </div>
-    <div class="row"> 
-        <div class="col-lg-4 "></div>        
-        <div class="col-lg-5 BorderLeft ">
+    
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10 ">
             <label> Total annual leave entitlement: </label>            
          </div>     
-         <div class="col-lg-1  BorderBottom BorderRight "></div>
+         <div class="BorderBottom BorderRight w3"></div>
     </div>
-    <div class="row"> 
-        <div class="col-lg-4 "></div>        
-        <div class="col-lg-5 BorderLeft ">  
+ 
+
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10 ">  
             <label> Days taken so far this calendar year: </label>            
          </div>  
-         <div class="col-lg-1  BorderBottom BorderRight "></div> 
+         <div class="BorderBottom BorderRight w3"></div> 
     </div>
-    <div class="row"> 
-        <div class="col-lg-4 "></div>        
-        <div class="col-lg-5 BorderLeft ">  
+
+  
+
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10">  
             <label> Days on this application:</label>            
          </div>  
-         <div class="col-lg-1  BorderBottom BorderRight "></div>
+         <div class="BorderBottom BorderRight w3"></div>
     </div>
-    <div class="row"> 
-        <div class="col-lg-4 "></div>        
-        <div class="col-lg-5 BorderLeft BorderBottom ">  
+      
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft BorderBottom wb10">  
             <label> Balance remaining after this application:</label>                       
          </div>  
-         <div class="col-lg-1  BorderBottom BorderRight "></div>
+         <div class="BorderBottom BorderRight w3"></div>
     </div>
+    
     
     <!-- Medical Leave-->
 
-    <div class="row mt-4"> 
-        <div class="col-lg-2  BorderAll ">
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
             <label> Medical Leave </label>            
          </div>
-         <div class="col-lg-2 BorderAll ">
+         <div class="BorderTop BorderBottom mt1 wb4">
             <label> No of days : </label>            
          </div>
-         <div class="col-lg-6 BorderAll">
+         <div class="BorderAll mt1 wb12">
             <label> Days previously taken this calendar year :  </label>         
          </div>                           
     </div>
-    <div class="row"> 
-        <div class="col-lg-4"> </div>
-        <div class="col-lg-6 BorderLeft BorderRight  BorderBottom ">- </div>
-    </div>
-    <div class="row"> 
-        <div class="col-lg-4"> </div>
-        <div class="col-lg-6 BorderLeft BorderRight  BorderBottom " >- </div>
-    </div>
-    <div class="row"> 
-        <div class="col-lg-4"> </div>
-        <div class="col-lg-6 BorderLeft BorderRight  BorderBottom ">- </div>
+
+   
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight BorderBottom  wb12"> </div>
     </div>
     
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
+    </div>
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
+    </div>
+
     <!-- Unpaid Leave-->
-    <div class="row mt-4"> 
-        <div class="col-lg-2  BorderAll ">
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
             <label> Unpaid Leave </label>            
          </div>
-         <div class="col-lg-2 BorderAll ">
+         <div class="BorderTop BorderBottom mt1 wb4">
             <label> No of days : </label>            
          </div>
-         <div class="col-lg-6 BorderAll ">
+         <div class="BorderAll mt1 wb12">
             <label> Reason:  </label>         
          </div>                           
     </div>
-
-    <div class="row"> 
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2 BorderLeft BorderRight BorderBottom ">
+    
+    <div class="FLX"> 
+        <div class=" mt1 wb4"></div>
+        <div class="BorderLeft BorderRight BorderBottom wb4">
             <label> Hours : </label>            
          </div>
-         <div class="col-lg-3  BorderBottom ">
+         <div class="BorderBottom wb5 ">
             <label> From : </label>            
          </div>
-         <div class="col-lg-3 BorderRight BorderBottom ">
+         <div class="BorderRight BorderBottom wb5">
             <label> To : </label>            
          </div>
     </div>
 
-
-    <!-- Paid Leave-->
-    <div class="row mt-4"> 
-    <div class="col-lg-2  BorderAll ">
-        <label> Paid Leave </label>            
-     </div>
-     <div class="col-lg-2 BorderAll ">
-        <label> No of days : </label>            
-     </div>
-     <div class="col-lg-6 BorderAll ">
-        <label> Reason:  </label>         
-     </div>                           
+   <!-- paid Leave-->
+   <div class="FLX"> 
+      <div class="BorderAll mt1 wb4">
+         <label> Paid Leave </label>            
+      </div>
+      <div class=" BorderTop BorderBottom mt1 wb4">
+         <label> No of days : </label>            
+      </div>
+      <div class="BorderAll mt1 wb12">
+         <label> Reason:  </label>         
+      </div>                           
    </div>
 
-    <div class="row"> 
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2 BorderLeft BorderRight BorderBottom ">
-            <label> Hours : </label>            
-         </div>
-         <div class="col-lg-3  BorderBottom ">
-            <label> From : </label>            
-         </div>
-         <div class="col-lg-3 BorderRight BorderBottom ">
-            <label> To : </label>            
-         </div>
-    </div>
-    <div class="row"> 
-        
-    </div>
+   <div class="FLX"> 
+      <div class=" mt1 wb4"></div>
+      <div class="BorderLeft BorderRight BorderBottom wb4">
+         <label> Hours : </label>            
+      </div>
+      <div class="BorderBottom wb5 ">
+         <label> From : </label>            
+      </div>
+      <div class="BorderRight BorderBottom wb5">
+         <label> To : </label>            
+      </div>
+   </div>
+
+
+ 
+
     
     <!-- Signatures-->
-    <div class="row mt-5"></div>
-    <div class="row mt-5"></div>
+    <div class="mt2"></div>
     
-    <div class="row"> 
-      <div class="col-lg-2 datacolor">
+    <div class="FLX"> 
+      <div class="datacolor w5">
         <label>{{vac.employee.first_name}} {{vac.employee.last_name}}</label> 
       </div>
-     <div class="col-lg-2 datacolor">
+     <div class="datacolor w5">
         <label>{{vac.vac_date}} </label> 
      </div>   
     </div>   
-    <div class="row"> 
-      <div class="col-lg-2 BorderTop ">
+     
+    <div class="FLX"> 
+      <div class="BorderTop w5 ">
         <p style="font-size: 10px;">(1) Applicant</p> 
       </div>
-     <div class="col-lg-2 BorderTop ">
+     <div class="BorderTop w5">
        <p style="font-size: 10px;">Date</p> 
      </div>
-     <div class="col-lg-2"></div>
-     <div class="col-lg-2 BorderTop ">
+       
+
+     <div class="ml3"></div>
+     <div class="BorderTop w5">
         <p style="font-size: 10px;">(2) Dept Eng./SIS</p> 
       </div>
-     <div class="col-lg-2 BorderTop ">
+     <div class="BorderTop w5">
        <p style="font-size: 10px;">Date</p> 
      </div>
 
     </div>
+ 
+    
 
-    <div class="row mt-5"></div>
-    <div class="row mt-5"></div>
-
-    <div class="row"> 
-        <div class="col-lg-2 BorderTop ">
+    <div class="FLX mt2"> 
+        <div class="BorderTop w5">
             <p style="font-size: 10px;">(3) Head/Deputy of Dpt</p> 
           </div>
-         <div class="col-lg-2 BorderTop ">
+         <div class="BorderTop w5">
            <p style="font-size: 10px;">Date</p> 
          </div>
 
-         <div class="col-lg-2"></div>
-         <div class="col-lg-2 BorderTop ">
+         <div class="ml3"></div>
+         <div class="BorderTop w5">
             <p style="font-size: 10px;">(4) Admin Head</p> 
           </div>
-         <div class="col-lg-2 BorderTop ">
+         <div class="BorderTop w5">
            <p style="font-size: 10px;">Date</p> 
          </div>
     </div>
 
-    <div class="row mt-5"></div>
-    <div class="row mt-5"></div>
 
-    <div class="row"> 
-        <div class="col-lg-3"></div>
-        <div class="col-lg-2 BorderTop ">
+
+    <div class="FLX mt2"> 
+        <div class="ml4"></div>
+
+        <div class="BorderTop w5">
             <p style="font-size: 10px;">(5) Plant Superintendent</p> 
           </div>
-         <div class="col-lg-2 BorderTop ">
+         <div class="BorderTop w5">
            <p style="font-size: 10px;">Date</p> 
          </div>
         
     </div>
 
-</div>   {% endcomment %}
+    <p style="font-size: 10px;" class="w3"> {{vac.id}}</p>
+</div>  
     
 
 {% endblock %}
