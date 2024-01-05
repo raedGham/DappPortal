@@ -94,13 +94,18 @@ def vacations(request, id=0):
        else: # to update the edited record in the table
             print("the update submitted")
             vacation = Vacation.objects.get(pk=id)
-            vacation.nodays = vacation.to_date-vacation.from_date
+            from_date=  datetime.strptime(request.POST.get('from_date'),'%Y-%m-%d')
+            to_date= datetime.strptime(request.POST.get('to_date'), '%Y-%m-%d')
+            vacation.nodays = RequestedVac(from_date,to_date)
+            print(from_date)
+            print(to_date)
             print(vacation.nodays)
             form = VacationForm(request.POST, instance = vacation)  
             if form.is_valid():
                vacation.save()
                return redirect('list_vacations')
             else:
+                print('Invalid form')
                 return redirect('list_vacations')
                 
      else:   # GET
@@ -139,7 +144,7 @@ def test(request):
 
 
 def RequestedVac( from_date , to_date):
-   print("Entered function")
+ 
    excluded = (6, 7)
    days = 0
    while from_date <= to_date:
