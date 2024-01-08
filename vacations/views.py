@@ -188,12 +188,11 @@ def single_vacationPDF(request, id):
   return response  
 
   
-def entitlement(request):
+def entitlement(request, em=0):
+  
    if request.GET.get('employee') is not None:
     em = request.GET.get('employee')
-   else:
-    em = 0   
-
+   
    emps = Account.objects.all()
    entitlement = EmployeeLeaveStat.objects.filter(employee=em)
    context = { 
@@ -219,7 +218,7 @@ def entform(request, id, empl):
                entitlement = EmployeeLeaveStat.objects.create(employee=employee , description = description , current_year = current_year, previous_year= previous_year,
                                                             daystaken_current=daystaken_current, total_annual = total_annual  )
                entitlement.save()
-               return redirect('entitlement')
+               return redirect('entitlement', employee.id)
             else:
                 return HttpResponse('invalid form')
             
