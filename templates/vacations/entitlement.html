@@ -1,0 +1,66 @@
+{% extends 'base.html' %} 
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Annual Leave Entitlement</h1>
+    </div>
+    <section class="section">
+        <div class="card col-lg-8">
+           <div class="card-body">
+            <form action="" method="GET" name= "frm">
+             <div class="row">
+            
+                <select name="employee" class="form-select mt-3" onchange='frm.submit();'> 
+                {% for emp in emps%}                                   
+                    {% if selected_emp is not None and emp.id == selected_emp %} 
+                    <option selected value={{emp.id}}> {{emp.first_name}} {{emp.last_name}} </option>
+                    {% else %} 
+                    <option value={{emp.id}}> {{emp.first_name}} {{emp.last_name}} </option>
+                    {% endif %}
+                {%endfor%}
+                </select>
+                <div class="text-center">
+                   <button type="submit" class = "col-lg-2 btn btn-outline-primary mt-2">Get</button>
+                </div>
+             </div>   
+             <br>           
+             <div class="row">
+                
+
+                <table  class="table datatable">
+                    <thead>
+                      <tr>  
+                        <th> Description </th>
+                        <th> Current Yr</th>
+                        <th> Previous Yr</th>
+                        <th> Total </th>
+                        <th> Days Taken Current</th>
+                        <th></th>
+                        <th></th>
+                        <th> <a  href = "{% url 'ent_add' 0 selected_emp %}" class="btn btn-outline-primary">Add Entitlement</a> </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for ent in entitlement%}
+                    <tr>
+                      <td>{{ ent.description}}
+                      <td>{{ ent.current_year}}  
+                      <td>{{ ent.previous_year}}    
+                      <td>{{ ent.total_annual}} 
+                      <td>{{ ent.daystaken_current}} 
+                      <td > <a href="{% url 'ent_update' ent.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                      <td > <a href = "{% url 'ent_delete' ent.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                      
+
+                    </tr>
+                    {% endfor%} 
+                </tbody>
+                  </table>
+            </div> 
+            </form>
+           </div>
+        
+
+        </div>
+    </section>    
+{% endblock%}

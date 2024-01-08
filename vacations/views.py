@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect,HttpResponse
-from vacations.models import Vacation
+from vacations.models import Vacation, EmployeeLeaveStat
 from django.core.paginator import Paginator
-from .forms import VacationForm
+from .forms import VacationForm, EntitlementForm
 from datetime import timedelta, datetime
 from django.conf import settings
 from pathlib import Path
-
+from accounts.models import Account
 # imports for pdf generator
 import os
 from django.template.loader import render_to_string
@@ -188,3 +188,73 @@ def single_vacationPDF(request, id):
   return response  
 
   
+def entitlement(request):
+   if request.GET.get('employee') is not None:
+    em = request.GET.get('employee')
+   else:
+    em = 0   
+
+   emps = Account.objects.all()
+   entitlement = EmployeeLeaveStat.objects.filter(employee=em)
+   context = { 
+      'selected_emp':int(em),
+      'emps': emps,
+      'entitlement': entitlement
+   }       
+   return render(request, 'vacations\\entitlement.html', context)
+
+
+def entform(request, id, empl):
+    if request.method == "POST":
+       if id == 0: # to create a new record and append it to the table  
+            print("create new record")
+            form = EntitlementForm(request.POST)
+            if form.is_valid():   
+               employee = Account.objects.get(id=empl)  
+               description= form.cleaned_data['description']
+               current_year= form.cleaned_data['current_year']
+               previous_year= form.cleaned_data['previous_year']
+               daystaken_current = form.cleaned_data['daystaken_current']             
+               total_annual = current_year + previous_year
+               entitlement = EmployeeLeaveStat.objects.create(employee=employee , description = description , current_year = current_year, previous_year= previous_year,
+                                                            daystaken_current=daystaken_current, total_annual = total_annual  )
+               entitlement.save()
+               return redirect('entitlement')
+            else:
+                return HttpResponse('invalid form')
+            
+       else: # to update the edited record in the table
+            print("the update submitted")
+            entitlement = EntitlementForm.objects.get(pk=id)
+            form = EntitlementForm(request.POST, instance = entitlement)  
+            if form.is_valid():
+               form.save()
+               return redirect('entitlement')
+            else:
+                print('Invalid form')
+                return redirect('entitlement')
+                
+    else:   # GET
+         if id == 0 : # to open a blank from
+          
+            form = EntitlementForm()
+         else: # to populate the form with the data needed to be updated
+            entitlement = EmployeeLeaveStat.objects.get(pk=id)
+           
+            form = EntitlementForm(instance=entitlement)
+
+
+         employee = Account.objects.get(id=empl)
+         
+         context = {
+                    'form':form,
+                    'employee':employee, 
+               }
+    
+         return render(request, 'vacations\\ent_form.html', context)
+
+   
+
+
+def ent_delete(request, id):
+   return HttpResponse("Entitilement Delete")

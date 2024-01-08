@@ -30,11 +30,12 @@ class Vacation (models.Model):
 
 class EmployeeLeaveStat (models.Model):
     employee = models.OneToOneField(Account, on_delete=models.CASCADE)
+    description = models.CharField(max_length=50, default="")
     current_year = models.IntegerField()
     previous_year = models.IntegerField()
     total_annual= models.IntegerField()
     daystaken_current = models.IntegerField()
     
     def __str__(self) :
-        return self.employee
+        return self.employee.first_name+" "+self.employee.last_name
     

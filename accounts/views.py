@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 def hierarchy(request):
    em = request.GET.get('employee')
-   print(em)
+   
    emps = Account.objects.all()
    team = Account.objects.filter(head_dep=em)
    context = { 
