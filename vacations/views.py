@@ -118,23 +118,31 @@ def vacations(request, id=0):
          if id == 0 : # to open a blank from
           
             form = VacationForm()
+            context = {
+               'form':form,
+               'updEls':{}, 
+               'annual': '',
+               'this': '',
+               'balance': ''
+            }
+
          else: # to populate the form with the data needed to be updated
             vacation = Vacation.objects.get(pk=id)
            
-            form = VacationForm(instance=vacation)
-            els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)               
+            form = VacationForm(instance=vacation)          
+            els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)                         
             idy = els[0].id
             updEls = EmployeeLeaveStat.objects.get(id= idy )        
-
-
-         context = {
-                    'form':form,
-                    'updEls':updEls, 
-                    'annual': updEls.current_year + updEls.previous_year,
-                    'this': vacation.nodays,
-                    'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays)
-               }
-    
+           
+   
+            context = {
+               'form':form,
+               'updEls':updEls, 
+               'annual': updEls.current_year + updEls.previous_year,
+               'this': vacation.nodays,
+               'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays)
+               }    
+      
          return render(request, 'vacations\\vacations.html', context)
 
 
