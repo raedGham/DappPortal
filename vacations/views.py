@@ -25,7 +25,7 @@ def list_vacations(request):
    position_search = request.GET.get('position_search')
    
    sortby = request.GET.get('sortby')
-   
+   sortby = "-id"
    if sortby is not None:
     data = Vacation.objects.all().order_by(sortby)
    else:
@@ -85,8 +85,16 @@ def vacations(request, id=0):
                print("create:"+ str(x))
                
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                  nodays=x,ampm=ampm, remarks=remarks  )
+                                                  nodays=x,ampm=ampm, remarks=remarks)
                vacation.save()
+
+               # update EmployeeLeaveStat 
+             
+               els = EmployeeLeaveStat.objects.filter(employee = employee)               
+               idy = els[0].id
+               updEls = EmployeeLeaveStat.objects.get(id= idy )               
+               updEls.daystaken_current += x
+               updEls.save()            
                return redirect('list_vacations')
             else:
                 return HttpResponse('invalid form')
@@ -96,10 +104,8 @@ def vacations(request, id=0):
             vacation = Vacation.objects.get(pk=id)
             from_date=  datetime.strptime(request.POST.get('from_date'),'%Y-%m-%d')
             to_date= datetime.strptime(request.POST.get('to_date'), '%Y-%m-%d')
-            vacation.nodays = RequestedVac(from_date,to_date)
-            print(from_date)
-            print(to_date)
-            print(vacation.nodays)
+            vacation.nodays = RequestedVac(from_date,to_date)     
+                        
             form = VacationForm(request.POST, instance = vacation)  
             if form.is_valid():
                vacation.save()
@@ -116,12 +122,17 @@ def vacations(request, id=0):
             vacation = Vacation.objects.get(pk=id)
            
             form = VacationForm(instance=vacation)
-
+            els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)               
+            idy = els[0].id
+            updEls = EmployeeLeaveStat.objects.get(id= idy )        
 
 
          context = {
                     'form':form,
-
+                    'updEls':updEls, 
+                    'annual': updEls.current_year + updEls.previous_year,
+                    'this': vacation.nodays,
+                    'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays)
                }
     
          return render(request, 'vacations\\vacations.html', context)
@@ -224,14 +235,15 @@ def entform(request, id, empl):
             
        else: # to update the edited record in the table
             print("the update submitted")
-            entitlement = EntitlementForm.objects.get(pk=id)
+            employee = Account.objects.get(id=empl)  
+            entitlement = EmployeeLeaveStat.objects.get(pk=id)
             form = EntitlementForm(request.POST, instance = entitlement)  
             if form.is_valid():
                form.save()
-               return redirect('entitlement')
+               return redirect('entitlement', employee.id)
             else:
                 print('Invalid form')
-                return redirect('entitlement')
+                return redirect('entitlement', employee.id)
                 
     else:   # GET
          if id == 0 : # to open a blank from
@@ -256,4 +268,14 @@ def entform(request, id, empl):
 
 
 def ent_delete(request, id):
-   return HttpResponse("Entitilement Delete")
+      entitlement = EmployeeLeaveStat.objects.get(id=id)
+      
+      if request.method == "POST":
+         entitlement.delete()
+         return redirect('entitlement', entitlement.employee.id)
+      
+      return render(request,
+                  'vacations/entitlement_delete.html',
+                  {'ent': entitlement}) 
+
+   

@@ -1,19 +1,19 @@
 {% extends 'base.html' %} {% block content %}
 <main id="main" class="main">
-<div class="pagetitle">
-   <h4>Vacations</h4>
-       <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item">Vacation</li>
-          <li class="breadcrumb-item active">Vacations</li>
-        </ol>
-      </nav>
+    <div class="pagetitle">
+          <h4>Vacations</h4>
+              <nav>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item">Vacation</li>
+                  <li class="breadcrumb-item active">Vacations</li>
+                </ol>
+              </nav>
     </div>
+<div class="row">
+<div class="col-lg-8">
 
-<div class="col-lg-10">
-
-    <div class="card">
+     <div class="card"> 
       <div class="card-body">
   
         <h5 class="card-title">Register Vacation</h5>
@@ -23,15 +23,15 @@
    <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
             {% csrf_token %}    
        
-          <div class="form-group col-10">
+          <div class="form-group col-7">
             <label for="" class="form-label text-primary">Employee</label>
              {{ form.employee }} 
           </div>
-          <div class="form-group col-3">
+          <div class="form-group col-2">
             <label for="" class="form-label text-primary">Date</label>
             {{ form.vac_date }}
           </div>
-          <div class="row">
+          <div class="row mt-2">
             <div class="form-group col-lg-3">
               <label for="" class="form-label text-primary">From Date</label>
               {{ form.from_date }}
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="row mt-2 " >
-           <div class="form-group col-lg-10">
+           <div class="form-group col-lg-9">
             <label for="" class="form-label text-primary">Remarks</label>
               {{form.remarks}}
            </div>
@@ -58,14 +58,42 @@
           <div class="text-center">
             <button type="submit" class="btn btn-primary">Submit</button>           
             <a href = "{% url 'list_vacations' %}"  class="btn btn-outline-primary">Back</a>
-          </div>
-        
-        </form><!-- Vertical Form -->  
+          </div>              
+        </form><!-- Vertical Form -->
+        <div class="col-lg-9 mt-4">
+        <table class="table datatable" >
+          <tr> 
+            <td>Annual leave entitlement for the current year: </td>
+            <td class = "text-danger fw-bold text-center"> {{updEls.current_year}} </td>
+          </tr>
+          <tr> 
+            <td>Annual leave entitlement for previous year(if approved):</td>
+            <td class = "text-danger fw-bold text-center"> {{updEls.previous_year}} </td>
+          </tr>
+          <tr> 
+            <td>Total annual leave entitlement:</td>
+            <td class = "text-danger fw-bold text-center">{{ annual }}</td>
+          </tr>
+          <tr> 
+            <td>Days taken so far this calendar year:</td>
+            <td class = "text-danger fw-bold text-center"> {{updEls.daystaken_current}} </td>
+          </tr>
+          <tr> 
+            <td>Days on this application:</td>
+            <td class = "text-danger fw-bold text-center"> {{this}} </td>
+          </tr>
+          <tr> 
+            <td>Balance remaining after this application:</td>
+            <td class = "text-danger fw-bold text-center"> {{balance}} </td>
+          </tr>
+        <table>  
+        </div> 
       </div>
     </div>
+  </div>
 
+  
 </div>
-</section>
 
 </main><!-- End #main -->
 {% endblock %}

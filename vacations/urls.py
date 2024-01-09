@@ -9,7 +9,7 @@ urlpatterns = [
   path('singlePDF/<int:id>/',views.single_vacationPDF, name='single_vacationPDF'),
   path('entitlement/<int:em>',views.entitlement, name='entitlement'),
   path('entadd/<int:id>/<int:empl>', views.entform, name='ent_add'),
-  path('entupd/<int:id>/', views.entform, name='ent_update'),
+  path('entupd/<int:id>/<int:empl>', views.entform, name='ent_update'),
   path('entdel/<int:id>/', views.ent_delete, name='ent_delete'),
   
 ]
