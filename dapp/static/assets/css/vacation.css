@@ -126,3 +126,11 @@ body {
     margin-left: 230px;
 }  
 
+.center {
+  text-align: center;
+ 
+}
+
+.pt1 {
+  padding-top: 5px;
+}

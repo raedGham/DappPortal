@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse, redirect
 from .forms import PositionForm
 from .models import Position
+from django.contrib import messages
 # Create your views here.
 from django.contrib.auth.models import User
 
@@ -28,6 +29,7 @@ def positions(request, id = 0):
             form = PositionForm(request.POST, instance = position)  
             if form.is_valid():
                position.save()
+               messages.info(request, "position updated successfully")
                return redirect('list_positions')
             
     else:   # GET

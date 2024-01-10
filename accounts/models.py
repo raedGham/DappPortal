@@ -55,7 +55,7 @@ class Account(AbstractBaseUser):
     # user_group
     remarks        = models.TextField(blank=True, null=True)
     address        = models.TextField(blank=True, null=True)
-    #profile_pic     = models.ImageField(null=True, blank=True, upload_to = 'images/photos/employee')
+    profile_pic     = models.ImageField(null=True, blank=True, upload_to = 'images/photos/employee')
     #required field
 
     date_joined     = models.DateTimeField(auto_now_add=True)

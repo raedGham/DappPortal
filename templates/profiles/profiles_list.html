@@ -21,12 +21,17 @@
           <div class="card">
            <div class="card-body">
              <div class="row">
-              <div class="col-lg-10">
+              <div class="col-lg-8">
               <h5 class="card-title">Employee Profiles/Accounts List </h5>            
             </div>
           
             <div class="col-lg-2 mt-3">
               <a  href = "{% url 'profiles' %}" class="btn btn-outline-primary">Add Employee</a>
+            </div>
+
+            <div class="col-lg-2 mt-3">
+              <a  href = "{% url 'profilesPDF' %} " class="btn btn-outline-primary"><i class="bx bx-printer text-primary "></i> Print</a>
+               
             </div>
           </div>
               <!-- Table with stripped rows -->
@@ -61,12 +66,10 @@
                     <td>{{ profile.first_name}} {{profile.last_name}}</td> 
                     {% endif%}
                     <td>{{profile.position}}</td>
-                    <td class="text-center" scope="col" >{{profile.department}}</td>   
-                    {% comment %} <td><img src="{{profile.profile_pic.url}}"  width =100>   </td>                                          {% endcomment %}
+                    <td class="text-center" scope="col" >{{profile.department}}</td>                                                           
                     <td> <a href="{% url 'profile_update' profile.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'profile_delete' profile.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
-                  </tr>
-                           
+                                               
                  {% endfor%} 
                 </tbody>
 

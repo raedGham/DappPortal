@@ -16,8 +16,8 @@
         <label> Name : </label>
       </div>
 
-      <div class="  BorderBottom  datacolor w6" style="text-align:center;" >
-         {{vac.employee.first_name}} {{vac.employee.last_name}}
+      <div class="  BorderBottom  w6" style="text-align:center;" >
+         <label for="" class="datacolor">{{vac.employee.first_name}} {{vac.employee.last_name}}</label>
       </div>
       <div class=" w5">
         
@@ -25,8 +25,8 @@
      <div class="LabelMargin w4">
         <label> Personal No: </label>
      </div>
-     <div class="BorderBottom  datacolor w3" style="text-align:center;">
-        {{vac.employee.ps_number}}
+     <div class="BorderBottom w3" style="text-align:center;">
+        <label for="" class="datacolor"> {{vac.employee.ps_number}}</label>
      </div>
 
    </div>
@@ -37,8 +37,8 @@
         <div class="LabelMargin w4 mt1">
             <label>Department :</label>
         </div>
-          <div class="BorderBottom  datacolor w6 mt1" style="text-align:center;">
-             {{vac.employee.department.name}}
+          <div class="BorderBottom w6 mt1" style="text-align:center;">
+             <label for="" class="datacolor">{{vac.employee.department.name}}</label>
           </div>
           <div class="w5 mt1">
             
@@ -68,23 +68,24 @@
         <div class="LabelMargin w3">
             <label> From : </label>
           </div>
-          <div class="BorderBottom  datacolor w4">
-             {{vac.from_date}}
+          <div class="BorderBottom w4">
+            <label for="" class="datacolor">{{vac.from_date}}</label> 
           </div>                            
          <div class="w3 ml1">
             <label> To : </label>            
          </div>
-         <div class="BorderBottom  datacolor w4">
-            {{vac.to_date}}
+         <div class="BorderBottom w4">
+           <label for="" class="datacolor">{{vac.to_date}}</label> 
          </div>                            
          <div class="w3 w4 ml1">
             <label> No of Days: </label>            
          </div>
-         <div class="BorderAll datacolor wb3">
-            {{vac.nodays}}
+         <div class="BorderAll wb3">
+            <label for="" class="datacolor">{{vac.nodays}}</label>
          </div>           
-         <div class="BorderAll datacolor wb3 ml2">
-            {{vac.ampm}}
+         <div class="BorderAll wb3 ml2">
+            <label for="" class="datacolor">{{vac.ampm}}</label>
+            
          </div>
     </div>
 
@@ -99,8 +100,8 @@
          <div class="BorderTop BorderLeft mt1 wb10">
             <label> Annual leave entitlement for the current year: </label>            
          </div>
-         <div class="BorderTop BorderRight BorderBottom mt1 w3"> 
-            <label class="">  </label>
+         <div class="BorderTop BorderRight BorderBottom mt1 w3 center pt1"> 
+            <label class="datacolor"> {{updEls.current_year}} </label>
          </div>         
     </div>
 
@@ -112,8 +113,8 @@
         <div class="BorderLeft wb10">
            <label> Annual leave entitlement for previous year(if approved): </label>                    
         </div>     
-        <div class=" BorderRight BorderBottom w3"> 
-         <label class="">  </label>
+        <div class=" BorderRight BorderBottom w3 center pt1"> 
+         <label class="datacolor"> {{updEls.previous_year}} </label>
       </div>         
     </div>
     
@@ -122,7 +123,9 @@
         <div class="BorderLeft wb10 ">
             <label> Total annual leave entitlement: </label>            
          </div>     
-         <div class="BorderBottom BorderRight w3"></div>
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label class="datacolor"> {{annual}} </label>
+         </div>
     </div>
  
 
@@ -131,7 +134,9 @@
         <div class="BorderLeft wb10 ">  
             <label> Days taken so far this calendar year: </label>            
          </div>  
-         <div class="BorderBottom BorderRight w3"></div> 
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor">{{updEls.daystaken_current}}</label>
+         </div> 
     </div>
 
   
@@ -141,7 +146,9 @@
         <div class="BorderLeft wb10">  
             <label> Days on this application:</label>            
          </div>  
-         <div class="BorderBottom BorderRight w3"></div>
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor"> {{this}} </label>
+         </div>
     </div>
       
     <div class="FLX"> 
@@ -149,7 +156,10 @@
         <div class="BorderLeft BorderBottom wb10">  
             <label> Balance remaining after this application:</label>                       
          </div>  
-         <div class="BorderBottom BorderRight w3"></div>
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor"> {{balance}} </label>
+         </div>
+
     </div>
     
     

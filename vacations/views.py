@@ -189,9 +189,26 @@ def single_vacationPDF(request, id):
 
 
   vac = Vacation.objects.get(id=id)
-  context = {
-     'vac' : vac
-  }
+  els = EmployeeLeaveStat.objects.filter(employee = vac.employee.id)
+ 
+  if els.exists():                         
+   idy = els[0].id  
+   updEls = EmployeeLeaveStat.objects.get(id= idy )  
+   context = {
+      'vac' : vac,
+      'updEls':updEls, 
+      'annual': updEls.current_year + updEls.previous_year,
+      'this': vac.nodays,
+      'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vac.nodays)
+   }
+  else:
+        context = {
+               'vac':vac,
+               'updEls':{}, 
+               'annual': '',
+               'this': '',
+               'balance': ''
+            }   
   html_string = render_to_string('vacations\\single_vacationPDF.html', context)
   html=HTML(string=html_string, base_url=request.build_absolute_uri())
   result= html.write_pdf(response , presentational_hints=True)

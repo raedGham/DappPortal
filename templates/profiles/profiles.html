@@ -1,6 +1,6 @@
 {% extends 'base.html' %} 
 {% block content %}
-
+{% load static%}
 
 
 <main id="main" class="main">
@@ -22,39 +22,40 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Employee Profile/Account</h5>
-             
+              {% include 'includes\alerts.html' %}
+              <h5 class="card-title">Employee Profile/Account</h5>            
+              {% if img  %}              
+                <img src={{img}} class="img-thumbnail mb-3" width="100" >
+              {% else %}
+                <img src="{% static 'assets/img/thumb.jpg' %}" class="img-thumbnail mb-3" width="100" > 
+              {% endif %}
+
               <form action="" method="POST"   autocomplete="off" class=" row g-3" enctype="multipart/form-data">
                 {% csrf_token %}  
-                <div class="row mt-2">                 
-           
+                
+
+                <div class="row mt-2"> 
 
                    <div class="form-group col-2 mb-2">
                     <label for="" class="form-label text-primary">First Name</label>
                     {{ form.first_name }}
                   </div>
+
                   <div class="form-group col-2">
                     <label for="" class="form-label text-primary">Last Name</label>
                     {{ form.last_name }}
                   </div>
+
                   <div class="form-group col-2">
                     <label for="" class="form-label text-primary">Middle Name</label>
                     {{ form.middle_name}}
                   </div>  
                
-                  <div class="form-group col-3">
-                
-                    {% comment %} <img src="{{form.profile_pic.url}}" alt="NOT" width="100px"> {% endcomment %}
-                    {% comment %} {% if form.profile_pic %}
-                    
+                  <div class="form-group col-3">              
                     <h5> Profile Picture </h5>
                     {{form.profile_pic}}
-
-                    {% else %}
-                    <h5> No image url</h5>
-                    {% endif%} {% endcomment %}
-
                   </div> 
+
                 </div>
            
               
@@ -62,25 +63,26 @@
                 <div class="row mt-2">
 
                   <div class="form-group col-3 ">
-                    <label for="" class="form-label text-primary">Email</label>
-                    {{ form.email }}
-                    <label for="" class="form-label text-primary">Password</label>
-                    {{ form.password }}
-                    <label for="" class="form-label text-primary">Confirm Password</label>
-                    {{ form.confirm_password }}
+                    <label class="form-label text-primary">Email</label>
+                       {{ form.email }}
+                    <label class="form-label text-primary">Password</label>
+                       {{ form.password }}
+                    <label class="form-label text-primary">Confirm Password</label>
+                       {{ form.confirm_password }}
                   </div>
 
                   <div class="form-group col-3">                    
                     <label for="" class="form-label text-primary">PS Number</label>
-                    {{ form.ps_number}}
+                       {{ form.ps_number}}
                     <label for="" class="form-label text-primary">Financial Number</label>
-                    {{ form.financial_number}}
+                       {{ form.financial_number}}
                     <label for="" class="form-label text-primary">NSSF Number</label>
-                    {{ form.nssf_number}}
+                       {{ form.nssf_number}}
                   </div>
+
                   <div class="form-group col-3">
                     <label for="" class="form-label text-primary">Department</label>
-                    {{ form.department }}
+                        {{ form.department }}
                     <label for="" class="form-label text-primary">Position</label>
                         {{ form.position }}
                     <label for="" class="form-label text-primary">Head Department</label>
@@ -90,6 +92,7 @@
                 </div>
                       
                   <div class="row mt-2">
+                      
                       <div class="form-group col-3">
                         <label for="" class="form-label text-primary">Start Date</label>
                         {{ form.work_start_date }}
@@ -106,19 +109,19 @@
                   <div class="row mt-3">
                     <div class="form-group col-2">
                       <label for="" class="form-label text-primary">Phone no</label>
-                    {{ form.phone_number }}                      
+                        {{ form.phone_number }}                      
                     </div>                                          
                   </div>  
                   <div class="row mt-2">
                     <div class="form-group col-8">
                       <label for="" class="form-label text-primary">Address</label>
-                    {{ form.address }}                      
+                        {{ form.address }}                      
                     </div>                                                               
                   </div>
                   <div class="row mt-2">
                     <div class="form-group col-8">
                       <label for="" class="form-label text-primary">Remarks</label>
-                    {{ form.remarks }}                      
+                        {{ form.remarks }}                      
                     </div> 
                   </div>
                
