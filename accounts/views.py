@@ -17,10 +17,12 @@ def profilesPDF(request):
   response = HttpResponse(content_type='application/pdf')
   response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
   response['Content-Transfer-Encoding'] = 'binary'
-
-  
-  data = Account.objects.all()     
- 
+  name_search = request.session["name_search"]
+  PSno_search = request.session["PSno_search"]
+  if name_search !='' and name_search is not None:
+    data = Account.objects.filter(first_name__icontains=name_search )
+  if PSno_search !='' and PSno_search is not None:
+    data = Account.objects.filter(ps_number__icontains= PSno_search)
   context = {
       'accounts' : data ,      
    }
@@ -53,6 +55,8 @@ def list_profiles(request):
    department_search  = request.GET.get('department_search')
    position_search = request.GET.get('position_search')
    
+   request.session['name_search']=name_search
+   request.session['PSno_search']=PSno_search
    sortby = request.GET.get('sortby')
    print(sortby)
    if sortby is not None:
@@ -86,6 +90,7 @@ def list_profiles(request):
      else:
        data = data.filter(position = position_search)   
 
+  
    
    p = Paginator(data,20)
    page = request.GET.get('page')
