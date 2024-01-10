@@ -2,12 +2,12 @@
 {% block content %}
 <main id="main" class="main">
  
-    <section class="">
+    <section class="mar">
               <!-- Table with stripped rows -->
-              <table class="BorderAll">
-                <thead>
+              <table class="PDFtable">
+                <thead class = "PDFtable">
                   <tr >                  
-                    <th>PS no</th>
+                    <th class = "">PS no</th>
                     <th>Name </th>  
                     <th>Position </th>   
                     <th>Department </th>
@@ -16,9 +16,9 @@
                   </tr>
                 </thead>
                 
-                <tbody>
+                <tbody class = "">
                 {% for profile in accounts %}       
-                  <tr>
+                  <tr class="PDFtable h1">
                     <td class="" scope="col">{{profile.ps_number}}</td>
                     {% if profile.middle_name != None or  profile.middle_name is not None %}
                     <td>{{ profile.first_name}} {{profile.middle_name}}  {{profile.last_name}}</td> 

@@ -18,11 +18,11 @@ def profilesPDF(request):
   response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
   response['Content-Transfer-Encoding'] = 'binary'
 
-
-  accounts= Account.objects.all()
-   
+  
+  data = Account.objects.all()     
+ 
   context = {
-      'accounts' : accounts ,      
+      'accounts' : data ,      
    }
   
   html_string = render_to_string('profiles\\profilesPDF.html', context)

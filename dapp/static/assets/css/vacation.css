@@ -126,6 +126,9 @@ body {
     margin-left: 230px;
 }  
 
+.mar {
+   margin: 30px;
+}
 .center {
   text-align: center;
  
@@ -133,4 +136,13 @@ body {
 
 .pt1 {
   padding-top: 5px;
+}
+
+.PDFtable  {
+  border-collapse: collapse;
+  border: 1px solid;
+}
+
+.h1 {
+  height: 30px;
 }
