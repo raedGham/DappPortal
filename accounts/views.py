@@ -2,15 +2,40 @@ from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
 from .models import Account,Department,Position
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages, auth
+
 # import pagination stuff
 from django.core.paginator import Paginator
+
 # imports for pdf generator
 import os
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 
+
 # Create your views here.
+
+def login(request):
+    if request.method == "POST":
+        email = request.POST["email"]
+        password = request.POST["password"]
+        user = auth.authenticate(email=email, password=password)   
+        auth.login(request, user)
+        return redirect("dashboard")
+    else:
+        messages.error(request, 'Invalid login credentials')
+
+    return render(request, 'profiles/login.html')
+
+
+@login_required(login_url='login')
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
+
+
 def profilesPDF(request):
   
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
@@ -19,6 +44,7 @@ def profilesPDF(request):
   response['Content-Transfer-Encoding'] = 'binary'
   name_search = request.session["name_search"]
   PSno_search = request.session["PSno_search"]
+  data = Account.objects.all()
   if name_search !='' and name_search is not None:
     data = Account.objects.filter(first_name__icontains=name_search )
   if PSno_search !='' and PSno_search is not None:

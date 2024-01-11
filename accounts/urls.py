@@ -7,4 +7,6 @@ urlpatterns = [
   path('form/<int:id>/', views.profiles, name='profile_update'),
   path('delete/<int:id>/', views.profile_delete, name='profile_delete'),
   path('hierarchy/', views.hierarchy, name='hierarchy'),
+  path('login/', views.login, name='login'),
+  path('logout/', views.logout, name='logout'),
 ]

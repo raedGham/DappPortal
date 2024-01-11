@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'positions',
     'departments',
     'accounts',
-    'vacations',
+    'dashboard',
+    'vacations',    
     'import_export',
     'weasyprint',
     
