@@ -14,14 +14,26 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 
-
+def modifypassword(request):
+   u = Account.objects.get(username="Raed.Ghamrawi")
+   u.set_password("admin")
+   u.save()
+   return HttpResponse("Password updated")
+   
 # Create your views here.
 
 def login(request):
     if request.method == "POST":
         email = request.POST["email"]
         password = request.POST["password"]
+        # username = Account.objects.get(email=email).username
+ 
+        print(email)
+        print(password)
+      
         user = auth.authenticate(email=email, password=password)   
+        print(user)
+
         auth.login(request, user)
         return redirect("dashboard")
     else:
@@ -153,12 +165,12 @@ def profiles(request, id = 0):
                 address= form.cleaned_data['address']
                 profile_pic = form.cleaned_data['profile_pic']
              
-                profile = Account.objects.create(first_name=first_name, middle_name=middle_name, last_name=last_name,
-                                                 phone_number=phone_number,email=email, username=username, password = password,
-                                                 ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
-                                                 work_start_date=work_start_date,work_finish_date=work_finish_date,
-                                                 department=department,position=position,head_dep=head_dep, remarks = remarks,
-                                                 address= address, profile_pic=profile_pic)
+                profile = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
+                                                      phone_number=phone_number,email=email, username=username, password = password,
+                                                      ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
+                                                      work_start_date=work_start_date,work_finish_date=work_finish_date,
+                                                      department=department,position=position,head_dep=head_dep, remarks = remarks,
+                                                      address= address, profile_pic=profile_pic)
                 profile.save()
                #  messages.success(request, "New Employee Account saved successfully")
                 return redirect('list_profiles')

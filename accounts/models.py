@@ -7,14 +7,32 @@ from positions.models import Position
 # Create your models here.
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, username, email, password):
+    def create_user(self, username, email, password, first_name , last_name, middle_name , phone_number,ps_number,financial_number,nssf_number,work_start_date,
+                    work_finish_date, department, position, head_dep, remarks, address,profile_pic ) :       
+                                                     
         if not email:
             raise ValueError('User must have an email address')
         if not username:
             raise ValueError('User must have an username')
+        
         user = self.model(
             email = self.normalize_email(email),
-            username= username,   
+            username= username, 
+            first_name = first_name,
+            last_name = last_name,
+            middle_name = middle_name,
+            phone_number=phone_number,            
+            ps_number=ps_number,
+            financial_number=financial_number,
+            nssf_number=nssf_number,
+            work_start_date=work_start_date,
+            work_finish_date=work_finish_date,
+            department=department,
+            position=position,
+            head_dep=head_dep, 
+            remarks = remarks,
+            address= address,
+            profile_pic=profile_pic,
         )
 
         user.set_password(password)
