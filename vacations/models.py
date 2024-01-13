@@ -12,6 +12,14 @@ class Vacation (models.Model):
     nodays    = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     ampm      = models.CharField(max_length =2, blank=True, null=True)
     remarks   = models.TextField(blank=True)
+    first_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='first_approval_vacations')
+    first_app_status = models.IntegerField(default=0)
+    second_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='second_approval_vacations')
+    second_app_status = models.IntegerField(default=0)
+    third_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='third_approval_vacations')
+    third_app_status = models.IntegerField(default=0)
+    fourth_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='fouth_approval_vacations')
+    fourth_app_status = models.IntegerField(default=0) 
 
     def __str__(self) :
         if self.employee.last_name is not None:
@@ -19,14 +27,8 @@ class Vacation (models.Model):
         else:  
           return self.employee.email 
          
-    @property
-    def getnod(self):
-       return 41
     
-      #  if self.from_date is not None and self.to_date is not None:
-      #   return self.to_date - self.from_date
-      #  else:
-      #   return 0  
+   
 
 class EmployeeLeaveStat (models.Model):
     employee = models.OneToOneField(Account, on_delete=models.CASCADE)
@@ -39,3 +41,4 @@ class EmployeeLeaveStat (models.Model):
     def __str__(self) :
         return self.employee.first_name+" "+self.employee.last_name
     
+
