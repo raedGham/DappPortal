@@ -156,6 +156,12 @@ def vacation_delete(request,id):
                   'vacations/vacation_delete.html',
                   {'vac': vac}) 
 
+def workflow(request, id):
+     vac = Vacation.objects.get(id=id)
+     return render(request,
+                  'vacations/workflow.html',
+                  {'vac': vac}) 
+
 def test(request):
   vac = Vacation.objects.get(id=2)
 
