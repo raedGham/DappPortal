@@ -30,6 +30,7 @@
             </div>
           </div>
               <!-- Table with stripped rows -->
+         
               <table class="table datatable">
                 <thead>
                   <tr>             
@@ -40,23 +41,22 @@
                     <th>From Date </th>   
                     <th>To Date </th>
                     <th>No of Days </th>                
-                    <th>AM/PM </th>                
-                     {% comment %}  <th> 
-                        <form method="GET">
-                         <select class="form-select" name="sortby" id="" onChange="form.submit();">
-                         
-                            <option value="first_name">Name</option>
-                            <option value="position">Position</option>
-                            <option value="department">Department</option>
-                         </select>  
-                        </form> 
-                    </th>{% endcomment %}
+                    <th>AM/PM </th>
+                    <th>Status </th>                                                     
                   </tr>
                 </thead>
                 
                 <tbody>
                 {% for vacation in p_vacations %}       
-                  <tr>
+
+                {% if vacation.status == 1 %}
+                  <tr class="table-primary">
+                {% elif vacation.status == 2 %}  
+                  <tr class="table-danger">
+                {% else %}    
+                  <tr>  
+                {% endif %}        
+
                     <td>{{vacation.id}}</td>
                     <td>{{vacation.vac_date}}</td>
                     <td class="text-start" scope="col">{{vacation.employee.ps_number}}</td>
@@ -68,13 +68,20 @@
                     <td>{{vacation.from_date}}</td>
                     <td >{{vacation.to_date}}</td>   
                     <td >{{vacation.nodays}}</td>   
-                    <td >{{vacation.ampm}}</td>                                                             
+                    <td >{{vacation.ampm}}</td>                  
+                    {% if vacation.status == 1 %}
+                    <td> Approved </td>
+                    {% elif vacation.status == 2 %} 
+                    <td> Rejected </td>
+                    {% else %}
+                    <td> </td>
+                    {% endif %}    
                     <td> <a href="{% url 'single_vacationPDF' vacation.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>   
                     <td> <a href="{% url 'vac_update' vacation.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'vacation_delete' vacation.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     <td> <a href = "{% url 'workflow' vacation.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                   </tr>
-                           
+               
                  {% endfor%} 
                 </tbody>
 

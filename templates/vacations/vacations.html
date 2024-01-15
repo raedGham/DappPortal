@@ -55,10 +55,13 @@
               {{form.remarks}}
            </div>
           </div>
-          <div class="text-center">
+          <div>          
+          
+            <a href = "{% url 'vacation_approve' vac.id %}"  class="btn btn-success">Approve</a>            
+            <a href = "{% url 'vacation_reject' vac.id %}"  class="btn btn-danger">Reject</a>
             <button type="submit" class="btn btn-primary">Submit</button>           
             <a href = "{% url 'list_vacations' %}"  class="btn btn-outline-primary">Back</a>
-          </div>              
+          </div>
         </form><!-- Vertical Form -->
         <div class="col-lg-9 mt-4">
         <table class="table datatable" >

@@ -23,6 +23,12 @@ body {
   color: #b80202;
 }
 
+.workflow {
+  font-family: "Nunito", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 a {
   color: #4154f1;
   text-decoration: none;

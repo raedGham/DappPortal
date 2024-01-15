@@ -174,7 +174,7 @@
             
             {% if request.user.is_authenticated %}
              
-              {% if user.profile_pic %}                
+              {% if user.profile_pic %}                             
               <img src= "{{user.profile_pic.url}}" alt="Profile" class="rounded-circle">
               {% else %}  
               <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded-circle">

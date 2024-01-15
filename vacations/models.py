@@ -19,8 +19,10 @@ class Vacation (models.Model):
     third_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='third_approval_vacations')
     third_app_status = models.IntegerField(default=0)
     fourth_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='fouth_approval_vacations')
-    fourth_app_status = models.IntegerField(default=0) 
-
+    fourth_app_status = models.IntegerField(default=0)    
+    status   = models.IntegerField(default=0)
+    approval_position = models.IntegerField(default=1)
+    
     def __str__(self) :
         if self.employee.last_name is not None:
           return self.employee.first_name+ " "+ self.employee.last_name

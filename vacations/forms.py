@@ -6,7 +6,7 @@ from datetime import datetime
 
 class VacationForm(forms.ModelForm):
 
-  employee  = forms.ModelChoiceField(queryset=Account.objects.all() )
+  employee  = forms.ModelChoiceField(queryset=Account.objects.filter(has_vac_ent=True) )
   vac_date = forms.DateField(initial=datetime.today , widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   from_date = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   to_date   = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}) )

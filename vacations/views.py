@@ -6,6 +6,8 @@ from datetime import timedelta, datetime
 from django.conf import settings
 from pathlib import Path
 from accounts.models import Account
+from positions.models import Position
+
 # imports for pdf generator
 import os
 from django.template.loader import render_to_string
@@ -67,6 +69,7 @@ def list_vacations(request):
    return render(request,"vacations\\vacations_list.html", context)
 
 
+
 def vacations(request, id=0):
      
      if request.method == "POST":
@@ -81,11 +84,24 @@ def vacations(request, id=0):
                nodays= form.cleaned_data['nodays']
                ampm  = form.cleaned_data['ampm']
                remarks  = form.cleaned_data['remarks']
+               
                x = RequestedVac(from_date, to_date)
                print("create:"+ str(x))
+               # set Vacation Approval Workflow
+               if employee.is_head :
+                     first_app = employee
+               else:   
+                     first_app = employee.head_dep
+                
+               second_app = first_app.head_dep
+               third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
+               fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
+               
                
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                  nodays=x,ampm=ampm, remarks=remarks)
+                                                  nodays=x,ampm=ampm, remarks=remarks, first_approval= first_app, 
+                                                  second_approval= second_app,third_approval = third_app, fourth_approval = fourth_app)
+              
                vacation.save()
 
                # update EmployeeLeaveStat 
@@ -140,7 +156,8 @@ def vacations(request, id=0):
                'updEls':updEls, 
                'annual': updEls.current_year + updEls.previous_year,
                'this': vacation.nodays,
-               'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays)
+               'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays),
+               'vac' : vacation,
                }    
       
          return render(request, 'vacations\\vacations.html', context)
@@ -148,7 +165,7 @@ def vacations(request, id=0):
 
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
-      if request.method == "POST":
+      if request.method == "POST":                
          vac.delete()
          return redirect('list_vacations')
       
@@ -161,6 +178,35 @@ def workflow(request, id):
      return render(request,
                   'vacations/workflow.html',
                   {'vac': vac}) 
+
+
+
+def vacation_approve(request, id):   
+   vac = Vacation.objects.get(id=id) 
+
+   if vac.approval_position == 1 :
+      vac.first_app_status = 1
+      vac.approval_position = 2
+   elif  vac.approval_position == 2 : 
+      vac.second_app_status = 1
+      vac.approval_position = 3
+   elif  vac.approval_position == 3 : 
+      vac.third_app_status = 1
+      vac.approval_position = 4
+   elif  vac.approval_position == 4 : 
+      vac.fourth_app_status = 1
+      vac.status = 1
+      
+
+   
+   vac.save()
+   return redirect('list_vacations') 
+
+def vacation_reject(request, id):   
+   vac = Vacation.objects.get(id=id) 
+   vac.status = 2 
+   vac.save()
+   return redirect('list_vacations') 
 
 def test(request):
   vac = Vacation.objects.get(id=2)
@@ -252,6 +298,7 @@ def entform(request, id, empl):
             form = EntitlementForm(request.POST)
             if form.is_valid():   
                employee = Account.objects.get(id=empl)  
+               employee.has_vac_ent = True               
                description= form.cleaned_data['description']
                current_year= form.cleaned_data['current_year']
                previous_year= form.cleaned_data['previous_year']
@@ -259,7 +306,8 @@ def entform(request, id, empl):
                total_annual = current_year + previous_year
                entitlement = EmployeeLeaveStat.objects.create(employee=employee , description = description , current_year = current_year, previous_year= previous_year,
                                                             daystaken_current=daystaken_current, total_annual = total_annual  )
-               entitlement.save()
+               entitlement.save()               
+               employee.save()
                return redirect('entitlement', employee.id)
             else:
                 return HttpResponse('invalid form')
@@ -300,7 +348,9 @@ def entform(request, id, empl):
 
 def ent_delete(request, id):
       entitlement = EmployeeLeaveStat.objects.get(id=id)
-      
+      emp = Account.objects.get(id=entitlement.employee.id)      
+      emp.has_vac_ent = False
+      emp.save()
       if request.method == "POST":
          entitlement.delete()
          return redirect('entitlement', entitlement.employee.id)
