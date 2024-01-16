@@ -13,7 +13,7 @@ class VacationForm(forms.ModelForm):
   nodays    = forms.DecimalField(decimal_places=1, max_digits=3,required=False, disabled=True)
   ampm      = forms.ChoiceField(required=False, choices=(('','--'),('am','AM'),('pm','PM')))
   
-  remarks   = forms.Textarea()
+  remarks   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'4'}))
   
   class Meta:
     model = Vacation

@@ -20,12 +20,13 @@ class EmployeeAccountForm(forms.ModelForm):
   position        = forms.ModelChoiceField(queryset=Position.objects.all())
   head_dep        = forms.ModelChoiceField(queryset=Account.objects.all())
   profile_pic     = forms.ImageField(required=False)
-  is_head         = forms.CheckboxInput()
+  is_head         = forms.BooleanField(required=False, widget = forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+
   
   class Meta:
     model = Account
     fields = ['email','first_name','middle_name', 'last_name','password', 'confirm_password','ps_number',
-              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep','profile_pic']
+              'financial_number','nssf_number','work_start_date','work_finish_date','phone_number','remarks','address','department','position','head_dep','profile_pic','is_head']
     
     # ,'departrment','position','head_dep'
 
@@ -33,4 +34,5 @@ class EmployeeAccountForm(forms.ModelForm):
   def __init__(self,*args, **kwargs):
     super(EmployeeAccountForm, self).__init__(*args, **kwargs)
     for field in self.fields:
-        self.fields[field].widget.attrs['class']= "form-control"
+        if field != "is_head":
+         self.fields[field].widget.attrs['class']= "form-control"

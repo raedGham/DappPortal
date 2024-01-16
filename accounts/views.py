@@ -168,13 +168,14 @@ def profiles(request, id = 0):
                 remarks= form.cleaned_data['remarks']
                 address= form.cleaned_data['address']
                 profile_pic = form.cleaned_data['profile_pic']
-             
+                is_head = form.cleaned_data['is_head']
+                print(is_head)
                 profile = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
                                                       phone_number=phone_number,email=email, username=username, password = password,
                                                       ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
                                                       work_start_date=work_start_date,work_finish_date=work_finish_date,
                                                       department=department,position=position,head_dep=head_dep, remarks = remarks,
-                                                      address= address, profile_pic=profile_pic)
+                                                      address= address, profile_pic=profile_pic, is_head= is_head)
                 profile.save()
                #  messages.success(request, "New Employee Account saved successfully")
                 return redirect('list_profiles')
@@ -205,7 +206,7 @@ def profiles(request, id = 0):
             else:
               img =""
 
-         print(img)   
+        
          context = {
                     'form':form,
                     'img': img,
