@@ -56,9 +56,10 @@
            </div>
           </div>
           <div>          
-          
+          {% if RejAcc %}          
             <a href = "{% url 'vacation_approve' vac.id %}"  class="btn btn-success">Approve</a>            
             <a href = "{% url 'vacation_reject' vac.id %}"  class="btn btn-danger">Reject</a>
+          {% endif %}  
             <button type="submit" class="btn btn-primary">Submit</button>           
             <a href = "{% url 'list_vacations' %}"  class="btn btn-outline-primary">Back</a>
           </div>

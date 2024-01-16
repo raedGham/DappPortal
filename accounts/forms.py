@@ -19,8 +19,8 @@ class EmployeeAccountForm(forms.ModelForm):
   department      = forms.ModelChoiceField(queryset=Department.objects.all())
   position        = forms.ModelChoiceField(queryset=Position.objects.all())
   head_dep        = forms.ModelChoiceField(queryset=Account.objects.all())
-  profile_pic     = forms.ImageField()
-
+  profile_pic     = forms.ImageField(required=False)
+  is_head         = forms.CheckboxInput()
   
   class Meta:
     model = Account

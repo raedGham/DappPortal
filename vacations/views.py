@@ -139,7 +139,8 @@ def vacations(request, id=0):
                'updEls':{}, 
                'annual': '',
                'this': '',
-               'balance': ''
+               'balance': '',
+               'RejAcc': False,
             }
 
          else: # to populate the form with the data needed to be updated
@@ -148,8 +149,13 @@ def vacations(request, id=0):
             form = VacationForm(instance=vacation)          
             els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)                         
             idy = els[0].id
-            updEls = EmployeeLeaveStat.objects.get(id= idy )        
-           
+            updEls = EmployeeLeaveStat.objects.get(id= idy )                    
+
+            print(getAppEmp(vacation))
+            if request.user.id == getAppEmp(vacation):
+               RejAcc = True
+            else:
+               RejAcc = False   
    
             context = {
                'form':form,
@@ -158,10 +164,21 @@ def vacations(request, id=0):
                'this': vacation.nodays,
                'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays),
                'vac' : vacation,
+               'RejAcc': RejAcc,
                }    
       
          return render(request, 'vacations\\vacations.html', context)
 
+def getAppEmp(vac):
+   if vac.approval_position == 1 :
+      return vac.first_approval.id
+   elif vac.approval_position == 2:
+      return vac.second_approval.id
+   elif vac.approval_position == 3:
+      return vac.third_approval.id
+   elif vac.approval_position == 4:
+      return vac.fourth_approval.id
+   
 
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
