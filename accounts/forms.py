@@ -20,7 +20,7 @@ class EmployeeAccountForm(forms.ModelForm):
   position        = forms.ModelChoiceField(queryset=Position.objects.all())
   head_dep        = forms.ModelChoiceField(queryset=Account.objects.all())
   profile_pic     = forms.ImageField(required=False)
-  is_head         = forms.BooleanField(required=False, widget = forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+  is_head         = forms.BooleanField(required=False,   widget = forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
   
   class Meta:
