@@ -151,7 +151,7 @@ def vacations(request, id=0):
             idy = els[0].id
             updEls = EmployeeLeaveStat.objects.get(id= idy )                    
 
-            print(getAppEmp(vacation))
+            
             if request.user.id == getAppEmp(vacation):
                RejAcc = True
             else:

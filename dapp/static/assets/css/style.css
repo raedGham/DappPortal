@@ -258,6 +258,14 @@ h6 {
   font-family: "Poppins", sans-serif;
 }
 
+.title1 {
+  padding: 5px 0 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+
 .card-title span {
   color: #899bbd;
   font-size: 14px;
