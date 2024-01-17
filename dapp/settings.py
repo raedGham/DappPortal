@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-95dn@%(aw#r8tgij%r=4j%j$flfl+(f2ks#19vcum34igh*9f-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.10.12.191']
 
 
 # Application definition
@@ -47,9 +47,7 @@ INSTALLED_APPS = [
     'dashboard',
     'vacations',    
     'import_export',
-    'weasyprint',
-    
-    
+    'weasyprint',       
 ]
 
 MIDDLEWARE = [
