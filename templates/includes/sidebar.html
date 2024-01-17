@@ -128,10 +128,12 @@
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+          {% if request.user.is_authenticated %}
+        <a class="nav-link collapsed" href=" {% url 'myprofile' request.user.id %}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
+        {% endif %}
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">

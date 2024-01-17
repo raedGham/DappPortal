@@ -15,7 +15,7 @@ from weasyprint import HTML
 from datetime import datetime
 
 def modifypassword(request):
-   u = Account.objects.get(username="Mustafa.Unaldi")
+   u = Account.objects.get(username="Raed.Ghamrawi")
    u.is_active = True
    u.is_admin = True
    u.is_staff = True
@@ -74,7 +74,7 @@ def profilesPDF(request):
   result= html.write_pdf(response , presentational_hints=True)
   return response  
 
-   
+
 def hierarchy(request):
    em = request.GET.get('employee')
    
@@ -86,6 +86,8 @@ def hierarchy(request):
 
    }
    return render(request, 'profiles\\hierarchy.html',context)
+
+
 def list_profiles(request):
  
    departments = Department.objects.all()
@@ -224,4 +226,9 @@ def profile_delete(request, id):
       return render(request,
                   'profiles/profile_delete.html',
                   {'profile': profile}) 
- 
+
+
+def myprofile(request, id):
+     profile = Account.objects.get(id=id)
+     return render(request,'profiles/myprofile.html', {'profile': profile}) 
+   

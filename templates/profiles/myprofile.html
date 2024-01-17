@@ -1,0 +1,121 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static%}
+
+
+<main id="main">
+
+    <div class="pagetitle">
+      <h1>Profiles</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Employee</li>
+          <li class="breadcrumb-item active">Profiles</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-10">
+
+          <div class="card">
+            <div class="card-body">
+              {% include 'includes\alerts.html' %}
+              <h5 class="card-title">Employee Profile/Account</h5>   
+              <div class="row">      
+                    <div class="col-lg-1">
+                        {% if profile.profile_pic %}              
+                            <img src={{profile.profile_pic.url}} class="img-thumbnail " width="150" >
+                        {% else %}
+                            <img src="{% static 'assets/img/thumb.jpg' %}" class="img-thumbnail" width="150" > 
+                        {% endif %}
+                    </div> 
+                    <div class="col-lg-4 pagetitle my-auto">
+                        {% if profile.middle_name is None %}
+                        <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+                        {% else %}
+                        <h1>{{ profile.first_name }} {{ profile.middle_name}} {{ profile.last_name }}</h1>
+                        {% endif %}
+                        <div class="col-lg-12"> Email: <span class= "fw-bold text-muted">{{ profile.email }}</span> </div>  
+                        <div class="col-lg-12"> Phone no: <span class= "fw-bold text-muted"> {{ profile.phone_number }} </span> </div>
+                    </div> 
+
+                    
+
+              </div>   
+
+         
+              
+
+              <div class="row mt-4">
+                <div class = "col-lg-9">
+                <table class="table datatable ">
+                   <tr >
+                    <td class="text-primary"  style="width: 150px;">Position</td>
+                    <td class="fw-bold">{{ profile.position }}</td>
+                    <td class="text-primary" style="width: 150px;">PS Number</td>
+                    <td class="fw-bold">{{ profile.ps_number}}</td>
+                   </tr>
+
+                   <tr>
+                    <td class="text-primary">Department</td>
+                    <td class="fw-bold">{{ profile.department }}</td>
+                    <td class="text-primary">Financial Number</td>
+                    <td class="fw-bold">{{ profile.financial_number}}</td>
+                   </tr>
+                   
+                   <tr>
+                    <td class="text-primary">Head Department</td>
+                    <td class="fw-bold">{{ profile.head_dep }}</td>
+                    <td class="text-primary">NSSF Number</td>
+                    <td class="fw-bold">{{ profile.nssf_number}}</td>
+                   </tr>
+                   
+                   <tr>
+                    <td class="text-primary">Start Date</td>
+                    <td class="fw-bold">{{ profile.work_start_date }}</td>
+                    <td class="text-primary">Finish Date</td>
+                    <td class="fw-bold">{{ profile.work_finish_date }}</td>
+                   </tr>
+
+                   <tr>
+                    <td class="text-primary">Address</td>
+                    <td >{{ profile.address }} </td>
+                   </tr>
+
+                   <tr>
+                    <td class="text-primary">Remarks</td>
+                    <td >{{ profile.remarks }}</td>
+                   </tr>              
+                </div>
+            </table>
+
+      </div>
+
+                        
+                    
+
+                        
+                        
+
+                    
+                    
+                    
+                        
+                    
+                    
+                        
+               
+
+         
+
+           
+                {% comment %} <a href = "{% url 'list_profiles' %}"  class="btn btn-outline-primary">Back</a> {% endcomment %}
+           
+
+    </section>
+
+  </main><!-- End #main -->
+  {% endblock %}

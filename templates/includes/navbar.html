@@ -193,10 +193,12 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="url 'profil">
+              {% if request.user.is_authenticated %}
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'myprofile' request.user.id %}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
+              {% endif %}
             </li>
             <li>
               <hr class="dropdown-divider">

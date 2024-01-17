@@ -5,6 +5,7 @@ from vacations.models import Vacation
 
 def dashboard(request):
     vacWaitApp = Vacation.objects.filter(status=0)
+    print(vacWaitApp)
     vacWaitUserApp = []
     for vac in vacWaitApp:
         if (vac.first_approval.id == request.user.id) and (vac.approval_position==1):
@@ -16,5 +17,5 @@ def dashboard(request):
         elif (vac.fourth_approval.id == request.user.id) and (vac.approval_position==4):
              vacWaitUserApp.append(vac)
 
-
+    
     return render(request,'dashboard\main.html', {'vacWaitApp':vacWaitUserApp})

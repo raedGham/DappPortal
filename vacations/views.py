@@ -7,6 +7,7 @@ from django.conf import settings
 from pathlib import Path
 from accounts.models import Account
 from positions.models import Position
+from django.utils.dateparse import parse_date
 
 # imports for pdf generator
 import os
@@ -23,11 +24,14 @@ def list_vacations(request):
    # set up pagination
    name_search = request.GET.get('name_search')
    PSno_search = request.GET.get('PSno_search')
-   department_search  = request.GET.get('department_search')
-   position_search = request.GET.get('position_search')
-   
-   sortby = request.GET.get('sortby')
+   S_fromdate = request.GET.get('S_fromdate')  
+   S_todate = request.GET.get('S_todate') 
+
+  
+
+   # sortby = request.GET.get('sortby')
    sortby = "-id"
+
    if sortby is not None:
     data = Vacation.objects.all().order_by(sortby)
    else:
@@ -36,28 +40,25 @@ def list_vacations(request):
 
    if name_search !='' and name_search is not None:     
      if sortby is not None:
-      data = data.filter(first_name__icontains= name_search).order_by(sortby)
+      data = data.filter(employee__first_name__icontains= name_search).order_by(sortby)
      else:
-      data = data.filter(first_name__icontains= name_search)   
+      data = data.filter(employee__first_name__icontains= name_search)   
 
    if PSno_search !='' and PSno_search is not None:
      if sortby is not None:
-      data = data.filter(ps_number__icontains= PSno_search).order_by(sortby)
+      data = data.filter(employee__ps_number= PSno_search).order_by(sortby)
      else:
-      data = data.filter(ps_number__icontains= PSno_search)   
+      data = data.filter(employee__ps_number= PSno_search)   
 
-   if department_search !='' and department_search !='Select Dep...' and department_search is not None:
-     if sortby is not None:
-      data = data.filter(department= department_search).order_by(sortby)
-     else:
-      data = data.filter(department= department_search)   
+   print(S_fromdate)
+   print(type(S_fromdate))
 
-   
-   if position_search !='' and position_search != 'Select Pos...'  and position_search is not None:
-     if sortby is not None:
-       data = data.filter(position = position_search).order_by(sortby)  
-     else:
-       data = data.filter(position = position_search)   
+   if S_fromdate is not None and S_todate is not None and S_fromdate != '' and S_todate != '':
+     if sortby is not None:    
+      data = data.filter(vac_date__range=[parse_date(S_fromdate), parse_date(S_todate)]).order_by(sortby)
+     else:      
+      data = data.filter(vac_date__range=[parse_date(S_fromdate), parse_date(S_todate)])   
+ 
 
    
    p = Paginator(data,20)
