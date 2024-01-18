@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from departments.models import Department
 from positions.models import Position
 
@@ -8,7 +8,7 @@ from positions.models import Position
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, username, email, password, first_name , last_name, middle_name , phone_number,ps_number,financial_number,nssf_number,work_start_date,
-                    work_finish_date, department, position, head_dep, remarks, address,profile_pic ) :       
+                    work_finish_date, department, position, head_dep, remarks, address,profile_pic, is_head) :       
                                                      
         if not email:
             raise ValueError('User must have an email address')
@@ -33,6 +33,7 @@ class MyAccountManager(BaseUserManager):
             remarks = remarks,
             address= address,
             profile_pic=profile_pic,
+            is_head=is_head, 
         )
 
         user.set_password(password)
@@ -55,7 +56,7 @@ class MyAccountManager(BaseUserManager):
 
 
 
-class Account(AbstractBaseUser):
+class Account(AbstractBaseUser,PermissionsMixin):
     first_name      = models.CharField(max_length=50)
     middle_name     = models.CharField(max_length=50,null=True,blank=True )
     last_name       = models.CharField(max_length=50, null=True)
