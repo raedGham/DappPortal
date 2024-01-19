@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
 from .models import Account,Department,Position
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages, auth
 
 # import pagination stuff
@@ -14,16 +14,18 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 
+@permission_required("accounts.view_account")
 def modifypassword(request):
-   u = Account.objects.get(username="ghinwa")
-   u.is_active = True
-   u.is_admin = True
-   u.is_staff = True
+   # u = Account.objects.get(username="ghinwa")
+   # u.is_active = True
+   # u.is_admin = True
+   # u.is_staff = True
 
-   u.set_password("admin")
-   u.save()
-   return HttpResponse("Password updated")
-   
+   # u.set_password("admin")
+   # u.save()
+   #u = Account.objects.get(username="adminuser")
+#u.has_perm("accounts.delete_account")
+   return HttpResponse("HAS PERM")   
 # Create your views here.
 
 def login(request):
@@ -171,7 +173,7 @@ def profiles(request, id = 0):
                 address= form.cleaned_data['address']
                 profile_pic = form.cleaned_data['profile_pic']
                 is_head = form.cleaned_data['is_head']
-                print(is_head)
+                
                 profile = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
                                                       phone_number=phone_number,email=email, username=username, password = password,
                                                       ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
