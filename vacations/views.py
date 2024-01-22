@@ -9,6 +9,7 @@ from pathlib import Path
 from accounts.models import Account
 from positions.models import Position
 from django.utils.dateparse import parse_date
+from dapp.utils import GetFilterDepList 
 
 # imports for pdf generator
 import os
@@ -19,7 +20,7 @@ from  django.db.models import Sum
 
 # Create your views here.
 @login_required(login_url='login')
-@permission_required('engineer')
+# @permission_required('engineer')
 def list_vacations(request):
 #    departments = Department.objects.all()
 #    positions = Position.objects.all()
@@ -31,14 +32,14 @@ def list_vacations(request):
    S_todate = request.GET.get('S_todate') 
 
   
-
+   FilterDepList = GetFilterDepList(request.user)
    # sortby = request.GET.get('sortby')
    sortby = "-id"
 
    if sortby is not None:
-    data = Vacation.objects.all().order_by(sortby)
+    data = Vacation.objects.filter(employee__department__name__in=FilterDepList).order_by(sortby)
    else:
-    data = Vacation.objects.all()     
+    data = Vacation.objects.filter(employee__department__name__in=FilterDepList)     
 
 
    if name_search !='' and name_search is not None:     

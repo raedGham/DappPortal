@@ -4,7 +4,7 @@ from .models import Account,Department,Position
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages, auth
-
+from dapp.utils import GetFilterDepList 
 # import pagination stuff
 from django.core.paginator import Paginator
 
@@ -14,19 +14,27 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from datetime import datetime
 
-@permission_required("accounts.view_account")
+# @permission_required("accounts.view_account")
 def modifypassword(request):
-   # u = Account.objects.get(username="ghinwa")
-   # u.is_active = True
-   # u.is_admin = True
-   # u.is_staff = True
+   u = Account.objects.get(username="Kamal.Mougheit")
+   u.is_active = True
+   u.is_admin = True
+   u.is_staff = True
 
-   # u.set_password("admin")
-   # u.save()
-   #u = Account.objects.get(username="adminuser")
+   u.set_password("admin")
+   u.save()
+   #u = Account.objects.get(username="")
 #u.has_perm("accounts.delete_account")
    return HttpResponse("HAS PERM")   
-# Create your views here.
+
+def makesuperuser(request):
+    u = Account.objects.get(email="admin@live.com")
+    u.is_active = True
+    u.is_admin = True
+    u.is_staff = True
+    u.is_superuser = True
+    u.save()
+    return HttpResponse(u.email+" is superuser now") 
 
 def login(request):
     if request.method == "POST":
@@ -38,7 +46,7 @@ def login(request):
         print(password)
       
         user = auth.authenticate(email=email, password=password)   
-        print(user)
+        
 
         auth.login(request, user)
         return redirect("dashboard")
@@ -91,29 +99,7 @@ def hierarchy(request):
    return render(request, 'profiles\\hierarchy.html',context)
 
 
-def  GetFilterDepList(u):
 
-   if u.position.title == "Maintenance Head" or u.position.title == "Deputy Maintenance Head" :
-         return ['MAINT','MEC','ELE','INS','GSR','IT']
-         exit
-   elif u.position.title == "Admin Head" or u.position.title =="Superintendent":
-         return ['MAINT','MEC','ELE','INS','GSR','IT','OPER']
-         exit
-   else:
-      if u.department.name == "MEC" :
-         return ['MEC']
-      elif u.department.name == "ELE" :
-         return ['ELE']
-      elif u.department.name == "INS" :
-         return ['INS']
-      elif u.department.name == "GSR" :
-         return ['GSR']
-      elif u.department.name == "OPER" :
-         return ['OPER']
-      elif u.department.name == "IT" :
-         return ['IT']
-      elif u.department.name == "MAINT" :
-         return ['MAINT']
    
    
    
@@ -136,7 +122,7 @@ def list_profiles(request):
 
 
    FilterDepList = GetFilterDepList(request.user)
-   print(FilterDepList)
+  
    sortby = request.GET.get('sortby')
    
    
@@ -229,6 +215,7 @@ def profiles(request, id = 0):
          
             form = EmployeeAccountForm(request.POST, request.FILES,instance = profile)  
             if form.is_valid():
+               profile.set_password(form.cleaned_data['password'])
                profile.save()
                # messages.success(request, "Employee Account updated successfully")
                return redirect('list_profiles')
