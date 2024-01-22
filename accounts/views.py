@@ -54,6 +54,7 @@ def logout(request):
     return redirect('login')
 
 
+@login_required(login_url='login')
 def profilesPDF(request):
   
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
@@ -76,7 +77,7 @@ def profilesPDF(request):
   result= html.write_pdf(response , presentational_hints=True)
   return response  
 
-
+@login_required(login_url='login')
 def hierarchy(request):
    em = request.GET.get('employee')
    
@@ -90,6 +91,35 @@ def hierarchy(request):
    return render(request, 'profiles\\hierarchy.html',context)
 
 
+def  GetFilterDepList(u):
+
+   if u.position.title == "Maintenance Head" or u.position.title == "Deputy Maintenance Head" :
+         return ['MAINT','MEC','ELE','INS','GSR','IT']
+         exit
+   elif u.position.title == "Admin Head" or u.position.title =="Superintendent":
+         return ['MAINT','MEC','ELE','INS','GSR','IT','OPER']
+         exit
+   else:
+      if u.department.name == "MEC" :
+         return ['MEC']
+      elif u.department.name == "ELE" :
+         return ['ELE']
+      elif u.department.name == "INS" :
+         return ['INS']
+      elif u.department.name == "GSR" :
+         return ['GSR']
+      elif u.department.name == "OPER" :
+         return ['OPER']
+      elif u.department.name == "IT" :
+         return ['IT']
+      elif u.department.name == "MAINT" :
+         return ['MAINT']
+   
+   
+   
+
+@login_required(login_url='login')
+# @permission_required('engineer', raise_exception=True)
 def list_profiles(request):
  
    departments = Department.objects.all()
@@ -103,12 +133,17 @@ def list_profiles(request):
    
    request.session['name_search']=name_search
    request.session['PSno_search']=PSno_search
+
+
+   FilterDepList = GetFilterDepList(request.user)
+   print(FilterDepList)
    sortby = request.GET.get('sortby')
-   print(sortby)
+   
+   
    if sortby is not None:
-    data = Account.objects.all().order_by(sortby)
-   else:
-    data = Account.objects.all()     
+    data = Account.objects.filter(department__name__in=FilterDepList).order_by(sortby)
+   else:    
+    data = Account.objects.filter(department__name__in=FilterDepList)
 
 
    if name_search !='' and name_search is not None:     
@@ -146,6 +181,8 @@ def list_profiles(request):
    context = { 'p_profiles':p_profiles, 'departments':departments,'positions':positions}
    return render(request,"profiles\profiles_list.html", context)
 
+
+@login_required(login_url='login')
 
 def profiles(request, id = 0):
  
@@ -218,7 +255,8 @@ def profiles(request, id = 0):
     
          return render(request, 'profiles\profiles.html', context)
  
-
+@login_required(login_url='login')
+@permission_required('engineer', raise_exception=True)
 def profile_delete(request, id):
       profile = Account.objects.get(id=id)
       if request.method == "POST":
@@ -229,7 +267,7 @@ def profile_delete(request, id):
                   'profiles/profile_delete.html',
                   {'profile': profile}) 
 
-
+@login_required(login_url='login')
 def myprofile(request, id):
      profile = Account.objects.get(id=id)
      return render(request,'profiles/myprofile.html', {'profile': profile}) 

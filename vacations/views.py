@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth.decorators import login_required, permission_required
 from vacations.models import Vacation, EmployeeLeaveStat
 from django.core.paginator import Paginator
 from .forms import VacationForm, EntitlementForm
@@ -17,6 +18,8 @@ import tempfile
 from  django.db.models import Sum
 
 # Create your views here.
+@login_required(login_url='login')
+@permission_required('engineer')
 def list_vacations(request):
 #    departments = Department.objects.all()
 #    positions = Position.objects.all()

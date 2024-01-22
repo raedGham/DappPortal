@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'dashboard',
     'vacations',    
     'import_export',
-    'weasyprint',       
+    'weasyprint',   
+    'guardian',    
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,8 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
 
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
