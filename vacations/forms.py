@@ -2,6 +2,7 @@ from django import forms
 from .models import Vacation,EmployeeLeaveStat
 from accounts.models import Account
 from datetime import datetime
+
 #from calculation import FormulaInput
 
 class VacationForm(forms.ModelForm):

@@ -135,7 +135,7 @@ def vacations(request, id=0):
      else:   # GET
          if id == 0 : # to open a blank from
           
-            form = VacationForm()
+            form = VacationForm(request.user)
             context = {
                'form':form,
                'updEls':{}, 
@@ -296,8 +296,8 @@ def entitlement(request, em=0):
   
    if request.GET.get('employee') is not None:
     em = request.GET.get('employee')
-   
-   emps = Account.objects.all()
+   FilterDepList= GetFilterDepList(request.user)
+   emps = Account.objects.filter(department__name__in=FilterDepList)
    entitlement = EmployeeLeaveStat.objects.filter(employee=em)
    context = { 
       'selected_emp':int(em),

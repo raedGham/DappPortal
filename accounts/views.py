@@ -89,7 +89,9 @@ def profilesPDF(request):
 def hierarchy(request):
    em = request.GET.get('employee')
    
-   emps = Account.objects.all()
+   
+   FilterDepList= GetFilterDepList(request.user)
+   emps = Account.objects.filter(department__name__in=FilterDepList)
    team = Account.objects.filter(head_dep=em)
    context = { 
       'emps': emps,
