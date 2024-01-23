@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required, permission_required
 # Create your views here.
 
 from django.shortcuts import render,HttpResponse, redirect
@@ -8,11 +8,14 @@ from .models import Department
 # Create your views here.
 from django.contrib.auth.models import User
 
+@login_required(login_url='login')
 def list_departments(request):
    departments = Department.objects.all()
    context = { 'departments': departments}
    return render(request,'departments\departments_list.html', context)
 
+@login_required(login_url='login')
+@permission_required('NormalUser', raise_exception=True)
 def departments(request, id = 0):  
      
     if request.method == "POST":
@@ -49,7 +52,8 @@ def departments(request, id = 0):
 
    
 
-
+@login_required(login_url='login')
+@permission_required('NormalUser', raise_exception=True)
 def department_delete(request, id):
     department = Department.objects.get(id=id)
     if request.method == "POST":

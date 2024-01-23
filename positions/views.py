@@ -2,14 +2,18 @@ from django.shortcuts import render,HttpResponse, redirect
 from .forms import PositionForm
 from .models import Position
 from django.contrib import messages
-# Create your views here.
-from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, permission_required
+
+@login_required(login_url='login')
 def list_positions(request):
    positions = Position.objects.all()
    context = { 'positions': positions}
    return render(request,'positions\positions_list.html', context)
 
+@login_required(login_url='login')
+@permission_required('NormalUser', raise_exception=True)
 def positions(request, id = 0):  
      
     if request.method == "POST":
@@ -47,7 +51,8 @@ def positions(request, id = 0):
 
    
 
-
+@login_required(login_url='login')
+@permission_required('NormalUser', raise_exception=True)
 def position_delete(request, id):
     position = Position.objects.get(id=id)
     if request.method == "POST":

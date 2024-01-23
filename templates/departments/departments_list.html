@@ -34,7 +34,9 @@
                     <th>Name</th>
                     <th >Description</th>  
                     <th> </th>         
+                    {% if userType == "AdminUser" or user.email == "admin@live.com" %}
                     <th>  <a  href = "{% url 'departments' %}" class="btn btn-outline-primary">Add Department</a> </th>
+                    {% endif %}
                   </tr>
                 </thead>
                 
@@ -43,9 +45,10 @@
                   <tr>
                     <td>{{dep.name}}</td>
                     <td>{{dep.description}}</td> 
-                    <td> <a href="{% url 'dep_update' dep.id %}"> <i class="bx bx-edit text-success"></i> </a> </td>
-                  
+                    {% if userType == "AdminUser" or user.email == "admin@live.com" %}  
+                    <td> <a href="{% url 'dep_update' dep.id %}"> <i class="bx bx-edit text-success"></i> </a> </td>                  
                     <td> <a href = " {% url 'department_delete' dep.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    {% endif %}
                   </tr>
                  {% endfor%} 
                 </tbody>

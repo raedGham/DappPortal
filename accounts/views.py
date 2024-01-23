@@ -16,7 +16,7 @@ from datetime import datetime
 
 # @permission_required("accounts.view_account")
 def modifypassword(request):
-   u = Account.objects.get(username="Kamal.Mougheit")
+   u = Account.objects.get(email="admin@live.com")
    u.is_active = True
    u.is_admin = True
    u.is_staff = True
@@ -25,7 +25,7 @@ def modifypassword(request):
    u.save()
    #u = Account.objects.get(username="")
 #u.has_perm("accounts.delete_account")
-   return HttpResponse("HAS PERM")   
+   return HttpResponse("password set")   
 
 def makesuperuser(request):
     u = Account.objects.get(email="admin@live.com")
@@ -105,7 +105,7 @@ def hierarchy(request):
    
 
 @login_required(login_url='login')
-# @permission_required('engineer', raise_exception=True)
+
 def list_profiles(request):
  
    departments = Department.objects.all()
@@ -162,14 +162,21 @@ def list_profiles(request):
    p = Paginator(data,20)
    page = request.GET.get('page')
    p_profiles = p.get_page(page)
-   
 
-   context = { 'p_profiles':p_profiles, 'departments':departments,'positions':positions}
+   if request.user.groups.filter(name="NormalUser").exists():
+      userType="NormalUser"
+   elif request.user.groups.filter(name="AdminUser").exists():
+      userType="AdminUser"  
+   else:
+      userType="NoUser"     
+
+
+   context = { 'p_profiles':p_profiles, 'departments':departments,'positions':positions, 'userType':userType}
    return render(request,"profiles\profiles_list.html", context)
 
 
 @login_required(login_url='login')
-
+@permission_required('NormalUser', raise_exception=True)
 def profiles(request, id = 0):
  
  if request.method == "POST":
@@ -243,16 +250,18 @@ def profiles(request, id = 0):
          return render(request, 'profiles\profiles.html', context)
  
 @login_required(login_url='login')
-@permission_required('engineer', raise_exception=True)
+@permission_required('NormalUser', raise_exception=True)
 def profile_delete(request, id):
       profile = Account.objects.get(id=id)
       if request.method == "POST":
-         profile.delete()
-         return redirect('list_profiles')
+         try:
+             profile.delete()
+             messages.add_message(request, messages.INFO, "Account Deleted")             
+             return redirect('list_profiles')
+         except:
+             return HttpResponse('Cannot Delete this profile')
       
-      return render(request,
-                  'profiles/profile_delete.html',
-                  {'profile': profile}) 
+      return render(request,'profiles/profile_delete.html',{'profile': profile}) 
 
 @login_required(login_url='login')
 def myprofile(request, id):

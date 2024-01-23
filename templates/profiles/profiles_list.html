@@ -26,7 +26,12 @@
             </div>
           
             <div class="col-lg-2 mt-3">
-              <a  href = "{% url 'profiles' %}" class="btn btn-outline-primary">Add Employee</a>
+         {% if userType == "AdminUser" or user.email == "admin@live.com" %}
+              <a  href = "{% url 'profiles' %}" class="btn btn-outline-primary">Add Employee</a>            
+         {% endif %}     
+              
+         
+    
             </div>
 
             <div class="col-lg-2 mt-3">
@@ -66,9 +71,16 @@
                     <td>{{ profile.first_name}} {{profile.last_name}}</td> 
                     {% endif%}
                     <td>{{profile.position}}</td>
-                    <td class="text-center" scope="col" >{{profile.department}}</td>                                                           
+                    <td class="text-center" scope="col" >{{profile.department}}</td>  
+                    <td> 
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'myprofile' profile.id %}">
+                        <i class="bi bi-person"></i>                    
+                        </a> 
+                    </td>    
+                    {% if userType == "AdminUser" or user.email == "admin@live.com" %}                                                          
                     <td> <a href="{% url 'profile_update' profile.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'profile_delete' profile.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    {% endif %}
                                                
                  {% endfor%} 
                 </tbody>

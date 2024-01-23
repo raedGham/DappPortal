@@ -37,7 +37,9 @@
                         <th> Days Taken Current</th>
                         <th></th>
                         <th></th>
+                        {% if userType == "AdminUser" or user.email == "admin@live.com" %} 
                         <th> <a  href = "{% url 'ent_add' 0 selected_emp %}" class="btn btn-outline-primary">Add Entitlement</a> </th>
+                        {% endif %}
                       </tr>
                     </thead>
                     <tbody>

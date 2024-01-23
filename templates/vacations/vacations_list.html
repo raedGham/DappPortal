@@ -76,9 +76,9 @@
                     {% else %}
                     <td> </td>
                     {% endif %}    
-                    <td> <a href="{% url 'single_vacationPDF' vacation.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>   
+                    <td> <a href="{% url 'single_vacationPDF' vacation.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
                     <td> <a href="{% url 'vac_update' vacation.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
-                    <td> <a href = "{% url 'vacation_delete' vacation.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    <td> <a href = "{% url 'vacation_delete' vacation.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>                    
                     <td> <a href = "{% url 'workflow' vacation.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                   </tr>
                

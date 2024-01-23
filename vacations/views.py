@@ -20,7 +20,6 @@ from  django.db.models import Sum
 
 # Create your views here.
 @login_required(login_url='login')
-# @permission_required('engineer')
 def list_vacations(request):
 #    departments = Department.objects.all()
 #    positions = Position.objects.all()
@@ -54,9 +53,7 @@ def list_vacations(request):
      else:
       data = data.filter(employee__ps_number= PSno_search)   
 
-   print(S_fromdate)
-   print(type(S_fromdate))
-
+   
    if S_fromdate is not None and S_todate is not None and S_fromdate != '' and S_todate != '':
      if sortby is not None:    
       data = data.filter(vac_date__range=[parse_date(S_fromdate), parse_date(S_todate)]).order_by(sortby)
@@ -74,7 +71,7 @@ def list_vacations(request):
    return render(request,"vacations\\vacations_list.html", context)
 
 
-
+@login_required(login_url='login')
 def vacations(request, id=0):
      
      if request.method == "POST":
@@ -184,7 +181,7 @@ def getAppEmp(vac):
    elif vac.approval_position == 4:
       return vac.fourth_approval.id
    
-
+@login_required(login_url='login')
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
       if request.method == "POST":                
@@ -195,6 +192,7 @@ def vacation_delete(request,id):
                   'vacations/vacation_delete.html',
                   {'vac': vac}) 
 
+@login_required(login_url='login')
 def workflow(request, id):
      vac = Vacation.objects.get(id=id)
      return render(request,
@@ -218,12 +216,10 @@ def vacation_approve(request, id):
    elif  vac.approval_position == 4 : 
       print("Approval position = 4")
       vac.fourth_app_status = 1
-      vac.status = 1
-      
-
-   
+      vac.status = 1       
    vac.save()
    return redirect('list_vacations') 
+
 
 def vacation_reject(request, id):   
    vac = Vacation.objects.get(id=id) 
@@ -231,10 +227,6 @@ def vacation_reject(request, id):
    vac.save()
    return redirect('list_vacations') 
 
-def test(request):
-  vac = Vacation.objects.get(id=2)
-
-  return HttpResponse(vac.getnod)
 
 
 def RequestedVac( from_date , to_date):
@@ -248,6 +240,7 @@ def RequestedVac( from_date , to_date):
    return days
 
  
+@login_required(login_url='login')
 def single_vacation(request, id):
   vac = Vacation.objects.get(id=id)
   context = {
@@ -298,7 +291,7 @@ def single_vacationPDF(request, id):
 
   return response  
 
-  
+@login_required(login_url='login')  
 def entitlement(request, em=0):
   
    if request.GET.get('employee') is not None:
@@ -313,7 +306,8 @@ def entitlement(request, em=0):
    }       
    return render(request, 'vacations\\entitlement.html', context)
 
-
+@login_required(login_url='login')
+@permission_required("NormalUser", raise_exception=True)
 def entform(request, id, empl):
     if request.method == "POST":
        if id == 0: # to create a new record and append it to the table  
@@ -368,7 +362,8 @@ def entform(request, id, empl):
 
    
 
-
+@login_required(login_url='login')
+@permission_required("NormalUser", raise_exception=True)
 def ent_delete(request, id):
       entitlement = EmployeeLeaveStat.objects.get(id=id)
       emp = Account.objects.get(id=entitlement.employee.id)      
