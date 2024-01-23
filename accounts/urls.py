@@ -12,4 +12,5 @@ urlpatterns = [
   path('logout/', views.logout, name='logout'),
   path('modify/', views.modifypassword),
   path('super/', views.makesuperuser),
+  path('mess/', views.mess),
 ]

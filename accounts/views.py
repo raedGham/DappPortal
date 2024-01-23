@@ -268,3 +268,7 @@ def myprofile(request, id):
      profile = Account.objects.get(id=id)
      return render(request,'profiles/myprofile.html', {'profile': profile}) 
    
+  # to test messages 
+def mess(request):
+   messages.add_message(request, messages.INFO, "Test Message")   
+   return redirect('list_profiles')

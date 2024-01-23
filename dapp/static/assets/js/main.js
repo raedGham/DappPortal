@@ -5,6 +5,7 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+/** THIS is my JS FILE */
 (function() {
   "use strict";
 
@@ -336,6 +337,9 @@
 
 })();
 
- () => {
-  $('.mes').hide();
-}
+const m = document.select('#message');
+console.log(m)
+
+setTimeout(function(){
+m.fadeOut('slow')
+},4000)

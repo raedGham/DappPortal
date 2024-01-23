@@ -5,6 +5,8 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+
+/** EXTERNAL JS STATIC__ */
 (function() {
   "use strict";
 
@@ -337,6 +339,9 @@
 })();
 
 
-() => {
-  $('.mes').hide();
-}
+const m = document.select('#message');
+console.log(m)
+
+setTimeout(function(){
+m.fadeOut('slow')
+},4000)
