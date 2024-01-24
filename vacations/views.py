@@ -114,7 +114,15 @@ def vacations(request, id=0):
                updEls.save()            
                return redirect('list_vacations')
             else:
-                return HttpResponse()
+               context = {
+               'form':form,
+               'updEls':{}, 
+               'annual': '',
+               'this': '',
+               'balance': '',
+               'RejAcc': False,
+            }
+               return render(request, 'vacations\\vacations.html',context)
             
        else: # to update the edited record in the table
             print("the update submitted")
@@ -343,16 +351,20 @@ def entform(request, id, empl):
     else:   # GET
          if id == 0 : # to open a blank from          
             form = EntitlementForm()
+            context = {
+                     'form':form,
+                     'employee':'', 
+                  }
             
          else: # to populate the form with the data needed to be updated
             entitlement = EmployeeLeaveStat.objects.get(pk=id)
             form = EntitlementForm(instance=entitlement)
             employee = Account.objects.get(id=empl)
          
-         context = {
-                    'form':form,
-                    'employee':employee, 
-               }
+            context = {
+                     'form':form,
+                     'employee':employee, 
+                  }
     
          return render(request, 'vacations\\ent_form.html', context)
 

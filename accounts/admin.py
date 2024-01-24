@@ -6,10 +6,10 @@ from guardian.admin import GuardedModelAdmin
 
 class AccountAdmin(GuardedModelAdmin):
     pass
-admin.site.register(Account, UserAdmin)
+#admin.site.register(Account, UserAdmin)
 
 
-# @admin.register(Account)
+@admin.register(Account)
 class ViewAdmin(ImportExportModelAdmin):
     pass
 

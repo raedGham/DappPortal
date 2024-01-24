@@ -13,9 +13,15 @@ class VacationForm(forms.ModelForm):
   to_date   = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}) )
   nodays    = forms.DecimalField(decimal_places=1, max_digits=3,required=False, disabled=True)
   ampm      = forms.ChoiceField(required=False, choices=(('','--'),('am','AM'),('pm','PM')))
-  
   remarks   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'4'}))
   
+  def clean(self):
+     cleaned_data = super(VacationForm, self).clean()
+     from_d = cleaned_data.get("from_date")
+     to_d = cleaned_data.get("to_date")
+    
+     if from_d > to_d:
+        raise forms.ValidationError("From Date Should be less than or equal to To Date")
   class Meta:
     model = Vacation
     fields = ['employee','vac_date','from_date', 'to_date','nodays', 'ampm','remarks']
