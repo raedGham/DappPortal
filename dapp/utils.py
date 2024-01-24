@@ -1,6 +1,6 @@
 def  GetFilterDepList(u):
    if u.email == "admin@live.com":
-        return ['MAINT','MEC','ELE','INS','GSR','IT','OPER']
+        return ['MAINT','MEC','ELE','INS','GSR','IT','OPER','ADMIN']
       
    if u.position.title == "Maintenance Head" or u.position.title == "Deputy Maintenance Head" :
          return ['MAINT','MEC','ELE','INS','GSR','IT']
@@ -22,5 +22,4 @@ def  GetFilterDepList(u):
       elif u.department.name == "IT" :
          return ['IT']
       elif u.department.name == "MAINT" :
-
          return ['MAINT']

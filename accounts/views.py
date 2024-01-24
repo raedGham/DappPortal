@@ -86,14 +86,18 @@ def profilesPDF(request):
   return response  
 
 @login_required(login_url='login')
-def hierarchy(request):
-   em = request.GET.get('employee')
+def hierarchy(request):  
    
-   
+   if request.GET.get('employee') is not None:
+      em = request.GET.get('employee')   
+
    FilterDepList= GetFilterDepList(request.user)
    emps = Account.objects.filter(department__name__in=FilterDepList)
    team = Account.objects.filter(head_dep=em)
+   sel_emp = Account.objects.get(id=em)
    context = { 
+      'sel_emp':sel_emp,
+      'selected_emp':int(em),
       'emps': emps,
       'team': team,
 

@@ -75,8 +75,7 @@ def list_vacations(request):
 def vacations(request, id=0):
      
      if request.method == "POST":
-       if id == 0: # to create a new record and append it to the table  
-            print("create new record")
+       if id == 0: # to create a new record and append it to the table            
             form = VacationForm(request.POST)
             if form.is_valid():
                employee= form.cleaned_data['employee']
@@ -115,7 +114,7 @@ def vacations(request, id=0):
                updEls.save()            
                return redirect('list_vacations')
             else:
-                return HttpResponse('invalid form')
+                return HttpResponse()
             
        else: # to update the edited record in the table
             print("the update submitted")
@@ -134,8 +133,8 @@ def vacations(request, id=0):
                 
      else:   # GET
          if id == 0 : # to open a blank from
-          
-            form = VacationForm(request.user)
+                     
+            form = VacationForm()
             context = {
                'form':form,
                'updEls':{}, 
@@ -144,7 +143,7 @@ def vacations(request, id=0):
                'balance': '',
                'RejAcc': False,
             }
-
+         
          else: # to populate the form with the data needed to be updated
             vacation = Vacation.objects.get(pk=id)
            
@@ -342,16 +341,13 @@ def entform(request, id, empl):
                 return redirect('entitlement', employee.id)
                 
     else:   # GET
-         if id == 0 : # to open a blank from
-          
+         if id == 0 : # to open a blank from          
             form = EntitlementForm()
+            
          else: # to populate the form with the data needed to be updated
             entitlement = EmployeeLeaveStat.objects.get(pk=id)
-           
             form = EntitlementForm(instance=entitlement)
-
-
-         employee = Account.objects.get(id=empl)
+            employee = Account.objects.get(id=empl)
          
          context = {
                     'form':form,
