@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from vacations.models import Vacation
+from vacations.models import Vacation, EmployeeLeaveStat
 
 # Create your views here.
 
@@ -17,5 +17,12 @@ def dashboard(request):
         elif (vac.fourth_approval.id == request.user.id) and (vac.approval_position==4):
              vacWaitUserApp.append(vac)
 
+    leavestat = EmployeeLeaveStat.objects.filter(employee=request.user.id)
+ 
+
+    context= {'vacWaitApp':vacWaitUserApp,
+              'leavestat':leavestat[0],
+              'remain': leavestat[0].total_annual - leavestat[0].daystaken_current
+              }
     
-    return render(request,'dashboard\main.html', {'vacWaitApp':vacWaitUserApp})
+    return render(request,'dashboard\main.html', context)
