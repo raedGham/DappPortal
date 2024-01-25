@@ -1,11 +1,22 @@
 {% extends 'base.html' %} {% load static %}
 {% block content %}
+<style>
+ .title1 {
+  margin-left:10px;
+  padding-left:10px;
+  padding-right:10px;
+  font-weight: 500;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size:22px;
+  }
+</style>
 <main id="main" class="main">
   <section class="section">
   <div class="row">
 
     <!-- Left side columns -->
-    <div class="col-lg-8">
+    <div class="col-lg-10">
       <div class="row">
 
         <!-- Sales Card -->
@@ -29,11 +40,11 @@
               <h5 class="card-title">Vacations <span>| This Year</span></h5>
 
               <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="font-size:32px">
-                  <i class="bi bi-cart"></i>
+                <div style="font-size:32px">
+                  <i class="bx bx-calendar"></i>
                 </div>
                 <div class="ps-3"  >
-                  <h6 class = "pt-2" style="font-size:32px; color:red">{{leavestat.current_year}}</h6>
+                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary" >{{leavestat.current_year}}</h6>
                 </div>
               </div>
             </div>
@@ -63,11 +74,11 @@
               <h5 class="card-title">Vacations <span>| Last Year</span></h5>
 
               <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="font-size:32px">
-                  <i class="bi bi-cart"></i>
+                <div style="font-size:32px">
+                  <i class="bx bx-calendar-plus"></i>
                 </div>
                 <div class="ps-3"  >
-                  <h6 class = "pt-2" style="font-size:32px; color:red">{{leavestat.previous_year}}</h6>
+                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary">{{leavestat.previous_year}}</h6>
                 </div>
               </div>
             </div>
@@ -98,11 +109,11 @@
               <h5 class="card-title">Vacations <span>| Taken </span></h5>
 
               <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="font-size:32px">
-                  <i class="bi bi-cart"></i>
+                <div  style="font-size:32px">
+                  <i class="bx bx-calendar-minus"></i>
                 </div>
                 <div class="ps-3"  >
-                  <h6 class = "pt-2" style="font-size:32px; color:red">{{leavestat.daystaken_current}}</h6>
+                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-danger" >{{leavestat.daystaken_current}}</h6>
                 </div>
               </div>
             </div>
@@ -128,16 +139,16 @@
                   </ul> 
                 </div> {% endcomment %}
     
-                <div class="card-body">http://127.0.0.1:8000/profiles/login/
+                <div class="card-body">
                   <h5 class="card-title">Vacations <span>| Remaining </span></h5>
     
                   <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="font-size:32px">
-                      <i class="bi bi-cart"></i>
+                    <div style="font-size:32px">
+                      <i class="bx bx-calendar-check"></i>
                     </div>
                     <div class="ps-3"  >
                      
-                      <h6 class = "pt-2" style="font-size:32px; color:red">{{remain|safe}} </h6>
+                      <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-success" >{{remain|safe}} </h6>
                     </div>
                   </div>
                 </div>

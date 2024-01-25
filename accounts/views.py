@@ -91,7 +91,9 @@ def profilesPDF(request):
 def hierarchy(request):  
    
    if request.GET.get('employee') is not None:
-      em = request.GET.get('employee')   
+      em = request.GET.get('employee')
+   else:
+      em=0     
 
    FilterDepList= GetFilterDepList(request.user)
    emps = Account.objects.filter(department__name__in=FilterDepList)

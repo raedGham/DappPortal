@@ -18,11 +18,17 @@ def dashboard(request):
              vacWaitUserApp.append(vac)
 
     leavestat = EmployeeLeaveStat.objects.filter(employee=request.user.id)
- 
+
+    if not leavestat:
+         remain=""
+         ls=[]
+    else:
+         remain = leavestat[0].total_annual - leavestat[0].daystaken_current 
+         ls= leavestat[0]
 
     context= {'vacWaitApp':vacWaitUserApp,
-              'leavestat':leavestat[0],
-              'remain': leavestat[0].total_annual - leavestat[0].daystaken_current
+              'leavestat':ls,
+              'remain': remain,
               }
     
     return render(request,'dashboard\main.html', context)
