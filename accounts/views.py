@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from .models import Account,Department,Position
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -273,7 +275,23 @@ def profile_delete(request, id):
 def myprofile(request, id):
      profile = Account.objects.get(id=id)
      return render(request,'profiles/myprofile.html', {'profile': profile}) 
-   
+
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'profiles/changePassword.html', {
+        'form': form
+    })  
   # to test messages 
 def mess(request):
    messages.add_message(request, messages.INFO, "Test Message")   

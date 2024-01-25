@@ -18,6 +18,10 @@ from weasyprint import HTML
 import tempfile
 from  django.db.models import Sum
 
+
+
+
+
 # Create your views here.
 @login_required(login_url='login')
 def list_vacations(request):
@@ -67,7 +71,9 @@ def list_vacations(request):
    p_vacations = p.get_page(page)
    
 
-   context = { 'p_vacations':p_vacations,}
+   context = { 
+               'p_vacations':p_vacations,               
+               }
    return render(request,"vacations\\vacations_list.html", context)
 
 
@@ -87,7 +93,7 @@ def vacations(request, id=0):
                remarks  = form.cleaned_data['remarks']
                
                x = RequestedVac(from_date, to_date)
-               print("create:"+ str(x))
+           
                # set Vacation Approval Workflow
                if employee.is_head :
                      first_app = employee
@@ -142,7 +148,7 @@ def vacations(request, id=0):
      else:   # GET
          if id == 0 : # to open a blank from
                      
-            form = VacationForm()
+            form = VacationForm(dep_id=request.user.department)
             context = {
                'form':form,
                'updEls':{}, 
@@ -304,7 +310,7 @@ def entitlement(request, em=0):
    if request.GET.get('employee') is not None:
     em = request.GET.get('employee')
    FilterDepList= GetFilterDepList(request.user)
-   emps = Account.objects.filter(department__name__in=FilterDepList)
+   emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
    entitlement = EmployeeLeaveStat.objects.filter(employee=em)
    context = { 
       'selected_emp':int(em),

@@ -26,7 +26,11 @@ def positions(request, id = 0):
                 pos = Position.objects.create(title=title, description = description)
                 pos.save()
                 return redirect('list_positions')
+            else:
+                return HttpResponse("Invalid Data")
             
+            
+              
        else: # to update the edited record in the table
             print("the update submitted")
             position = Position.objects.get(pk=id)

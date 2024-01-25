@@ -6,7 +6,7 @@ class EmployeeAccountForm(forms.ModelForm):
   first_name  =  forms.CharField(max_length=50)
   last_name   =  forms.CharField(max_length=50)
   middle_name =  forms.CharField(required=False,max_length=50)
-  password    = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
+  password        = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
   confirm_password= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password'}))
   ps_number       = forms.CharField(max_length=50)
   financial_number= forms.CharField(max_length=50, required=False)
@@ -36,3 +36,17 @@ class EmployeeAccountForm(forms.ModelForm):
     for field in self.fields:
         if field != "is_head":
          self.fields[field].widget.attrs['class']= "form-control"
+
+
+# class ChangePasswordForm(forms.ModelForm):
+#   password        = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
+#   new_password    = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
+#   confirm_password= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class':'form-control'}))
+
+
+#   def __init__(self,*args, **kwargs):
+#     super(ChangePasswordForm, self).__init__(*args, **kwargs)
+#     self.fields['password'].widget.attrs['placeholder']= "Enter current password"   
+#     self.fields['new_password'].widget.attrs['placeholder']= "Enter new password"
+#     self.fields['confirm_password'].widget.attrs['placeholder']= "Confirm new password"
+    

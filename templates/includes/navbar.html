@@ -3,7 +3,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
         <img src=" {% static 'assets/img/logo.jpg' %} " width = "200px"  alt="">
      
       </a>
@@ -205,10 +205,13 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+              {% if request.user.is_authenticated %}
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'change_password'%}">
+                <i class="bi bi-key"></i>
+                <span>Change Password</span>
               </a>
+               {% endif %}
+
             </li>
             <li>
               <hr class="dropdown-divider">

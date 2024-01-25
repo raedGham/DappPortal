@@ -18,7 +18,8 @@
          
               <table class="table datatable">
                 <thead>
-                  <tr>             
+                  <tr>     
+                    <th></th>        
                     <th>ID</th>
                     <th>Vac Date</th>     
                     <th>PS no</th>
@@ -32,7 +33,24 @@
                 </thead>
                 
                 <tbody>
-                {% for vacation in vacWaitApp %}                        
+                  {% for vacation in vacWaitApp %}                        
+                    {% if vacation.employee.department.name == "ELE" %} 
+                    <td class="p-1 mb-1 bg-primary"> </td>
+                    {% elif vacation.employee.department.name == "INS" %}
+                    <td class="p-1 mb-1 bg-success"> </td>
+                    {% elif vacation.employee.department.name == "MEC" %}
+                    <td class="p-1 mb-1 bg-info"> </td>
+                    {% elif vacation.employee.department.name == "GSR" %}
+                    <td class="p-1 mb-1 bg-danger"> </td>
+                    {% elif vacation.employee.department.name == "OPER" %}
+                    <td class="p-1 mb-1 bg-warning"> </td>
+                    {% elif vacation.employee.department.name == "MAINT" %}
+                    <td class="p-1 mb-1 bg-secondary"> </td>
+                    {% elif vacation.employee.department.name == "ADMIN" %}
+                    <td class="p-1 mb-1 bg-dark"> </td>
+                    {% elif vacation.employee.department.name == "IT" %}
+                    <td class="p-1 mb-1 bg-light"> </td>
+                    {% endif %} 
 
                     <td>{{vacation.id}}</td>
                     <td>{{vacation.vac_date}}</td>

@@ -10,6 +10,7 @@ urlpatterns = [
   path('hierarchy/', views.hierarchy, name='hierarchy'),
   path('login/', views.login, name='login'),
   path('logout/', views.logout, name='logout'),
+  path('changepassword/', views.change_password, name='change_password'),
   path('modify/', views.modifypassword),
   path('super/', views.makesuperuser),
   path('mess/', views.mess),

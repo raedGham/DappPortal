@@ -27,9 +27,16 @@ class VacationForm(forms.ModelForm):
     fields = ['employee','vac_date','from_date', 'to_date','nodays', 'ampm','remarks']
     
   def __init__(self,*args, **kwargs):
+    dep_id = kwargs.pop('dep_id', None)
+    print(dep_id)
     super(VacationForm, self).__init__(*args, **kwargs)
+    
+    if dep_id is not None:            
+            self.fields['employee'].queryset = Account.objects.filter(has_vac_ent=True, department=dep_id)
+
     for field in self.fields:
         self.fields[field].widget.attrs['class']= "form-control"
+
 
 class EntitlementForm(forms.ModelForm):
    description = forms.CharField(max_length=250)
