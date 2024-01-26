@@ -3,6 +3,7 @@ from .forms import EmployeeAccountForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .models import Account,Department,Position
+from vacations.models import EmployeeLeaveStat
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages, auth
@@ -280,8 +281,21 @@ def profile_delete(request, id):
 
 @login_required(login_url='login')
 def myprofile(request, id):
-     profile = Account.objects.get(id=id)
-     return render(request,'profiles/myprofile.html', {'profile': profile}) 
+    leavestat = EmployeeLeaveStat.objects.filter(employee=id)
+    if not leavestat:
+         remain=""
+         ls=[]
+    else:
+         remain = leavestat[0].total_annual - leavestat[0].daystaken_current 
+         ls= leavestat[0]
+    profile = Account.objects.get(id=id)     
+    
+    context= {'profile':profile,
+              'leavestat':ls,
+              'remain': remain,
+              }
+
+    return render(request,'profiles/myprofile.html', context) 
 
 @login_required(login_url='login')
 def change_password(request):

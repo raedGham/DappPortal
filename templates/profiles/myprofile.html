@@ -89,6 +89,17 @@
                     <td class="text-primary">Remarks</td>
                     <td >{{ profile.remarks }}</td>
                    </tr>              
+                   <tr>
+                    <td class="text-primary">Vac this year:</td>
+                    <td class="fw-bold"> {{leavestat.current_year}} </td>
+                    <td class="text-primary">Vac from last year: </td>
+                    <td class="fw-bold">{{leavestat.previous_year}}</td>
+
+                    <td class="text-primary">Vac Taken : </td>
+                    <td class="fw-bold">{{leavestat.daystaken_current}}</td>
+                    <td class="text-primary">Vac Remaining :</td>
+                    <td class="fw-bold" > {{remain}}</td>
+                   </tr>
                 </div>
             </table>
 
