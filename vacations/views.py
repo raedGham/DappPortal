@@ -242,8 +242,10 @@ def vacation_reject(request, id):
    vac = Vacation.objects.get(id=id) 
    vac.status = 2 
    emplleavestatList = EmployeeLeaveStat.objects.filter(employee=vac.employee)
-   emplleavestatList[0].daystaken_current -= vac.nodays
-   emplleavestatList.save()
+   ide = emplleavestatList[0].id
+   ELS = EmployeeLeaveStat.objects.get(id=ide)
+   ELS.daystaken_current -= vac.nodays
+   ELS.save()
    vac.save()
    return redirect('list_vacations') 
 
