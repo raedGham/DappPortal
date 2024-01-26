@@ -20,12 +20,6 @@ class VacationForm(forms.ModelForm):
      cleaned_data = super(VacationForm, self).clean()
      from_d = cleaned_data.get("from_date")
      to_d = cleaned_data.get("to_date")
-     ap = cleaned_data.get("ampm")
-     
-     
-     
-        
-
      if from_d > to_d:                
         raise forms.ValidationError("From Date Should be less than or equal to To Date")
        
@@ -37,7 +31,7 @@ class VacationForm(forms.ModelForm):
     
   def __init__(self,*args, **kwargs):
     dep_id = kwargs.pop('dep_id', None)
-    print(dep_id)
+   
     super(VacationForm, self).__init__(*args, **kwargs)
     
     if dep_id is not None:            
