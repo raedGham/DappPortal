@@ -34,22 +34,28 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <script src="{% static 'assets/js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+  <script src=" {% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+  <script src=" {% static 'assets/js/main.js' %} "></script>
+
+
 
 </head>
 
 <body>
     {% include 'includes/navbar.html'%} 
     {% include 'includes/sidebar.html'%} 
-    
+    <script type="text/javascript">  
+      // jquery ready start
+      
+        $(document).ready(function() { console.log('jQuery is working!'); });
+      
+    </script>
     {% block content%} 
     {% endblock%}
     
     {% include 'includes/footer.html'%}
-
-    <script src=" {% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
-
-      <!-- Template Main JS File -->
-     <script src=" {% static 'assets/js/main.js' %} "></script>
+     
     
   </body>
 </html>

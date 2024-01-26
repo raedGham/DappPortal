@@ -36,17 +36,4 @@ class EmployeeAccountForm(forms.ModelForm):
     for field in self.fields:
         if field != "is_head":
          self.fields[field].widget.attrs['class']= "form-control"
-
-
-# class ChangePasswordForm(forms.ModelForm):
-#   password        = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
-#   new_password    = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter Password','class':'form-control'}))
-#   confirm_password= forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class':'form-control'}))
-
-
-#   def __init__(self,*args, **kwargs):
-#     super(ChangePasswordForm, self).__init__(*args, **kwargs)
-#     self.fields['password'].widget.attrs['placeholder']= "Enter current password"   
-#     self.fields['new_password'].widget.attrs['placeholder']= "Enter new password"
-#     self.fields['confirm_password'].widget.attrs['placeholder']= "Confirm new password"
     

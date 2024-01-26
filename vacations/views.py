@@ -91,8 +91,12 @@ def vacations(request, id=0):
                nodays= form.cleaned_data['nodays']
                ampm  = form.cleaned_data['ampm']
                remarks  = form.cleaned_data['remarks']
-               
-               x = RequestedVac(from_date, to_date)
+               if ampm.lower() == 'am' or ampm.lower() =='pm':
+                  if to_date>from_date:
+                     to_date = from_date
+                     x = 0.5
+               else:      
+                  x = RequestedVac(from_date, to_date)
            
                # set Vacation Approval Workflow
                if employee.is_head :

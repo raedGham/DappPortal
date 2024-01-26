@@ -2,6 +2,7 @@ from django import forms
 from .models import Vacation,EmployeeLeaveStat
 from accounts.models import Account
 from datetime import datetime
+from django.contrib import messages
 
 #from calculation import FormulaInput
 
@@ -19,9 +20,17 @@ class VacationForm(forms.ModelForm):
      cleaned_data = super(VacationForm, self).clean()
      from_d = cleaned_data.get("from_date")
      to_d = cleaned_data.get("to_date")
-    
-     if from_d > to_d:
+     ap = cleaned_data.get("ampm")
+     
+     
+     
+        
+
+     if from_d > to_d:                
         raise forms.ValidationError("From Date Should be less than or equal to To Date")
+       
+        
+
   class Meta:
     model = Vacation
     fields = ['employee','vac_date','from_date', 'to_date','nodays', 'ampm','remarks']

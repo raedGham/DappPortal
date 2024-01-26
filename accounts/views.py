@@ -98,7 +98,12 @@ def hierarchy(request):
    FilterDepList= GetFilterDepList(request.user)
    emps = Account.objects.filter(department__name__in=FilterDepList)
    team = Account.objects.filter(head_dep=em)
-   sel_emp = Account.objects.get(id=em)
+
+   if em != 0 :
+    sel_emp = Account.objects.get(id=em)
+   else:
+    sel_emp = ""   
+   
    context = { 
       'sel_emp':sel_emp,
       'selected_emp':int(em),
