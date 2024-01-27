@@ -45,10 +45,12 @@ INSTALLED_APPS = [
     'departments',
     'accounts',
     'dashboard',
-    'vacations',    
+    'vacations',
+    'overtime',    
     'import_export',
-    'weasyprint',   
-    'guardian',    
+    'weasyprint',  
+    
+       
 ]
 
 MIDDLEWARE = [
@@ -156,5 +158,5 @@ MESSAGE_TAGS = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend', # this is default
-    'guardian.backends.ObjectPermissionBackend',
+    #  'guardian.backends.ObjectPermissionBackend',
 )

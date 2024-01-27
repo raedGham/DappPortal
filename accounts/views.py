@@ -50,11 +50,14 @@ def login(request):
       
         user = auth.authenticate(email=email, password=password)   
         
-
-        auth.login(request, user)
-        return redirect("dashboard")
-    else:
-        messages.error(request, 'Invalid login credentials')
+        if user is not None:
+           auth.login(request, user)
+           return redirect("dashboard")
+        else:
+           messages.error(request, 'Invalid login credentials')
+           return redirect("login")
+    
+        
 
     return render(request, 'profiles/login.html')
 

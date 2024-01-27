@@ -30,6 +30,7 @@ urlpatterns = [
     path('profiles/',include('accounts.urls')),
     path('vacations/',include('vacations.urls')),
     path('dashboard/',include('dashboard.urls')),
+    path('ot/',include('overtime.urls')),
     
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
