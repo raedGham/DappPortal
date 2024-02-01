@@ -9,7 +9,14 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.bg {
+  background-repeat: no-repeat;
+  background-size: 1200px 800px;
+  background-position: right  bottom;
+  background-attachment: fixed;
 
+
+}
 
 :root {
   scroll-behavior: smooth;
