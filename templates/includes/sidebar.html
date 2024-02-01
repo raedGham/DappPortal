@@ -176,13 +176,21 @@
           <span>Register</span>
         </a>
       </li><!-- End Register Page Nav --> {% endcomment %}
-
+     {% if not request.user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'login' %}">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
       </li><!-- End Login Page Nav -->
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'logout' %}">
+          <i class="bi bi-box-arrow-in-left"></i>
+          <span>Logout</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+       {% endif %}
 
       {% comment %} <li class="nav-item">
         <a class="nav-link collapsed" href="pages-error-404.html">

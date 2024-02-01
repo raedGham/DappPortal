@@ -20,11 +20,14 @@
           <div class="card">
            <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-10">
+                  <div class="col-lg-8">
                     <h5 class="card-title">Overtime List </h5>            
                   </div>
                   <div class="col-lg-2 mt-3">
-                    <a  href = "#" class="btn btn-outline-primary">Add OT for emp</a>
+                    <a  href = "{% url 'overtime'%} " class="btn btn-outline-primary">Add OT By emp</a>
+                  </div>
+                  <div class="col-lg-2 mt-3">
+                    <a  href = "#" class="btn btn-outline-primary">Add OT By Date</a>
                   </div>
                 </div>
 
@@ -42,7 +45,8 @@
                     <th>To Time </th>
                     <th>Total hours</th>                
                     <th>Rate </th>
-                    <th>Straight Hrs</th> 
+                    <th>Straight Hrs</th>
+                    <th>Reason</th>
                     <th> X3 </th>
                     <th>Status</th>                                                    
                   </tr>
@@ -88,7 +92,9 @@
                     <td>{{ot.from_time}}</td>
                     <td >{{ot.to_time}}</td>   
                     <td ></td>   
-                    <td ></td>                  
+                    <td >{{ot.rate}}</td>                  
+                    <td ></td>   
+                    <td >{{ot.reason}}</td>   
                     {% if ot.status == 1 %}
                     <td> Approved </td>
                     {% elif ot.status == 2 %} 
@@ -100,7 +106,7 @@
                     <td> <a href = "#" > <i class="bi bi-people text-primary"></i> </a> </td>
                     {% if  ot.status != 1 and ot.status != 2 %}
                     <td> <a href="#"> <i class="bx bx-edit text-success "></i> </a> </td>                  
-                    <td> <a href = "#" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    <td> <a href = "{% url 'ot_delete' ot.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     {% else %}
                     <td></td>
                     <td></td>                    

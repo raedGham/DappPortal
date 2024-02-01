@@ -11,7 +11,7 @@ class Overtime (models.Model):
     to_time   = models.TimeField(blank=True, null=True )
     total_hours  = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     rate  = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
-    description   = models.TextField(blank=True)
+    reason   = models.TextField(blank=True)
     first_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='first_approval_ot')
     first_app_status = models.IntegerField(default=0)
     second_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='second_approval_ot')
