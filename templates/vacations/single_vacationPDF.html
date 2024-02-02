@@ -249,7 +249,7 @@
 
     
     <!-- Signatures-->
-    <div class="mt2"></div>
+    <div class="mt1"></div>
     
     <div class="FLX"> 
       <div class="datacolor w5">
@@ -258,16 +258,26 @@
      <div class="datacolor w5">
         <label>{{vac.vac_date}} </label> 
      </div>   
-    </div>   
      
+     
+    {% if vac.first_app_status == 1 %}
+      <div class="ml3"> 
+         <div class="datacolor w10 ">          
+           <label>{{vac.first_approval.first_name}} {{vac.first_approval.last_name}} / </label>     
+           <label>{{vac.first_app_date | date:"Y-m-d" }}  {{vac.first_app_date | time:"H:i"}} </label> 
+         </div>  
+      </div> 
+    {% endif %} 
+   </div>
+
     <div class="FLX"> 
       <div class="BorderTop w5 ">
         <p style="font-size: 10px;">(1) Applicant</p> 
       </div>
      <div class="BorderTop w5">
        <p style="font-size: 10px;">Date</p> 
-     </div>
-       
+     </div>       
+  
 
      <div class="ml3"></div>
      <div class="BorderTop w5">
@@ -279,9 +289,30 @@
 
     </div>
  
+<div class="FLX mt2"> 
+         
+    {% if vac.second_app_status == 1 %}
+      <div> 
+         <div class="datacolor w10 ">          
+           <label>{{vac.second_approval.first_name}} {{vac.second_approval.last_name}} / </label>     
+           <label>{{vac.second_app_date | date:"Y-m-d" }}  {{vac.second_app_date | time:"H:i"}} </label> 
+         </div>  
+      </div> 
+    {% endif %} 
+   
     
+         
+      {% if vac.third_app_status == 1 %}
+        <div class="ml5"> 
+           <div class="datacolor w10 ">          
+             <label>{{vac.third_approval.first_name}} {{vac.third_approval.last_name}} / </label>     
+             <label>{{vac.third_app_date | date:"Y-m-d" }}  {{vac.third_app_date | time:"H:i"}} </label> 
+           </div>  
+        </div> 
+      {% endif %} 
+     </div>   
 
-    <div class="FLX mt2"> 
+    <div class="FLX "> 
         <div class="BorderTop w5">
             <p style="font-size: 10px;">(3) Head/Deputy of Dpt</p> 
           </div>
@@ -298,9 +329,17 @@
          </div>
     </div>
 
+    {% if vac.fourth_app_status == 1 %}
+    <div class="ml4 mt2"> 
+       <div class="datacolor w10 ">          
+         <label>{{vac.fourth_approval.first_name}} {{vac.fourth_approval.last_name}} / </label>     
+         <label>{{vac.fourth_app_date | date:"Y-m-d" }}  {{vac.fourth_app_date | time:"H:i"}} </label> 
+       </div>  
+    </div> 
+  {% endif %} 
+ 
 
-
-    <div class="FLX mt2"> 
+    <div class="FLX"> 
         <div class="ml4"></div>
 
         <div class="BorderTop w5">

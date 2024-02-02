@@ -85,6 +85,9 @@ body {
   .w9 {
     width:215px;    
   } 
+  .w10 {
+    width:240px;    
+  } 
  
   .wb10 {
     width:390px;
@@ -124,6 +127,10 @@ body {
 
 .ml4 {
     margin-left: 230px;
+}  
+
+.ml5 {
+  margin-left: 160px;
 }  
 
 .mar {
