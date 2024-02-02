@@ -103,7 +103,14 @@ def overtime(request, id=0):
                }    
       
          return render(request, 'overtime\\overtime.html', context)
-     
+
+def create_overtime(request):
+    otForm = OvertimeForm()
+    context = {
+        "form ":otForm
+    }
+    return render(request,"overtime\\overtime.html", context )
+
 
 @login_required(login_url='login')     
 def overtime_approve(request, id):   

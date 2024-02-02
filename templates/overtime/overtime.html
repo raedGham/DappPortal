@@ -54,7 +54,10 @@
             </table>
             
           <div>
-            <button type="submit" class="btn btn-primary">Submit</button>           
+            <button hx-get="{% url 'create_overtime'%}" hx-swap="beforeend" hx-target="#otform" class="btn btn-primary">Add OT</button>        
+            <div id="otform">
+            </div>    
+
             <a href = "{% url 'ot_list' %}"  class="btn btn-outline-primary">Back</a>
           </div>
         </form><!-- Vertical Form -->    
