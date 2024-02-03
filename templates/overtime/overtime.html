@@ -10,63 +10,25 @@
                 </ol>
               </nav>
     </div>
-<div class="row">
-<div class="col-lg-8">
-
+ 
      <div class="card"> 
-      <div class="card-body">
-  
-        <h5 class="card-title">Register Employee Overtime</h5>
-     
-        <!-- Vertical Form -->
+      <div class="card-title">Employee: <span class="text-primary" style="font-size:18px"> {{employee.first_name}} {{employee.last_name}} <span></div>
+      <div class="card-body">     
     
-   <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
-            {% csrf_token %}    
-        
-            {% if form.non_field_errors %}
-            <div >
-                <ul>
-                    {% for error in form.non_field_errors %}
-                    <li class="text-danger">{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
-            <div class="form-group col-7">
-              <label for="" class="form-label text-primary">Employee</label>
-                {{ form.employee }} 
-            </div>
+          
+           </div>      
+        </div>
 
-            <table class="table datatable">
-              <thead>
-                <th>OT Date</th>
-                <th>From Time</th>
-                <th>To Time</th>
-                <th>Reason</th>                
-              </thead>
-              <body>
-                <td>{{ form.ot_date }}</td>
-                <td>{{ form.from_time }}</td>
-                <td>{{ form.to_time }}</td>
-                <td>{{form.reason}}</td>
-               
-              </body>
-            </table>
-            
-          <div>
-            <button hx-get="{% url 'create_overtime'%}" hx-swap="beforeend" hx-target="#otform" class="btn btn-primary">Add OT</button>        
-            <div id="otform">
-            </div>    
-
-            <a href = "{% url 'ot_list' %}"  class="btn btn-outline-primary">Back</a>
+        <div class="card"> 
+          <div class="card-body">
+            <form method="POST">
+              {% csrf_token %}
+              {{ formset.management_form }}
+              {{ formset.as_p }}
+              <button>Submit</button>
+          </form>
           </div>
-        </form><!-- Vertical Form -->    
-      </div>
-    </div>
-  </div>
+        </div>
 
-  
-</div>
-
-</main><!-- End #main -->
-{% endblock %}
+      </main>    
+{% endblock%}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+          <h4>Overtime</h4>
+              <nav>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item">Overtime</li>
+                  <li class="breadcrumb-item active">Overtime</li>
+                </ol>
+              </nav>
+    </div>
+<div class="row">
+<div class="col-lg-8">
+
+     <div class="card"> 
+      <div class="card-body">
+  
+        <h5 class="card-title">Register Employee Overtime</h5>
+     
+        <!-- Vertical Form -->
+    
+   <form action="" method="POST"   autocomplete="off" class="form-row row g-3">
+            {% csrf_token %}    
+        
+            {% if form.non_field_errors %}
+            <div >
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="form-group col-7">
+              <label for="" class="form-label text-primary">Employee</label>
+                {{ form.employee }} 
+            </div>
+
+            <table class="table datatable">
+              <thead>
+                <th>OT Date</th>
+                <th>From Time</th>
+                <th>To Time</th>
+                <th>Reason</th>                
+              </thead>
+              <body>
+                <td>{{ form.ot_date }}</td>
+                <td>{{ form.from_time }}</td>
+                <td>{{ form.to_time }}</td>
+                <td>{{form.reason}}</td>
+               
+              </body>
+            </table>
+            
+          <div>
+            <button hx-get="{% url 'create_overtime'%}" hx-swap="beforeend" hx-target="#otform" class="btn btn-primary">Add OT</button>        
+            <div id="otform">
+            </div>    
+
+            <a href = "{% url 'ot_list' %}"  class="btn btn-outline-primary">Back</a>
+          </div>
+        </form><!-- Vertical Form -->    
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+</main><!-- End #main -->
+{% endblock %}

@@ -3,6 +3,7 @@ from .models import Overtime
 from accounts.models import Account
 from datetime import datetime
 from django.contrib import messages
+from django.forms.models import inlineformset_factory
 
 #from calculation import FormulaInput
 
@@ -40,3 +41,12 @@ class OvertimeForm(forms.ModelForm):
         self.fields[field].widget.attrs['class']= "form-control"
 
 
+OvertimeFormSet= inlineformset_factory(
+    Account,
+    Overtime,
+    fk_name = "employee",
+    form=OvertimeForm,
+    min_num=2,  # minimum number of forms that must be filled in
+    extra=1,  # number of empty forms to display
+    can_delete=False  # show a checkbox in each form to delete the row
+)

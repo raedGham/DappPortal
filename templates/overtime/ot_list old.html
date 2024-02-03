@@ -20,31 +20,11 @@
           <div class="card">
            <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-6">
+                  <div class="col-lg-8">
                     <h5 class="card-title">Overtime List </h5>            
                   </div>
-                  <div class="col-lg-2">
-                    <form method ="get" name='frm'>
-                    <select name="employee" class="form-select mt-3" onchange='frm.submit();'> 
-                      {% for emp in emps%}        
-                                                      
-                          {% if selected_emp != -1 and emp.id == selected_emp %} 
-                          <option selected value={{emp.id}}> {{emp.first_name}} {{emp.last_name}} </option>
-                          {% else %} 
-                          <h5> selected </h5>
-                          <option value={{emp.id}}> {{emp.first_name}} {{emp.last_name}} </option>
-                          {% endif %}
-                      {%endfor%}
-                      </select>
-                    </form> 
-                  </div>
-                
                   <div class="col-lg-2 mt-3">
-                    {%if selected_emp == -1%}
-                    <a  href = "#" class="btn btn-outline-primary text-decoration-none text-muted disabled"  >Add OT By emp</a>
-                    {%else%}
-                    <a  href = "{% url 'overtime' selected_emp %} " class="btn btn-outline-primary">Add OT By emp</a>
-                    {% endif %}
+                    <a  href = "{% url 'overtime' %} " class="btn btn-outline-primary">Add OT By emp</a>
                   </div>
                   <div class="col-lg-2 mt-3">
                     <a  href = "#" class="btn btn-outline-primary">Add OT By Date</a>

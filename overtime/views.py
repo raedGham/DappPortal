@@ -4,7 +4,8 @@ from .models import Overtime
 from accounts.models import Account
 from positions.models import Position
 from datetime import timedelta, datetime
-from .forms import OvertimeForm
+from .forms import OvertimeForm,OvertimeFormSet
+from dapp.utils import GetFilterDepList 
 
 # Create your views here.
 
@@ -20,96 +21,43 @@ def getAppEmp(ot):
 
 @login_required(login_url='login')
 def ot_list(request):
+    if request.GET.get('employee') is not None:
+      selected_emp = request.GET.get('employee')
+    else:
+      selected_emp=-1 
+         
+    
+    FilterDepList= GetFilterDepList(request.user)
+    emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
     p_ots = Overtime.objects.all()
-    return render(request, 'overtime/ot_list.html', {'p_ots':p_ots})
+    context={
+       'p_ots':p_ots,
+       'emps' : emps,
+       'selected_emp':int(selected_emp),
+    }
+    return render(request, 'overtime/ot_list.html', context)
 
 
 @login_required(login_url='login')
-def overtime(request, id=0):
-     
-     if request.method == "POST":
-       if id == 0: # to create a new record and append it to the table            
-            form = OvertimeForm(request.POST)
-            if form.is_valid():
-               employee= form.cleaned_data['employee']
-               vac_date= form.cleaned_data['ot_date']
-               from_time= form.cleaned_data['from_time']
-               to_time= form.cleaned_data['to_time']
-               rate = form.cleaned_data['rate']               
-               reason  = form.cleaned_data['reason']
-            #    if ampm.lower() == 'am' or ampm.lower() =='pm':
-            #       if to_date>from_date:
-            #          to_date = from_date
-            #          x = 0.5
-            #    else:      
-            #       x = RequestedVac(from_date, to_date)
-           
-               # set Vacation Approval Workflow
-               if employee.is_head :
-                     first_app = employee
-               else:   
-                     first_app = employee.head_dep
-                
-               second_app = first_app.head_dep
-               third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
-               fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
-               
-               
-               overtime = Overtime.objects.create(employee=employee,ot_date=vac_date,from_time=from_time, to_time=to_time,rate=rate,
-                                                  reason=reason,  first_approval= first_app, 
-                                                  second_approval= second_app,third_approval = third_app, fourth_approval = fourth_app)
-              
-               overtime.save()
+def overtime(request,id):
+ employee = Account.objects.get(id=id)
+ overtime = Overtime.objects.filter(employee=id)
+ formset = OvertimeFormSet(request.POST or None)
 
-                   
-               return redirect('ot_list')
-            else:
-               return HttpResponse("Invalid Form")
-            
-       else: # to update the edited record in the table
-            print("the update submitted")
-            overtime = Overtime.objects.get(pk=id)
-            from_time=  datetime.strptime(request.POST.get('from_time'),'%Y-%m-%d')
-            to_time= datetime.strptime(request.POST.get('to_time'), '%Y-%m-%d')
-            
-                        
-            form = OvertimeForm(request.POST, instance = overtime)  
-            if form.is_valid():
-               overtime.save()
-               return redirect('ot_list')
-            else:
-               return HttpResponse("Invalid Form")
-                
-     else:   # GET
-         if id == 0 : # to open a blank from
-                     
-            form = OvertimeForm(dep_id=request.user.department)
-            context = {
-               'form':form,             
-            }
-         
-         else: # to populate the form with the data needed to be updated
-            overtime = Overtime.objects.get(pk=id)
-           
-            form = OvertimeForm(instance=overtime)
-            if request.user.id == getAppEmp(overtime):
-               RejAcc = True
-            else:
-               RejAcc = False   
-   
-            context = {
-               'form':form,
-               'RejAcc': RejAcc,
-               }    
+ if request.method == "POST":
+    if formset.is_valid():
+       formset.instance = overtime
+       formset.save()
+       return redirect("overtime", pk=employee.id)
+
+ context = {  
+      'formset': formset,    
+      'overtime': overtime,
+      'employee': employee,
+   }       
       
-         return render(request, 'overtime\\overtime.html', context)
+ return render(request, 'overtime\\overtime.html', context)
 
-def create_overtime(request):
-    otForm = OvertimeForm()
-    context = {
-        "form ":otForm
-    }
-    return render(request,"overtime\\overtime.html", context )
 
 
 @login_required(login_url='login')     
