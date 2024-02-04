@@ -45,10 +45,14 @@ def overtime(request,id):
  formset = OvertimeFormSet(request.POST or None)
 
  if request.method == "POST":
+   
     if formset.is_valid():
+       
        formset.instance = overtime
        formset.save()
        return redirect("overtime", pk=employee.id)
+    else:
+       return HttpResponse("invalid")
 
  context = {  
       'formset': formset,    

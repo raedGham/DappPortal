@@ -14,7 +14,7 @@ class OvertimeForm(forms.ModelForm):
   from_time = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}))
   to_time   = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}) ) 
   rate      = forms.ChoiceField(required=False, choices=(('','--'),('1.5','1.5'),('2.0','2.0')))
-  reason   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'2'}))
+  reason   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'1'}))
   
 #   def clean(self):
 #      cleaned_data = super(VacationForm, self).clean()

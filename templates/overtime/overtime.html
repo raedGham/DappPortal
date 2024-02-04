@@ -12,6 +12,7 @@
     </div>
  
      <div class="card"> 
+    
       <div class="card-title">Employee: <span class="text-primary" style="font-size:18px"> {{employee.first_name}} {{employee.last_name}} <span></div>
       <div class="card-body">     
     
@@ -24,7 +25,27 @@
             <form method="POST">
               {% csrf_token %}
               {{ formset.management_form }}
-              {{ formset.as_p }}
+
+              <table class="table datatable">
+                <thead>
+                  <th>OT Date</th>
+                  <th>From Time</th>
+                  <th>To Time</th>
+                  <th>Reason</th>                
+                </thead>
+                <body>
+                  {% for form in formset %}
+                  
+                  <tr>
+                  <td>{{ form.ot_date }}</td>
+                  <td>{{ form.from_time }}</td>
+                  <td>{{ form.to_time }}</td>
+                  <td>{{ form.reason }}</td>
+                  </tr>
+                  {% endfor %}
+                 
+                </body>
+              </table>
               <button>Submit</button>
           </form>
           </div>
