@@ -3,7 +3,7 @@ from .models import Overtime
 from accounts.models import Account
 from datetime import datetime
 from django.contrib import messages
-from django.forms.models import inlineformset_factory
+
 
 #from calculation import FormulaInput
 
@@ -16,12 +16,7 @@ class OvertimeForm(forms.ModelForm):
   rate      = forms.ChoiceField(required=False, choices=(('','--'),('1.5','1.5'),('2.0','2.0')))
   reason   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'1'}))
   
-#   def clean(self):
-#      cleaned_data = super(VacationForm, self).clean()
-#      from_d = cleaned_data.get("from_date")
-#      to_d = cleaned_data.get("to_date")
-#      if from_d > to_d:                
-#         raise forms.ValidationError("From Date Should be less than or equal to To Date")
+
        
         
 

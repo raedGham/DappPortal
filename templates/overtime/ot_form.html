@@ -1,8 +1,9 @@
-   <form method="POST">
+<div hx-target="this" hx-swap="outerHTML">
+  <form method="POST">
         {% csrf_token %}
+       
 
-
-        <table class="table datatable">
+     <table class="table datatable">
           <thead>
             <th>OT Date</th>
             <th>From Time</th>
@@ -20,4 +21,4 @@
         </table>
         <button type="submit" hx-post=".">Submit</button>
     </form>
- 
+  </div> 

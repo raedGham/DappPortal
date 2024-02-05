@@ -37,7 +37,12 @@ def ot_list(request):
     }
     return render(request, 'overtime/ot_list.html', context)
 
-
+def create_ot_form(request):
+    form = OvertimeForm()
+    context = {
+        "form": form
+    }
+    return render(request, "overtime/ot_form.html", context)
    
 
 @login_required(login_url='login')
@@ -55,7 +60,7 @@ def overtime(request,id):
        ot.save()       
        return HttpResponse("Success")
     else:
-       return render(request, "overtime\\ot_form.html", context={"form":form})
+       return HttpResponse("INvalid")
     
 
  context = {  
