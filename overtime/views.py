@@ -41,7 +41,7 @@ def ot_list(request):
    
 
 @login_required(login_url='login')
-def create_ot_form(request,id):
+def overtime(request,id):
  employee = Account.objects.get(id=id)
  overtime = Overtime.objects.filter(employee=id)
  form = OvertimeForm(request.POST or None)
