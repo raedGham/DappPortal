@@ -4,7 +4,7 @@ from .models import Overtime
 from accounts.models import Account
 from positions.models import Position
 from datetime import timedelta, datetime
-from .forms import OvertimeForm,OvertimeFormSet
+from .forms import OvertimeForm
 from dapp.utils import GetFilterDepList 
 
 # Create your views here.
@@ -38,24 +38,28 @@ def ot_list(request):
     return render(request, 'overtime/ot_list.html', context)
 
 
+   
+
 @login_required(login_url='login')
-def overtime(request,id):
+def create_ot_form(request,id):
  employee = Account.objects.get(id=id)
  overtime = Overtime.objects.filter(employee=id)
- formset = OvertimeFormSet(request.POST or None)
+ form = OvertimeForm(request.POST or None)
 
  if request.method == "POST":
    
-    if formset.is_valid():
+    if form.is_valid():
        
-       formset.instance = overtime
-       formset.save()
-       return redirect("overtime", pk=employee.id)
+       ot = form.save(commit=False)
+       ot.employee = employee
+       ot.save()       
+       return HttpResponse("Success")
     else:
-       return HttpResponse("invalid")
+       return render(request, "overtime\\ot_form.html", context={"form":form})
+    
 
  context = {  
-      'formset': formset,    
+      'form': form,    
       'overtime': overtime,
       'employee': employee,
    }       
@@ -99,6 +103,4 @@ def ot_delete(request,id):
          ot.delete()
          return redirect('ot_list')
       
-      return render(request,
-                  'overtime/ot_delete.html',
-                  {'ot': ot}) 
+      return render(request,'overtime/ot_delete.html',{'ot': ot}) 

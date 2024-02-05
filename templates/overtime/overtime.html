@@ -13,43 +13,14 @@
  
      <div class="card"> 
     
-      <div class="card-title">Employee: <span class="text-primary" style="font-size:18px"> {{employee.first_name}} {{employee.last_name}} <span></div>
-      <div class="card-body">     
-    
+      <div class="card-title">Employee: <span class="text-primary" style="font-size:18px"> {{employee.first_name}} {{employee.last_name}} <span> 
+         <span class="p-3"><button class = "btn btn-outline-primary " type="button" hx-get="{% url 'create_ot_form' %}" hx-target="#bookforms" hx-swap="beforeend"> Add OT Record</button> </span>
+      </div>
+          <div class="card-body" id="bookforms">     
           
-           </div>      
+          </div>      
         </div>
 
-        <div class="card"> 
-          <div class="card-body">
-            <form method="POST">
-              {% csrf_token %}
-              {{ formset.management_form }}
-
-              <table class="table datatable">
-                <thead>
-                  <th>OT Date</th>
-                  <th>From Time</th>
-                  <th>To Time</th>
-                  <th>Reason</th>                
-                </thead>
-                <body>
-                  {% for form in formset %}
-                  
-                  <tr>
-                  <td>{{ form.ot_date }}</td>
-                  <td>{{ form.from_time }}</td>
-                  <td>{{ form.to_time }}</td>
-                  <td>{{ form.reason }}</td>
-                  </tr>
-                  {% endfor %}
-                 
-                </body>
-              </table>
-              <button>Submit</button>
-          </form>
-          </div>
-        </div>
-
-      </main>    
+        
+ </main>    
 {% endblock%}
