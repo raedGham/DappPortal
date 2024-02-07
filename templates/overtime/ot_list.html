@@ -62,10 +62,10 @@
                     <th style="width:40px">ID</th>
                     <th style="width:100px">OT Date </th>     
                     <th style="width:50px">PS no</th>
-                    <th style="width:auto">Name </th>                     
+                    <th style="width:130px">Name </th>                     
                     <th style="width:auto">From Time </th>   
                     <th style="width:auto">To Time </th>
-                    <th style="width:auto">Total hours</th>                
+                    <th style="width:80px">T.hours</th>                
                     <th style="width:auto">Rate </th>
                     <th style="width:auto">Straight Hrs</th>                    
                     <th style="width:auto"> X3 </th>
@@ -106,9 +106,9 @@
                     <td>  {{ot.ot_date}}  <br> <span class="text-primary"> Reason:</span> <strong>{{ot.reason}}</strong> </td>
                     <td style="width:auto" class="text-start" scope="col">{{ot.employee.ps_number}}</td>
                     {% if ot.middle_name != None or  ot.middle_name is not None %}
-                    <td style="width:auto" >{{ ot.employee.first_name}} {{ot.employee.middle_name}}  {{ot.employee.last_name}}</td> 
+                    <td >{{ ot.employee.first_name}} {{ot.employee.middle_name}}  {{ot.employee.last_name}}</td> 
                     {% else %}
-                    <td style="width:auto">{{ ot.employee.first_name}} {{ot.employee.last_name}}</td> 
+                    <td>{{ ot.employee.first_name}} {{ot.employee.last_name}}</td> 
                     {% endif%}
                     <td style="width:auto">{{ot.from_time}}</td>
                     <td style="width:auto">{{ot.to_time}}</td>   

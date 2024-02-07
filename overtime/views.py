@@ -94,12 +94,13 @@ def ot_update(request, id):
                TT = datetime.combine(ot.ot_date, ot.to_time)                            
                TD = TT -FT                
                ot.total_hours = (TD.total_seconds()/60) /60
-               ot.straight = Decimal(ot.total_hours) * ot.rate                
+               print(ot.total_hours)
+               ot.straight = Decimal(ot.total_hours) * Decimal(ot.rate)                
                ot.save()
                return redirect('ot_list')
             else:
-                print('Invalid form')
-                return redirect('ot_list')
+                return HttpResponse(form.errors)
+                # return redirect('ot_list')
     else: # get
        overtime = Overtime.objects.get(pk=id)          
        form = OvertimeForm(instance=overtime) 
