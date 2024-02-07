@@ -25,7 +25,9 @@
                   </div>
                   <div class="col-lg-2">
                     <form method ="get" name='frm'>
+                     
                     <select name="employee" class="form-select mt-3" onchange='frm.submit();'> 
+                      <option value="-1"> Select emp ...  </option>
                       {% for emp in emps%}        
                                                       
                           {% if selected_emp != -1 and emp.id == selected_emp %} 
@@ -53,22 +55,21 @@
 
               <!-- Table with stripped rows -->
          
-              <table class="table datatable">
+              <table class="table datatable" style="white-space: nowrap; overflow: hidden;table-layout: fixed ">
                 <thead>
                   <tr>     
-                    <th></th>        
-                    <th>ID</th>
-                    <th>OT Date</th>     
-                    <th>PS no</th>
-                    <th>Name </th>                     
-                    <th>From Time </th>   
-                    <th>To Time </th>
-                    <th>Total hours</th>                
-                    <th>Rate </th>
-                    <th>Straight Hrs</th>
-                    <th>Reason</th>
-                    <th> X3 </th>
-                    <th>Status</th>                                                    
+                    <th style="width:20px"></th>        
+                    <th style="width:40px">ID</th>
+                    <th style="width:100px">OT Date </th>     
+                    <th style="width:50px">PS no</th>
+                    <th style="width:auto">Name </th>                     
+                    <th style="width:auto">From Time </th>   
+                    <th style="width:auto">To Time </th>
+                    <th style="width:auto">Total hours</th>                
+                    <th style="width:auto">Rate </th>
+                    <th style="width:auto">Straight Hrs</th>                    
+                    <th style="width:auto"> X3 </th>
+                    <th style="width:auto">Status</th>                                                    
                   </tr>
                 </thead>
               
@@ -100,40 +101,39 @@
                     {% elif ot.employee.department.name == "IT" %}
                     <td class="p-1 mb-1 bg-light"> </td>
                     {% endif %} 
-
-                    <td>{{ot.id}}</td>
-                    <td>{{ot.ot_date}}</td>
-                    <td class="text-start" scope="col">{{ot.employee.ps_number}}</td>
+                    
+                    <td style="width:30px" >{{ot.id}}</td>
+                    <td>  {{ot.ot_date}}  <br> <span class="text-primary"> Reason:</span> <strong>{{ot.reason}}</strong> </td>
+                    <td style="width:auto" class="text-start" scope="col">{{ot.employee.ps_number}}</td>
                     {% if ot.middle_name != None or  ot.middle_name is not None %}
-                    <td>{{ ot.employee.first_name}} {{ot.employee.middle_name}}  {{ot.employee.last_name}}</td> 
+                    <td style="width:auto" >{{ ot.employee.first_name}} {{ot.employee.middle_name}}  {{ot.employee.last_name}}</td> 
                     {% else %}
-                    <td>{{ ot.employee.first_name}} {{ot.employee.last_name}}</td> 
+                    <td style="width:auto">{{ ot.employee.first_name}} {{ot.employee.last_name}}</td> 
                     {% endif%}
-                    <td>{{ot.from_time}}</td>
-                    <td >{{ot.to_time}}</td>   
-                    <td ></td>   
-                    <td >{{ot.rate}}</td>                  
-                    <td ></td>   
-                    <td >{{ot.reason}}</td>   
+                    <td style="width:auto">{{ot.from_time}}</td>
+                    <td style="width:auto">{{ot.to_time}}</td>   
+                    <td style="width:auto"> {{ot.total_hours}} </td>   
+                    <td style="width:auto">{{ot.rate}}</td>                  
+                    <td style="width:auto">{{ot.straight}}</td>                      
                     {% if ot.status == 1 %}
-                    <td> Approved </td>
+                    <td style="width:auto"> Approved </td>
                     {% elif ot.status == 2 %} 
-                    <td> Rejected </td>
+                    <td style="width:auto"> Rejected </td>
                     {% else %}
                     <td> </td>
                     {% endif %}    
-                    <td> <a href="#"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
-                    <td> <a href = "#" > <i class="bi bi-people text-primary"></i> </a> </td>
+                    <td style="width:auto"> <a href="#"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
+                    <td style="width:auto"> <a href = "#" > <i class="bi bi-people text-primary"></i> </a> </td>
                     {% if  ot.status != 1 and ot.status != 2 %}
-                    <td> <a href="#"> <i class="bx bx-edit text-success "></i> </a> </td>                  
-                    <td> <a href = "{% url 'ot_delete' ot.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    <td style="width:auto"> <a href="{% url 'ot_update' ot.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                    <td style="width:auto"> <a href = "{% url 'ot_delete' ot.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     {% else %}
                     <td></td>
                     <td></td>                    
-                    {% endif %}
-                    
+                    {% endif %}                   
+                         
                   </tr>
-               
+                  
                  {% endfor%} 
                 </tbody>
 

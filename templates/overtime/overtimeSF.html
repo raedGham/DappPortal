@@ -16,7 +16,7 @@
      <div class="card"> 
       <div class="card-body">
   
-        <h5 class="card-title">Register Employee Overtime</h5>
+        <h5 class="card-title">Edit Employee Overtime</h5>
      
         <!-- Vertical Form -->
     
@@ -33,8 +33,8 @@
             </div>
             {% endif %}
             <div class="form-group col-7">
-              <label for="" class="form-label text-primary">Employee</label>
-                {{ form.employee }} 
+              <label for="" class="form-label text-primary">Employee: </label>
+                {{ ot.employee.first_name }}  {{ ot.employee.last_name }} 
             </div>
 
             <table class="table datatable">
@@ -54,10 +54,8 @@
             </table>
             
           <div>
-            <button hx-get="{% url 'create_overtime'%}" hx-swap="beforeend" hx-target="#otform" class="btn btn-primary">Add OT</button>        
-            <div id="otform">
-            </div>    
-
+          
+            <button type="submit" class="btn btn-primary">Submit</button>   
             <a href = "{% url 'ot_list' %}"  class="btn btn-outline-primary">Back</a>
           </div>
         </form><!-- Vertical Form -->    

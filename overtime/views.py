@@ -6,7 +6,7 @@ from positions.models import Position
 from datetime import timedelta, datetime
 from .forms import OvertimeForm
 from dapp.utils import GetFilterDepList 
-
+from decimal import Decimal
 # Create your views here.
 
 def getAppEmp(ot):
@@ -54,13 +54,20 @@ def overtime(request,id):
  if request.method == "POST":
    
     if form.is_valid():
-       
+       ot_date= form.cleaned_data['ot_date']
+       from_time= form.cleaned_data['from_time']
+       to_time=  form.cleaned_data['to_time']
+       FT = datetime.combine(ot_date, from_time)
+       TT = datetime.combine(ot_date, to_time)                            
+       TD = TT -FT             
        ot = form.save(commit=False)
        ot.employee = employee
+       ot.total_hours = (TD.total_seconds()/60) /60
+       ot.straight = Decimal(ot.total_hours) * ot.rate       
        ot.save()       
        return HttpResponse("Success")
     else:
-       return HttpResponse("INvalid")
+       return HttpResponse("Invalid")
     
 
  context = {  
@@ -70,6 +77,36 @@ def overtime(request,id):
    }       
       
  return render(request, 'overtime\\overtime.html', context)
+
+
+@login_required(login_url='login')     
+def ot_update(request, id):   
+    if request.method == "POST":            
+            ot = Overtime.objects.get(pk=id)
+            form = OvertimeForm(request.POST, instance = ot)  
+            if form.is_valid():
+               ot.ot_date= form.cleaned_data['ot_date']
+               ot.from_time= form.cleaned_data['from_time']
+               ot.to_time=  form.cleaned_data['to_time']
+               ot.rate=  form.cleaned_data['rate']
+               ot.reason=  form.cleaned_data['reason']
+               FT = datetime.combine(ot.ot_date, ot.from_time)
+               TT = datetime.combine(ot.ot_date, ot.to_time)                            
+               TD = TT -FT                
+               ot.total_hours = (TD.total_seconds()/60) /60
+               ot.straight = Decimal(ot.total_hours) * ot.rate                
+               ot.save()
+               return redirect('ot_list')
+            else:
+                print('Invalid form')
+                return redirect('ot_list')
+    else: # get
+       overtime = Overtime.objects.get(pk=id)          
+       form = OvertimeForm(instance=overtime) 
+       context = {'form':form,
+                  'ot': overtime}
+    return render(request, 'overtime\\overtimeSF.html', context)    
+          
 
 
 

@@ -13,15 +13,15 @@ class OvertimeForm(forms.ModelForm):
   ot_date = forms.DateField(initial=datetime.today , widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   from_time = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}))
   to_time   = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}) ) 
-  rate      = forms.ChoiceField(required=False, choices=(('','--'),('1.5','1.5'),('2.0','2.0')))
+  rate      = forms.ChoiceField(required=True, choices=(('','--'),('1.5','1.5'),('2.0','2.0')))
   reason   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'1'}))
- 
+  
   
         
 
   class Meta:
     model = Overtime
-    fields = ['ot_date','from_time', 'to_time', 'reason']
+    fields = ['ot_date','from_time', 'to_time', 'rate', 'reason']
     
   def __init__(self,*args, **kwargs):
    # dep_id = kwargs.pop('dep_id', None)
