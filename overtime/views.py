@@ -2,12 +2,14 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Overtime
 from accounts.models import Account
-from positions.models import Position
-from datetime import timedelta, datetime
+from datetime import datetime
 from .forms import OvertimeForm
 from dapp.utils import GetFilterDepList 
 from decimal import Decimal
+from django.core.paginator import Paginator
+from django.utils.dateparse import parse_date
 # Create your views here.
+
 
 def getAppEmp(ot):
    if ot.approval_position == 1 :
@@ -21,29 +23,79 @@ def getAppEmp(ot):
 
 @login_required(login_url='login')
 def ot_list(request):
-    if request.GET.get('employee') is not None:
-      selected_emp = request.GET.get('employee')
-    else:
-      selected_emp=-1 
-         
-    
-    FilterDepList= GetFilterDepList(request.user)
-    emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
-    p_ots = Overtime.objects.all()
-    context={
-       'p_ots':p_ots,
-       'emps' : emps,
-       'selected_emp':int(selected_emp),
-    }
-    return render(request, 'overtime/ot_list.html', context)
+    # Pagination
 
-def create_ot_form(request):
+      # set up pagination
+   name_search = request.GET.get('name_search')
+   PSno_search = request.GET.get('PSno_search')  
+   S_fromdate = request.GET.get('S_fromdate')  
+   S_todate = request.GET.get('S_todate') 
+
+   FilterDepList = GetFilterDepList(request.user)
+   # sortby = request.GET.get('sortby')
+   sortby = "-id"
+
+   if sortby is not None:
+    data = Overtime.objects.filter(employee__department__name__in=FilterDepList).order_by(sortby)
+   else:
+    data = Overtime.objects.filter(employee__department__name__in=FilterDepList)     
+
+   if name_search !='' and name_search is not None:     
+     if sortby is not None:
+      data = data.filter(employee__first_name__icontains= name_search).order_by(sortby)
+     else:
+      data = data.filter(employee__first_name__icontains= name_search)   
+
+   if PSno_search !='' and PSno_search is not None:
+     if sortby is not None:
+      data = data.filter(employee__ps_number= PSno_search).order_by(sortby)
+     else:
+      data = data.filter(employee__ps_number= PSno_search)    
+
+   if S_fromdate is not None and S_todate is not None and S_fromdate != '' and S_todate != '':
+     if sortby is not None:    
+      data = data.filter(ot_date__range=[parse_date(S_fromdate), parse_date(S_todate)])
+     else:      
+      data = data.filter(ot_date__range=[parse_date(S_fromdate), parse_date(S_todate)])   
+
+   p = Paginator(data,20)
+   page = request.GET.get('page')
+   p_overtime = p.get_page(page)
+
+    
+    
+   if request.GET.get('employee') is not None:
+      selected_emp = request.GET.get('employee')
+   else:
+      selected_emp=-1 
+
+   print(request.GET.get('otdate'))
+   if request.GET.get('otdate') is not None:
+      selected_date = request.GET.get('otdate')
+   else:
+      selected_date=-1 
+                  
+    
+   FilterDepList= GetFilterDepList(request.user)
+   emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
+  
+
+   context={
+      'p_ots':p_overtime,
+      'emps' :emps,
+      'selected_emp':int(selected_emp),
+      'selected_date':selected_date,
+    }
+   return render(request, 'overtime/ot_list.html', context)
+
+def create_ot_form(request):    
     form = OvertimeForm()
     context = {
         "form": form
     }
     return render(request, "overtime/ot_form.html", context)
-   
+
+
 
 @login_required(login_url='login')
 def overtime(request,id):
@@ -65,7 +117,7 @@ def overtime(request,id):
        ot.total_hours = (TD.total_seconds()/60) /60
        ot.straight = Decimal(ot.total_hours) * ot.rate       
        ot.save()       
-       return HttpResponse("Success")
+       
     else:
        return HttpResponse("Invalid")
     
@@ -147,3 +199,9 @@ def ot_delete(request,id):
          return redirect('ot_list')
       
       return render(request,'overtime/ot_delete.html',{'ot': ot}) 
+
+
+@login_required(login_url='login')
+def workflow(request, id):
+     ot = Overtime.objects.get(id=id)
+     return render(request,'overtime/workflow.html',{'ot': ot}) 
