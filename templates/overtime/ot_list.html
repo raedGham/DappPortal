@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% block content %}
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -14,7 +15,7 @@
       
     </div><!-- End Page Title -->
  
-    <section class="section">
+  <section class="section"> 
       <div class="row">
         <div class="col-lg-9">
           <div class="card">
@@ -43,20 +44,19 @@
                     {% if selected_emp == -1 %}
                     <a  href = "#" class="btn btn-outline-primary text-decoration-none text-muted disabled"  >Add OT By emp</a>
                     {% else %}
-                    <a  href = "{% url 'overtime' selected_emp %} " class="btn btn-outline-primary">Add OT By emp</a>
+                    <a  href = "{% url 'overtime' selected_emp %} " class="btn btn-outline-primary" >Add OT By emp</a>
                     {% endif %}
                   </div>
                   <div class="col-lg-2 mt-3">
-                  <form method ="get" name='frm1'>                    
-                    <input type="date" class="form-control" name="otdate" onchange='frm1.submit();'/>
+                  <form method ="get" name='frm1'>
+                                
+                    <input type="date" class="form-control" name="otdate" value = {{selected_date}} onchange='frm1.submit();'/>
                   </form> 
                 </div>
                   <div class="col-lg-2 mt-3">
-                    {% if selected_date == -1 %}
-                    <a  href = "#" class="btn btn-outline-primary text-decoration-none text-muted disabled"  >Add OT By Date</a>
-                    {% else %}
-                    <a  href = "#" class="btn btn-outline-primary">Add OT By Date</a>
-                    {% endif %}                    
+                   
+                    <a  href = "{% url 'ot_by_date' selected_date %}" class="btn btn-outline-primary"  >Add OT By Date</a>
+                                 
                   </div>
                 
                 </div>
@@ -71,12 +71,12 @@
                     <th style="width:100px">OT Date </th>     
                     <th style="width:50px">PS no</th>
                     <th style="width:130px">Name </th>                     
-                    <th style="width:auto">From Time </th>   
-                    <th style="width:auto">To Time </th>
+                    <th style="width:auto">From </th>   
+                    <th style="width:auto">To </th>
                     <th style="width:80px">T.hours</th>                
                     <th style="width:auto">Rate </th>
                     <th style="width:auto">Straight Hrs</th>                    
-                    <th style="width:auto"> X3 </th>
+                    <th style="width:auto"></th>
                     <th style="width:auto">Status</th>                                                    
                   </tr>
                 </thead>
@@ -130,7 +130,7 @@
                     {% else %}
                     <td> </td>
                     {% endif %}    
-                    {% comment %} <td style="width:auto"> <a href="#"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                      {% endcomment %}
+                  
                     <td style="width:auto"> <a href = "{% url 'o_workflow' ot.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                     {% if  ot.status != 1 and ot.status != 2 %}
                     <td style="width:auto"> <a href="{% url 'ot_update' ot.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
@@ -176,7 +176,6 @@
    
               <!-- End Table with stripped rows -->
 
-                  {% comment %} search card {% endcomment %}
         
         <div class="col-lg-3">
 
@@ -207,6 +206,6 @@
             </div>
           </div>
        
-    </section>
-     
+   </section> 
+    
 {% endblock %}

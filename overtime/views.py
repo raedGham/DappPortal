@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Overtime
 from accounts.models import Account
 from datetime import datetime
-from .forms import OvertimeForm
+from .forms import OvertimeForm, OtByDateForm
 from dapp.utils import GetFilterDepList 
 from decimal import Decimal
 from django.core.paginator import Paginator
@@ -73,7 +73,7 @@ def ot_list(request):
    if request.GET.get('otdate') is not None:
       selected_date = request.GET.get('otdate')
    else:
-      selected_date=-1 
+      selected_date=datetime.now().strftime("%Y-%m-%d")
                   
     
    FilterDepList= GetFilterDepList(request.user)
@@ -95,7 +95,12 @@ def create_ot_form(request):
     }
     return render(request, "overtime/ot_form.html", context)
 
-
+def create_ot_By_date_form(request):    
+    form = OtByDateForm()
+    context = {
+        "form": form
+    }
+    return render(request, "overtime/ot_form1.html", context)
 
 @login_required(login_url='login')
 def overtime(request,id):
@@ -130,6 +135,39 @@ def overtime(request,id):
       
  return render(request, 'overtime\\overtime.html', context)
 
+@login_required(login_url='login')
+def ot_by_date(request,otdate):
+ 
+ overtime = Overtime.objects.filter(ot_date=otdate)
+ form = OtByDateForm(request.POST or None)
+
+ if request.method == "POST":
+   
+    if form.is_valid():
+       ot_date= form.cleaned_data['ot_date']
+       employee=form.cleaned_data['employee']
+       from_time= form.cleaned_data['from_time']
+       to_time=  form.cleaned_data['to_time']
+       FT = datetime.combine(ot_date, from_time)
+       TT = datetime.combine(ot_date, to_time)                            
+       TD = TT -FT             
+       ot = form.save(commit=False)
+       ot.employee = employee
+       ot.total_hours = (TD.total_seconds()/60) /60
+       ot.straight = Decimal(ot.total_hours) * ot.rate       
+       ot.save()       
+       
+    else:
+       return HttpResponse("Invalid")
+    
+
+ context = {  
+      'form': form,    
+      'overtime': overtime,
+      'otdate': otdate,
+   }       
+      
+ return render(request, 'overtime\\ot_by_date.html', context)
 
 @login_required(login_url='login')     
 def ot_update(request, id):   

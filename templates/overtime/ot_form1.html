@@ -1,0 +1,26 @@
+<div hx-target="this" hx-swap="outerHTML">
+  <form method="POST">
+        {% csrf_token %}
+       
+
+     <table class="table datatable">
+          <thead>
+            <th>OT Date</th>
+            <th>From Time</th>
+            <th>To Time</th>
+            <th>Rate</th>
+            <th>Reason</th>                
+          </thead>
+          <body>            
+            <tr>
+                <td>{{ form.ot_date }}</td>
+                <td>{{ form.from_time }}</td>
+                <td>{{ form.to_time }}</td>
+                <td>{{ form.rate }}</td>
+                <td>{{ form.reason }}</td>
+            </tr>           
+          </body>
+        </table>
+        <button type="submit" hx-post=".">Submit</button>
+    </form>
+  </div> 

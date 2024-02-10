@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+          <h4>Overtime</h4>
+              <nav>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item">Overtime</li>
+                  <li class="breadcrumb-item active">Overtime</li>
+                </ol>
+              </nav>
+    </div>
+ 
+     <div class="card"> 
+    
+      <div class="card-title">OT Date: <span class="text-primary" style="font-size:18px"> {{otdate}} <span> 
+         <span class="p-3"><button class = "btn btn-outline-primary " type="button" hx-get="{% url 'create_ot_By_date_form' %}" hx-target="#otform" hx-swap="beforeend"> Add OT Record</button> </span>
+      </div>
+          <div class="card-body" id="otform">     
+          
+          </div>      
+        </div>
+
+        
+ </main>    
+{% endblock%}
