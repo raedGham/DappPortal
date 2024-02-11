@@ -10,12 +10,11 @@
 # General
 --------------------------------------------------------------*/
 .bg {
+  background-image: url("{% static 'assets/img/background.png' %}");
   background-repeat: no-repeat;
   background-size: 1200px 800px;
   background-position: right bottom;
   background-attachment: fixed;
-
-
 }
 
 :root {
@@ -26,7 +25,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
   background: #f6f9ff;
-  /* color: #444444; */
+  color: #444444;
   color: #b80202;
 }
 
