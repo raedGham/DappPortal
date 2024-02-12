@@ -74,7 +74,8 @@ def ot_list(request):
       selected_date = request.GET.get('otdate')
    else:
       selected_date=datetime.now().strftime("%Y-%m-%d")
-                  
+      print("selected Date=", selected_date) 
+      print(type(selected_date))           
     
    FilterDepList= GetFilterDepList(request.user)
    emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
@@ -95,10 +96,12 @@ def create_ot_form(request):
     }
     return render(request, "overtime/ot_form.html", context)
 
-def create_ot_By_date_form(request):    
-    form = OtByDateForm()
+def create_ot_By_date_form(request):      
+    # dep_id=request.user.department_id
+    form = OtByDateForm(dep_id=request.user.department_id)
+    
     context = {
-        "form": form
+        "form": form,    
     }
     return render(request, "overtime/ot_form1.html", context)
 
@@ -139,24 +142,29 @@ def overtime(request,id):
 def ot_by_date(request,otdate):
  
  overtime = Overtime.objects.filter(ot_date=otdate)
+ 
+ print(request.POST)
  form = OtByDateForm(request.POST or None)
 
  if request.method == "POST":
    
     if form.is_valid():
-       ot_date= form.cleaned_data['ot_date']
+      
        employee=form.cleaned_data['employee']
        from_time= form.cleaned_data['from_time']
        to_time=  form.cleaned_data['to_time']
+       ot_date = datetime.strptime(otdate, "%Y-%m-%d" )
+
        FT = datetime.combine(ot_date, from_time)
        TT = datetime.combine(ot_date, to_time)                            
        TD = TT -FT             
        ot = form.save(commit=False)
+       ot.ot_date = otdate
        ot.employee = employee
        ot.total_hours = (TD.total_seconds()/60) /60
        ot.straight = Decimal(ot.total_hours) * ot.rate       
        ot.save()       
-       
+       return HttpResponse("Success")
     else:
        return HttpResponse("Invalid")
     

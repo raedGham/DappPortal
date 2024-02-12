@@ -37,7 +37,7 @@ class OvertimeForm(forms.ModelForm):
 
 class OtByDateForm(forms.ModelForm):
 
-  employee  = forms.ModelChoiceField(queryset=Account.objects.filter() )
+  employee  = forms.ModelChoiceField(queryset = Account.objects.filter())
   #ot_date = forms.DateField(initial=datetime.today , widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   from_time = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}))
   to_time   = forms.TimeField(widget = forms.TimeInput(format='%H:%M', attrs={"type": "time"}) ) 
@@ -51,14 +51,14 @@ class OtByDateForm(forms.ModelForm):
     model = Overtime
     fields = ['employee','from_time', 'to_time', 'rate', 'reason']
     
-  def __init__(self,*args, **kwargs):
-    dep_id = kwargs.pop('dep_id', None)
-   
-    super(OvertimeForm, self).__init__(*args, **kwargs)
+  def __init__(self, *args, **kwargs):  
+      dep_id = kwargs.pop('dep_id', None)
+      super(OtByDateForm, self).__init__(*args, **kwargs)
+      
     
-    if dep_id is not None:            
+      if dep_id is not None:            
         self.fields['employee'].queryset = Account.objects.filter(department=dep_id)
 
-    for field in self.fields:
-        self.fields[field].widget.attrs['class']= "form-control"
+      for field in self.fields:
+          self.fields[field].widget.attrs['class']= "form-control"
 
