@@ -9,12 +9,13 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-.bg {
-  background-image: url("{% static 'assets/img/background.png' %}");
+#bg {
+  background-image: url('/static/assets/img/background.png');
   background-repeat: no-repeat;
-  background-size: 1200px 800px;
+  background-size: 900px 600px;
   background-position: right bottom;
   background-attachment: fixed;
+
 }
 
 :root {
