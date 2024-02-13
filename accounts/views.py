@@ -1,13 +1,15 @@
 from django.shortcuts import render,redirect,HttpResponse
 from .forms import EmployeeAccountForm
+from django.db.models import Sum
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .models import Account,Department,Position
+from overtime.models import Overtime
 from vacations.models import EmployeeLeaveStat
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages, auth
-from dapp.utils import GetFilterDepList 
+from dapp.utils import GetFilterDepList,GetCurrentMonthStart,GetCurrentMonthEnd, GetPreviousMonthStart, GetPreviousMonthEnd
 # import pagination stuff
 from django.core.paginator import Paginator
 
@@ -282,8 +284,12 @@ def profile_delete(request, id):
       
       return render(request,'profiles/profile_delete.html',{'profile': profile}) 
 
+
+   
 @login_required(login_url='login')
 def myprofile(request, id):
+    months_list = ['January','February','March','April','May','June','July','August',
+                   'September','October','November','December']
     leavestat = EmployeeLeaveStat.objects.filter(employee=id)
     if not leavestat:
          remain=""
@@ -292,10 +298,52 @@ def myprofile(request, id):
          remain = leavestat[0].total_annual - leavestat[0].daystaken_current 
          ls= leavestat[0]
     profile = Account.objects.get(id=id)     
+
+
+    thismonth = datetime.now().strftime('%B')
+    currentDate = datetime.now()
+    previousMonth = currentDate.month -1 if currentDate.month > 1 else 12
+    lastmonth = months_list[previousMonth - 1]
+    today = datetime.now()
+    thisyear = today.strftime("%Y")
+    
+    if thismonth=="January":
+       lastyear = thisyear - 1
+    else:
+       lastyear = thisyear
+    
+    CurrentMonthStart =GetCurrentMonthStart()
+    CurrentMonthEnd  = GetCurrentMonthEnd()
+    PreviousMonthStart =GetPreviousMonthStart()
+    PreviousMonthEnd  = GetPreviousMonthEnd()
+   #  print("start:", CurrentMonthStart)
+   #  print("End:", CurrentMonthEnd)
+
+   #  print("Prevstart:", PreviousMonthStart)
+   #  print("PrevEnd:", PreviousMonthEnd)
+
+
+    ot_current_sum = Overtime.objects.filter(employee=id, ot_date__gte=CurrentMonthStart,ot_date__lte=CurrentMonthEnd ).aggregate(Sum('straight'))
+   
+    ot_previous_sum = Overtime.objects.filter(employee=id, ot_date__gte=PreviousMonthStart,ot_date__lte=PreviousMonthEnd ).aggregate(Sum('straight'))
+
+    if ot_previous_sum.get('straight__sum') is None :
+       lmoth = 0
+    else:
+       lmoth = ot_previous_sum.get('straight__sum')  
+
+    print(ot_current_sum) 
+   # print(ot_previous_sum) 
     
     context= {'profile':profile,
               'leavestat':ls,
               'remain': remain,
+              'thismonth': thismonth,
+              'thisyear':thisyear,
+              'lastmonth': lastmonth,
+              'lastyear': lastyear,
+              'tmoth': ot_current_sum.get('straight__sum'),
+              'lmoth': lmoth,
               }
 
     return render(request,'profiles/myprofile.html', context) 
