@@ -9,8 +9,8 @@
         <div class="card col-lg-12">
            <div class="row  m-3">            
                     <div class="col-lg-2"> Overtime ID: <span class="text-primary"> {{ot.id}} </span> </div> 
-                    <div class="col-lg-2"> Name: {{ot.employee.first_name}} {{ot.employee.last_name}} </div>
-                    <div class="col-lg-3"> OT Date: {{ot.ot_date}} </div>            
+                    <div class="col-lg-2"> Name: <span class="text-primary"> {{ot.employee.first_name}} {{ot.employee.last_name}}</span> </div>
+                    <div class="col-lg-3"> OT Date:<span class="text-primary">  {{ot.ot_date}} </span></div>            
            </div> 
            <div class="card-body">
 
@@ -21,9 +21,9 @@
                 <div class="col-lg-2 text-center">
                     <label class="fw-bold">Dept. Head/Deputy</label>
                 </div>
-                {% comment %} <div class="col-lg-2 text-center">
+               <div class="col-lg-2 text-center">
                     <label class="fw-bold">Admin Head</label>                    
-                </div> {% endcomment %}
+                </div> 
                 <div class="col-lg-2 text-center">
                     <label class="fw-bold">Superintendent</label>
                     
@@ -47,13 +47,13 @@
                     {% endif %}
                 </div>
 
-                {% comment %} <div class="col-lg-2 text-center">
+               <div class="col-lg-2 text-center">
                     {% if ot.third_approval..profile_pic %}                
                     <img src= "{{ot.third_approval.profile_pic.url}}" alt="Profile" class="rounded">
                     {% else %}  
                     <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
                     {% endif %}
-                </div> {% endcomment %}
+                </div> 
 
                 <div class="col-lg-2 text-center">
                     {% if ot.forth_approval..profile_pic %}                
@@ -71,9 +71,9 @@
             <div class="col-lg-2 text-center">
                 {{ot.second_approval.first_name}}  {{ot.second_approval.last_name}}
             </div>
-            {% comment %} <div class="col-lg-2 text-center">
+         <div class="col-lg-2 text-center">
                 {{ot.third_approval.first_name}}  {{ot.third_approval.last_name}}
-            </div> {% endcomment %}
+            </div> 
             <div class="col-lg-2 text-center">
                 {{ot.fourth_approval.first_name}}  {{ot.fourth_approval.last_name}}
             </div>

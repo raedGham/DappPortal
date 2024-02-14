@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Overtime
+from positions.models import Position
 from accounts.models import Account
 from datetime import datetime
 from .forms import OvertimeForm, OtByDateForm
@@ -121,10 +122,25 @@ def overtime(request,id):
        TT = datetime.combine(ot_date, to_time)                            
        TD = TT -FT             
        ot = form.save(commit=False)
+       if employee.is_head :
+          first_app = employee
+       else:   
+          first_app = employee.head_dep
+                
+       second_app = first_app.head_dep
+       third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
+       fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
+
        ot.employee = employee
        ot.total_hours = (TD.total_seconds()/60) /60
        ot.straight = Decimal(ot.total_hours) * ot.rate       
-       ot.save()       
+       ot.save()    
+       upd_ot = Overtime.objects.get(id=ot.id)
+       upd_ot.first_approval = first_app
+       upd_ot.second_approval = second_app
+       upd_ot.third_approval = third_app
+       upd_ot.fourth_approval = fourth_app
+       upd_ot.save()   
        
     else:
        return HttpResponse("Invalid")
@@ -138,18 +154,32 @@ def overtime(request,id):
       
  return render(request, 'overtime\\overtime.html', context)
 
+def Getdoweek(date_str, format="%Y-%m-%d"):
+   try:
+        date_obj = datetime.strptime(date_str, format)
+
+        # Get the number of the day (0-6, Monday-Sunday)
+        day_of_week_num = date_obj.weekday()
+
+        # Convert to character day of the week using a dictionary
+        character_days = {0: "Mon", 1: "Tues", 2: "Wed", 3: "Thurs", 4: "Fri", 5: "Sat", 6: "Sun"}
+
+        return character_days[day_of_week_num]
+
+   except ValueError:
+        raise ValueError("Invalid date string or format. Please use the correct format:", format)
+
+
 @login_required(login_url='login')
 def ot_by_date(request,otdate):
  
  overtime = Overtime.objects.filter(ot_date=otdate)
- 
- print(request.POST)
  form = OtByDateForm(request.POST or None)
 
  if request.method == "POST":
-   
+    
     if form.is_valid():
-      
+       
        employee=form.cleaned_data['employee']
        from_time= form.cleaned_data['from_time']
        to_time=  form.cleaned_data['to_time']
@@ -159,20 +189,37 @@ def ot_by_date(request,otdate):
        TT = datetime.combine(ot_date, to_time)                            
        TD = TT -FT             
        ot = form.save(commit=False)
+       if employee.is_head :
+          first_app = employee
+       else:   
+          first_app = employee.head_dep
+                
+       second_app = first_app.head_dep
+       third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
+       fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
        ot.ot_date = otdate
        ot.employee = employee
        ot.total_hours = (TD.total_seconds()/60) /60
-       ot.straight = Decimal(ot.total_hours) * ot.rate       
+       ot.straight = Decimal(ot.total_hours) * ot.rate  
+        
        ot.save()       
-       return HttpResponse("Success")
+       upd_ot = Overtime.objects.get(id=ot.id)
+       upd_ot.first_approval = first_app
+       upd_ot.second_approval = second_app
+       upd_ot.third_approval = third_app
+       upd_ot.fourth_approval = fourth_app
+       upd_ot.save()
+
+       return HttpResponse("success")
     else:
        return HttpResponse("Invalid")
     
-
+ doweek = Getdoweek(otdate)
  context = {  
       'form': form,    
       'overtime': overtime,
       'otdate': otdate,
+      'doweek': doweek,
    }       
       
  return render(request, 'overtime\\ot_by_date.html', context)
@@ -228,6 +275,10 @@ def overtime_approve(request, id):
       ot.status = 1       
    ot.save()
    return redirect('ot_list') 
+
+def ots_approve(request):
+   context = {}
+   return render(request,'overtime/ots_approve.html', context)
 
 @login_required(login_url='login')
 def overtime_reject(request, id):   

@@ -16,9 +16,10 @@ class OvertimeForm(forms.ModelForm):
   rate      = forms.ChoiceField(required=True, choices=(('','--'),('1.5','1.5'),('2.0','2.0')))
   reason   = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'1'}))
   
+      
   
-        
-
+  
+       
   class Meta:
     model = Overtime
     fields = ['ot_date','from_time', 'to_time', 'rate', 'reason']

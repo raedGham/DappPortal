@@ -42,9 +42,9 @@
                 
                   <div class="col-lg-2 mt-3">
                     {% if selected_emp == -1 %}
-                    <a  href = "#" class="btn btn-outline-primary text-decoration-none text-muted disabled"  >Add OT By emp</a>
+                    <a  href = "#" class="btn btn-outline-primary text-decoration-none text-muted disabled smallfont"  >Add OT By emp</a>
                     {% else %}
-                    <a  href = "{% url 'overtime' selected_emp %} " class="btn btn-outline-primary" >Add OT By emp</a>
+                    <a  href = "{% url 'overtime' selected_emp %} " class="btn btn-outline-primary smallfont" >Add OT By emp</a>
                     {% endif %}
                   </div>
                   <div class="col-lg-2 mt-3">
@@ -55,7 +55,7 @@
                 </div>
                   <div class="col-lg-2 mt-3">
                   
-                    <a  href = "{% url 'ot_by_date' selected_date%}" class="btn btn-outline-primary"  >Add OT By Date</a>
+                    <a  href = "{% url 'ot_by_date' selected_date%}" class="btn btn-outline-primary smallfont"  >Add OT By Date</a>
                     
                                  
                   </div>

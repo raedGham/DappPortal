@@ -9,6 +9,10 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.smallfont {
+  font-size: 12px;
+}
+
 #bg {
   background-image: url('/static/assets/img/background.png');
   background-repeat: no-repeat;
