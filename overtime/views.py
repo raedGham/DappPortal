@@ -9,6 +9,8 @@ from dapp.utils import GetFilterDepList
 from decimal import Decimal
 from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
+from django.db.models import Q
+import json
 # Create your views here.
 
 
@@ -276,9 +278,28 @@ def overtime_approve(request, id):
    ot.save()
    return redirect('ot_list') 
 
+
 def ots_approve(request):
-   context = {}
-   return render(request,'overtime/ots_approve.html', context)
+   usr = request.user
+   
+   ots = Overtime.objects.filter(
+                                       Q(first_app_status = 0) & Q(first_approval = usr)  |
+                                       Q(second_app_status = 0) & Q(second_approval = usr)|
+                                       Q(third_app_status = 0) & Q(third_approval = usr)  | 
+                                       Q(fourth_app_status = 0) & Q(fourth_approval = usr) )
+   print(request.method)
+   
+   if request.method == "POST":
+        selected_items = json.loads(request.body)
+        print(selected_items)
+        # Process the selected_items list
+        # For example, save them to a database or perform other actions
+        return HttpResponse("Items processed successfully!")
+   else:   
+      context = {
+         'ots':ots
+         }
+      return render(request,'overtime/ots_approve.html', context)
 
 @login_required(login_url='login')
 def overtime_reject(request, id):   

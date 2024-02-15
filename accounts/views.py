@@ -21,7 +21,7 @@ from datetime import datetime
 
 # @permission_required("accounts.view_account")
 def modifypassword(request):
-   u = Account.objects.get(email="admin@live.com")
+   u = Account.objects.get(username="Adel.Adraa")
    u.is_active = True
    u.is_admin = True
    u.is_staff = True

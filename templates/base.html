@@ -44,7 +44,6 @@ crossorigin="anonymous"></script>
   <script src=" {% static 'assets/js/main.js' %} "></script>
 
 
-
 </head>
 
 <body >
@@ -55,10 +54,14 @@ crossorigin="anonymous"></script>
       {% block content%} 
       {% endblock%}      
      </div>
-    <script type="text/javascript">  
+    {% comment %} <script type="text/javascript">  
       // jquery ready start      
-        $(document).ready(function() { console.log('jQuery is working!'); });      
-    </script>
+        $(document).ready(function() { console.log('jQuery is working  hhhhhh!'); });   
+       
+        
+    </script> {% endcomment %}
+
+  
 
     <script>
       document.body.addEventListener('htmx:configRequest', (event) => {
