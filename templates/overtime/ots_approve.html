@@ -21,17 +21,23 @@
             <div class="card-body">
                 <div class= "col-lg-4">
                     <h5 class="fw-bold"> Select OTs to approve </h5>
-                    <ul class="list-group" style="font-size:14px;">
+                <form method="POST" action="{% url 'ots_approve' %}">
+                    {% csrf_token %}
+                     <ul class="list-group" style="font-size:14px;">
                         {% for item in ots %}
                             <li class="list-group-item"> 
-                            <input class="form-check-input me-1" value="{{ item.id }}"   type="checkbox" aria-label="...">
+                            <input class="form-check-input me-1" value="{{ item.id }}"  name="overtime_ids"   type="checkbox" aria-label="...">
                             {{ item.id }}  -  {{item.ot_date}} - {{item.employee.first_name}} {{item.employee.last_name}}
                             </li>
                         {% endfor %}
-                    </ul>
-
-                    <button class="btn btn-outline-primary mt-4" id="select-button"> Select  </button>
-                    <a href ="#" class="btn btn-outline-primary mt-4"> Back  </a>
+                    </ul>               
+                     {% if ots %}
+                    <button class="btn btn-outline-primary mt-4"> Arrorove selected  </button>
+                      {% else %}
+                    <button class="btn btn-outline-primary mt-4 disabled muted"> Arrorove selected  </button>
+                     {% endif %}
+                    <a href ="{% url 'dashboard' %}" class="btn btn-outline-primary mt-4"> Back  </a>
+                </form>
                </div>
             </div>
         </div>
@@ -41,46 +47,7 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.2.2/dist/js.cookie.min.js"></script>
 
-     <script>
-        
-        
-    $(document).ready(function() {
-        $('#select-button').click(function() {
-            console.log("JAVASCRIPT")
-            var selectedItems = [];
-            $('ul.list-group input[type="checkbox"]:checked').each(function() {
-                selectedItems.push({
-                    id: $(this).data('item-id'), // Access item ID data attribute                   
-                    // More data extraction as needed from other elements in the li
-                });
-            });
-    
-            // Process the selectedItems list here
-            console.log("Selected items:", selectedItems);
-    
-            // Example AJAX POST to send data to Django view:
-            var csrftoken = Cookies.get('csrftoken');
-            $.ajax({
-                url: "{% url 'ots_approve' %} ", // Replace with your actual view URL
-                type: "POST",
-                headers: {"X-CSRFToken": csrftoken },
-                data: JSON.stringify(selectedItems),
-                contentType: "application/json",
-                success: function(response) {
-                    // Handle successful response from Django view
-                    console.log("RESPONSE")
-                    console.log("Response:", response);
-                },
-                error: function(error) {
-                    // Handle errors
-                    console.log("ERROR")
-                    console.error("Error:", error);
-                }
-            });
-        });
-    });
-</script> 
+
 
 {% endblock %}   

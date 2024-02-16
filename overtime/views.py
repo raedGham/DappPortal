@@ -271,8 +271,7 @@ def overtime_approve(request, id):
    elif  ot.approval_position == 3 : 
       ot.third_app_status = 1
       ot.approval_position = 4
-   elif  ot.approval_position == 4 : 
-      print("Approval position = 4")
+   elif  ot.approval_position == 4 :       
       ot.fourth_app_status = 1
       ot.status = 1       
    ot.save()
@@ -282,23 +281,38 @@ def overtime_approve(request, id):
 def ots_approve(request):
    usr = request.user
    
-   ots = Overtime.objects.filter(
+   
+   if request.method == 'POST':
+      overtime_ids = request.POST.getlist('overtime_ids')
+      print(overtime_ids)
+      selected_ids =  Overtime.objects.filter(id__in=overtime_ids)
+      for ot in selected_ids :
+         if ot.approval_position==1:
+            ot.first_app_status = 1
+            ot.approval_position = 2
+         elif ot.approval_position==2:
+            ot.second_app_status = 1
+            ot.approval_position = 3
+         elif ot.approval_position==3:   
+            ot.third_app_status = 1
+            ot.approval_position = 4
+         elif ot.approval_position==4:
+            ot.fourth_app_status = 1      
+            ot.status = 1
+         ot.save()
+               
+      return redirect('dashboard')
+   else:      
+      ots = Overtime.objects.filter(
                                        Q(first_app_status = 0) & Q(first_approval = usr)  |
                                        Q(second_app_status = 0) & Q(second_approval = usr)|
                                        Q(third_app_status = 0) & Q(third_approval = usr)  | 
                                        Q(fourth_app_status = 0) & Q(fourth_approval = usr) )
-   print(request.method)
-   
-   if request.method == "POST":
-        selected_items = json.loads(request.body)
-        print(selected_items)
-        # Process the selected_items list
-        # For example, save them to a database or perform other actions
-        return HttpResponse("Items processed successfully!")
-   else:   
+           
+      
       context = {
          'ots':ots
-         }
+            }
       return render(request,'overtime/ots_approve.html', context)
 
 @login_required(login_url='login')
