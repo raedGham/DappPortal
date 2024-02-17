@@ -56,7 +56,10 @@
             </table>
             
           <div>
-          
+            {% if RejAcc %}          
+            <a href = "{% url 'overtime_approve' ot.id %}"  class="btn btn-success">Approve</a>            
+            <a href = "{% url 'overtime_reject' ot.id %}"  class="btn btn-danger">Reject</a>
+            {% endif %}  
             <button type="submit" class="btn btn-primary">Submit</button>   
             <a href = "{% url 'ot_list' %}"  class="btn btn-outline-primary">Back</a>
           </div>

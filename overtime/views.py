@@ -251,8 +251,15 @@ def ot_update(request, id):
     else: # get
        overtime = Overtime.objects.get(pk=id)          
        form = OvertimeForm(instance=overtime) 
+       if request.user.id == getAppEmp(overtime):
+               RejAcc = True
+       else:
+               RejAcc = False   
+
        context = {'form':form,
-                  'ot': overtime}
+                  'ot': overtime,
+                  'RejAcc':RejAcc}
+       
     return render(request, 'overtime\\overtimeSF.html', context)    
           
 
