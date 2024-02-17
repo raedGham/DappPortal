@@ -234,11 +234,11 @@
               <!-- End Table with stripped rows -->
 
                 <!-- Basic Pagination -->
-              {% comment %} <nav aria-label="Page navigation">
+              <nav aria-label="Page navigation">
                 <ul class="pagination">
                   
-                  {% if p_vacations.has_previous %} 
-                   <li class="page-item"><a class="page-link" href="?page={{p_vacations.previous_page_number}}">Previous</a></li>
+                  {% if vacWaitApp.has_previous %} 
+                   <li class="page-item"><a class="page-link" href="?page={{vacWaitApp.previous_page_number}}">Previous</a></li>
                   {% else %}
                    <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
                   {% endif %}
@@ -247,19 +247,121 @@
                   <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
                   <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
                   
-                  {% if p_vacations.has_next %}        
-                   <li class="page-item"><a class="page-link" href="?page={{p_vacations.next_page_number}}">Next</a></li>
+                  {% if VacWaitApp.has_next %}        
+                   <li class="page-item"><a class="page-link" href="?page={{vacWaitApp.next_page_number}}">Next</a></li>
                   {% else %}
                    <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
                   {% endif %}
                 </ul>
-              </nav><!-- End Basic Pagination --> {% endcomment %}
+              </nav><!-- End Basic Pagination -->
+
             </div>
           </div>
 
         </div>
         <!-- Paginator-->
-   
+   <!-- overtime --> 
+        <div class="row">
+        
+
+          <div class="card ms-2">
+             <div style=" font-family:Poppins, sans-serif; font-size:16px; font-weight:500; color: #012970; ">
+             <p class = " ps-1 card-title"> Overtime waiting for your Approval </p>
+            </div>
+           
+           <div class="card-body">                 
+                 
+              <!-- Table with stripped rows -->
+         
+              <table class="table datatable">
+                <thead>
+                  <tr>     
+                    <th></th>        
+                    <th>ID</th>
+                    <th>OT Date</th>     
+                    <th>PS no</th>
+                    <th>Name </th>                     
+                    <th>From Time </th>   
+                    <th>To Time </th>
+                    <th>Total Hours </th>                
+                    <th>Rate </th>
+                    <th>Straight </th>
+                    <th>Reason</th>                                                     
+                  </tr>
+                </thead>
+                
+                 <tbody>
+                  {% for OT in OTWaitApp %}                        
+                    {% if OT.employee.department.name == "ELE" %} 
+                    <td class="p-1 mb-1 bg-primary"> </td>
+                    {% elif OT.employee.department.name == "INS" %}
+                    <td class="p-1 mb-1 bg-success"> </td>
+                    {% elif OT.employee.department.name == "MEC" %}
+                    <td class="p-1 mb-1 bg-info"> </td>
+                    {% elif OT.employee.department.name == "GSR" %}
+                    <td class="p-1 mb-1 bg-danger"> </td>
+                    {% elif OT.employee.department.name == "OPER" %}
+                    <td class="p-1 mb-1 bg-warning"> </td>
+                    {% elif OT.employee.department.name == "MAINT" %}
+                    <td class="p-1 mb-1 bg-secondary"> </td>
+                    {% elif OT.employee.department.name == "ADMIN" %}
+                    <td class="p-1 mb-1 bg-dark"> </td>
+                    {% elif OT.employee.department.name == "IT" %}
+                    <td class="p-1 mb-1 bg-light"> </td>
+                    {% endif %} 
+
+                    <td>{{OT.id}}</td>
+                    <td>{{OT.ot_date}}</td>
+                    <td class="text-start" scope="col">{{OT.employee.ps_number}}</td>
+                    {% if OT.middle_name != None or  OT.middle_name is not None %}
+                    <td>{{ OT.employee.first_name}} {{OT.employee.middle_name}}  {{OT.employee.last_name}}</td> 
+                    {% else %}
+                    <td>{{ OT.employee.first_name}} {{OT.employee.last_name}}</td> 
+                    {% endif%}
+                    <td>{{OT.from_time}}</td>
+                    <td >{{OT.to_time}}</td>   
+                    <td >{{OT.total_hours}}</td>   
+                    <td >{{OT.rate}}</td>                  
+                    <td >{{OT.straight}}</td>
+                    <td >{{OT.reason}} </td>
+                    <td> </td>          
+                  
+                              
+                    <td> <a href = "{% url 'ot_update' OT.id %}" > <i class="bi bi-journal-text"></i> </td>
+                    <td> <a href = "{% url 'o_workflow' OT.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
+                  </tr>
+               
+                 {% endfor%} 
+                </tbody>
+
+              </table> 
+              <!-- End Table with stripped rows -->
+
+                <!-- Basic Pagination -->
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    
+                    {% if OTWaitApp.has_previous %} 
+                     <li class="page-item"><a class="page-link" href="?page={{OTWaitApp.previous_page_number}}">Previous</a></li>
+                    {% else %}
+                     <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+                    {% endif %}
+  
+                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
+                    
+                    {% if OTWaitApp.has_next %}        
+                     <li class="page-item"><a class="page-link" href="?page={{OTWaitApp.next_page_number}}">Next</a></li>
+                    {% else %}
+                     <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
+                    {% endif %}
+                  </ul>
+                </nav><!-- End Basic Pagination -->
+            </div>
+          </div>
+
+        </div>
        
 
  
