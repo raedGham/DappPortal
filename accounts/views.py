@@ -54,7 +54,10 @@ def login(request):
         
         if user is not None:
            auth.login(request, user)
-           return redirect("dashboard")
+           if user.username == "adminuser":
+              return redirect("admindash")
+           else:   
+              return redirect("dashboard")
         else:
            messages.error(request, 'Invalid login credentials')
            return redirect("login")

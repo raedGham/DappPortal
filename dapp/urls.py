@@ -30,6 +30,7 @@ urlpatterns = [
     path('profiles/',include('accounts.urls')),
     path('vacations/',include('vacations.urls')),
     path('dashboard/',include('dashboard.urls')),
+    path('admindash/',include('admin_dash.urls')),
     path('ot/',include('overtime.urls')),
     
     

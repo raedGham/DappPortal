@@ -2,9 +2,10 @@ from django.shortcuts import render, HttpResponse
 from vacations.models import Vacation, EmployeeLeaveStat
 from overtime.models import Overtime
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required(login_url='login')
 def dashboard(request):
     vacWaitApp = Vacation.objects.filter(status=0)
   
