@@ -151,8 +151,11 @@ def vacations(request, id=0):
                 
      else:   # GET
          if id == 0 : # to open a blank from
-                     
-            form = VacationForm(dep_id=request.user.department)
+            if request.user.username != "adminuser":         
+              form = VacationForm(dep_id=request.user.department)
+            else: 
+              form = VacationForm()   
+              
             context = {
                'form':form,
                'updEls':{}, 
