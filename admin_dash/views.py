@@ -10,42 +10,54 @@ from django.db.models import Q
 
 # Create your views here.
 def GetFromDate(dat):
+  if dat != "":
    y = int(dat[:4])
    m = int(dat[-2:])
    return datetime(year=y, month=m, day=1)
 
 def GetToDate(dat):
-   y = int(dat[:4])
-   m = int(dat[-2:])
-   if m in [1,3,5,7,8,10,12]:      
-     e=31
-   elif m in [4,6,9,11]:
-     e=30
-   elif m == 2:
-      if (y % 4)==0 :
-         e = 29 
-      else: 
-         e = 28
-   return datetime(year=y, month=m , day =e)
+   if dat != "":
+      y = int(dat[:4])
+      m = int(dat[-2:])
+      if m in [1,3,5,7,8,10,12]:      
+       e=31
+      elif m in [4,6,9,11]:
+       e=30
+      elif m == 2:
+         if (y % 4)==0 :
+            e = 29 
+         else: 
+            e = 28
+      return datetime(year=y, month=m , day =e)
 
 @login_required(login_url='login')
 def admindash(request):
  if request.user.username=="adminuser":
       if request.GET.get('dat') is not None:
             dat = request.GET.get('dat')
+            print("dat=",dat)
             from_date = GetFromDate(dat)
             to_date = GetToDate(dat)
       else:
-           from_date=""
-           ro_date=""      
+           dat = None
+           from_date=None
+           to_date=None      
       # get vacations count
-      if from_date !="":       
+      if from_date is not None:       
          vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
          count=Count("id")).filter(Q(vac_date__gte =from_date) & Q(vac_date__lte =to_date) )
+
+         # count total vacations
+         vacation_total_count = Vacation.objects.annotate(
+         count=Count("id")).filter(Q(vac_date__gte =from_date) & Q(vac_date__lte =to_date) )
+
       else:
          vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
-         count=Count("id"))   
-
+         count=Count("id"))  
+         
+         # count total vacations 
+         vacation_total_count = Vacation.objects.annotate(count=Count("id")) 
+         
       # Define a namedtuple to represent the data structure
       DepartmentCount = namedtuple('DepartmentCount', ['department_name', 'count'])
 
@@ -59,9 +71,14 @@ def admindash(request):
       counts = [department_count.count for department_count in department_counts] 
            
      # get OT hours
-      OT_type_sum = Overtime.objects.values("employee__department__name").annotate(
-      sum=Sum("straight"))
-    
+      if from_date is not None:  
+         OT_type_sum = Overtime.objects.values("employee__department__name").annotate(
+         sum=Sum("straight")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) )
+         ot_total_sum = Overtime.objects.filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) ).aggregate(Sum('straight'))['straight__sum']
+      else:
+         OT_type_sum = Overtime.objects.values("employee__department__name").annotate(
+         sum=Sum("straight"))
+         ot_total_sum = Overtime.objects.aggregate(Sum('straight'))['straight__sum']
      
      # Define a namedtuple to represent the data structure
       DepartmentSum = namedtuple('DepartmentSum', ['department_name', 'total_sum'])
@@ -76,11 +93,21 @@ def admindash(request):
       sums = [str(department_sum.total_sum) for department_sum in department_sums]
 
    # get employee OT
-      
-      OT_emp_sum = Overtime.objects.values("employee__first_name","employee__last_name").annotate(
-      sum=Sum("straight")).order_by('-sum')[:5]
-  
+      if from_date is not None:
+         OT_emp_sum = Overtime.objects.values("employee__first_name","employee__last_name").annotate(
+         sum=Sum("straight")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) ).order_by('-sum')[:5]
      
+      else:
+         OT_emp_sum = Overtime.objects.values("employee__first_name","employee__last_name").annotate(
+         sum=Sum("straight")).order_by('-sum')[:5] 
+  
+
+      
+      ot_top_sum = 0
+      for over in OT_emp_sum: 
+       print(over['sum'])      
+       ot_top_sum += over['sum']
+
      # Define a namedtuple to represent the data structure
       EmpSum = namedtuple('EmpSum', ['emp_name', 'total_sum'])
 
@@ -100,7 +127,10 @@ def admindash(request):
          "data2": sums, 
          "labels3": emps,
          "data3": empOT,
-         
+         "sel_date": dat,
+         "vacation_total_count":vacation_total_count.count(),
+         'ot_total_sum':ot_total_sum,
+         'ot_top_sum': ot_top_sum,
          }
       return  render(request, "admin_dash/admindash.html", context)
  else:
