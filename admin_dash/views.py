@@ -5,19 +5,51 @@ from vacations.models import Vacation
 from overtime.models import Overtime
 from django.db.models import Count,Sum
 from collections import  namedtuple
+from datetime import datetime
+from django.db.models import Q
 
 # Create your views here.
+def GetFromDate(dat):
+   y = int(dat[:4])
+   m = int(dat[-2:])
+   return datetime(year=y, month=m, day=1)
+
+def GetToDate(dat):
+   y = int(dat[:4])
+   m = int(dat[-2:])
+   if m in [1,3,5,7,8,10,12]:      
+     e=31
+   elif m in [4,6,9,11]:
+     e=30
+   elif m == 2:
+      if (y % 4)==0 :
+         e = 29 
+      else: 
+         e = 28
+   return datetime(year=y, month=m , day =e)
+
 @login_required(login_url='login')
 def admindash(request):
-   if request.user.username=="adminuser":
-      
+ if request.user.username=="adminuser":
+      if request.GET.get('dat') is not None:
+            dat = request.GET.get('dat')
+            from_date = GetFromDate(dat)
+            to_date = GetToDate(dat)
+      else:
+           from_date=""
+           ro_date=""      
       # get vacations count
-      vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
-      count=Count("id"))
+      if from_date !="":       
+         vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
+         count=Count("id")).filter(Q(vac_date__gte =from_date) & Q(vac_date__lte =to_date) )
+      else:
+         vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
+         count=Count("id"))   
+
       # Define a namedtuple to represent the data structure
       DepartmentCount = namedtuple('DepartmentCount', ['department_name', 'count'])
 
-      # Convert the data to DepartmentCount objects
+     # Convert the data to DepartmentCount objects
       department_counts = [
          DepartmentCount(item['employee__department__name'], item['count']) for item in vacation_type_counts
       ]
@@ -29,7 +61,7 @@ def admindash(request):
      # get OT hours
       OT_type_sum = Overtime.objects.values("employee__department__name").annotate(
       sum=Sum("straight"))
-      print(OT_type_sum)
+    
      
      # Define a namedtuple to represent the data structure
       DepartmentSum = namedtuple('DepartmentSum', ['department_name', 'total_sum'])
@@ -47,7 +79,7 @@ def admindash(request):
       
       OT_emp_sum = Overtime.objects.values("employee__first_name","employee__last_name").annotate(
       sum=Sum("straight")).order_by('-sum')[:5]
-      print(OT_emp_sum)
+  
      
      # Define a namedtuple to represent the data structure
       EmpSum = namedtuple('EmpSum', ['emp_name', 'total_sum'])
@@ -71,5 +103,5 @@ def admindash(request):
          
          }
       return  render(request, "admin_dash/admindash.html", context)
-   else:
-      return  HttpResponse("Access Denied")
+ else:
+     return  HttpResponse("Access Denied")

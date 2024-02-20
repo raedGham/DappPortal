@@ -1,10 +1,19 @@
 {% extends 'base.html' %} {% load static %}
 {% block content %}
-
 <main id="main" class="main">
     <section class="section">
-     
-        <div class="row">
+      <div class="row">
+        <div class="col-lg-1" style="width:50px;">
+          <a href = "#" > <i class="bx bx-menu p-2" style="font-size:24px;"> </i> </a>
+       </div>
+      
+       <div class="col-lg-2" style="width:200px;">                
+            <form action="" method="GET" name= "frm">            
+                  <input class="form-control" type="month" id="month" name="dat" onchange='frm.submit();'>            
+            </form> 
+       </div>
+      </div>
+        <div class="row mt-2">
           <!-- Best vacationers dep -->
           <div class="col-lg-4">
              <div class="card">
@@ -55,7 +64,10 @@
                           beginAtZero: true
                         }
                       }
+                       
                     }
+
+                    
                   });
                 });
               </script> 

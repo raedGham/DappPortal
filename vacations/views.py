@@ -233,8 +233,7 @@ def vacation_approve(request, id):
    elif  vac.approval_position == 3 : 
       vac.third_app_status = 1
       vac.approval_position = 4
-   elif  vac.approval_position == 4 : 
-      print("Approval position = 4")
+   elif  vac.approval_position == 4 :     
       vac.fourth_app_status = 1
       vac.status = 1       
    vac.save()
