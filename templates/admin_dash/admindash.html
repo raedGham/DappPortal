@@ -3,7 +3,7 @@
 
 <main id="main" class="main">
     <section class="section">
-      <div class="row">
+     
         <div class="row">
           <!-- Best vacationers dep -->
           <div class="col-lg-4">
@@ -64,12 +64,116 @@
               </div>
           </div>
           <!-- Best ovrtimers dep-->
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="card">
-              <h5 class="card-title"> Chart 2 </h5>
+              <h5 class="card-title ms-2"> Straight OT hours by Department </h5>
                <div class="card-body">
 
+                <canvas id="barChart2" style="max-height: 250px; max-width: 400px; margin-left :30px;"></canvas>
+
+
+                <script>
+             
+                    var labels2 = {{ labels2|safe}}  
+                    var data2 = {{ data2|safe }}    
+             
+                  document.addEventListener("DOMContentLoaded", () => {
+                    new Chart(document.querySelector('#barChart2'), {
+                      type: 'bar',
+                      data: {
+                        labels:labels2,
+                        datasets: [{
+                          label: 'Dep',
+                          data:data2,
+                          backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 205, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(201, 203, 207, 0.2)'
+                          ],
+                          borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                          ],
+                          borderWidth: 1
+                        }]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                            beginAtZero: true
+                          }
+                        }
+                      }
+                    });
+                  });
+                </script> 
+
                </div>
+            </div>
+          </div>        
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <h5 class="card-title ms-2"> Employee Top 5 OT workers </h5>
+             <div class="card-body">
+
+              <canvas id="barChart3" style="max-height: 250px; max-width: 400px; margin-left :30px;"></canvas>
+
+
+              <script>
+           
+                  var labels3 = {{ labels3|safe}}  
+                  var data3 = {{ data3|safe }}    
+           
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart3'), {
+                    type: 'bar',
+                    data: {
+                      labels:labels3,
+                      datasets: [{
+                        label: 'Emp',
+                        data:data3,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script> 
             </div>
           </div>
         </div>
