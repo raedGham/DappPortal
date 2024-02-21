@@ -97,21 +97,47 @@ def vacations(request, id=0):
            
                # set Vacation Approval Workflow
                if employee.is_head :
-                     first_app = employee
+                    first_app = employee
                else:   
+                    if employee.head_dep.position.title in ["Maintenance Head", "Deputy Maintenance Head"] or employee.head_dep.position.title == "Oper Head" :    
+                     first_app = None
+                    else:                        
                      first_app = employee.head_dep
-                
-               second_app = first_app.head_dep
+
+               
+
+               
+                 
+                  
+               if first_app: 
+                   if first_app.head_dep.position.title == "Superintendent": 
+                      second_app = None 
+                   else:     
+                      second_app = first_app.head_dep
+               else:
+                   second_app = employee.head_dep
+                  
+
+                 
+              
+
                third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
                fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
                
                
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                  nodays=x,ampm=ampm, remarks=remarks, first_approval= first_app, 
-                                                  second_approval= second_app,third_approval = third_app, fourth_approval = fourth_app)
-              
+                                                   nodays=x,ampm=ampm, remarks=remarks, 
+                                                    third_approval = third_app, fourth_approval = fourth_app)
+                   
+               # vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
+               #                                     nodays=x,ampm=ampm, remarks=remarks, first_approval= first_app, 
+               #                                     second_approval=second_app, third_approval = third_app, fourth_approval = fourth_app)
                vacation.save()
-
+               if first_app is not None:
+                 vacation.first_approval = first_app
+               if second_app is not None:
+                 vacation.second_approval = second_app 
+               vacation.save()  
                # update EmployeeLeaveStat 
              
                els = EmployeeLeaveStat.objects.filter(employee = employee)               
