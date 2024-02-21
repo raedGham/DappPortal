@@ -33,7 +33,7 @@ class VacationForm(forms.ModelForm):
     dep_id = kwargs.pop('dep_id', None)
    
     super(VacationForm, self).__init__(*args, **kwargs)
-    
+    print("Dep ID passed:", str(dep_id))
     if dep_id is not None:            
             self.fields['employee'].queryset = Account.objects.filter(has_vac_ent=True, department=dep_id)
 

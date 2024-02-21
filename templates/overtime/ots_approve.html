@@ -23,10 +23,14 @@
                     <h5 class="fw-bold"> Select OTs to approve </h5>
                 <form method="POST" action="{% url 'ots_approve' %}">
                     {% csrf_token %}
+                   
+                    <button type="button" id="select-all-button" class="btn btn-primary">Select All</button>
                      <ul class="list-group" style="font-size:14px;">
+                       
+
                         {% for item in ots %}
                             <li class="list-group-item"> 
-                            <input class="form-check-input me-1" value="{{ item.id }}"  name="overtime_ids"   type="checkbox" aria-label="...">
+                            <input class="form-check-input me-1" id= {{ item.id }}  value="{{ item.id }}"  name="overtime_ids"   type="checkbox" aria-label="...">
                             {{ item.id }}  -  {{item.ot_date}} - {{item.employee.first_name}} {{item.employee.last_name}}
                             </li>
                         {% endfor %}
@@ -44,7 +48,16 @@
     </div>       
 
 </main>
-
+<script>
+$(document).ready(function() {
+    console.log("jquery ready")
+    $('#select-all-button').on('click', function() {
+      $('.list-group-item input[type="checkbox"]').prop('checked', this.checked);
+    });
+  
+   
+  });
+</script>
 
 
 

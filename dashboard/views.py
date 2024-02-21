@@ -24,13 +24,13 @@ def dashboard(request):
   
     OTWaitUserApp = []
     for OT in OTWaitApp:
-          if (OT.first_approval.id == request.user.id) and (OT.approval_position==1):
+          if (OT.first_approval == request.user.id) and (OT.approval_position==1):
                OTWaitUserApp.append(OT)
-          elif (OT.second_approval.id == request.user.id) and (OT.approval_position==2):
+          elif (OT.second_approval == request.user.id) and (OT.approval_position==2):
                OTWaitUserApp.append(OT)
-          elif (OT.third_approval.id == request.user.id) and (OT.approval_position==3):
+          elif (OT.third_approval == request.user.id) and (OT.approval_position==3):
                OTWaitUserApp.append(OT)
-          elif (OT.fourth_approval.id == request.user.id) and (OT.approval_position==4):
+          elif (OT.fourth_approval == request.user.id) and (OT.approval_position==4):
                OTWaitUserApp.append(OT)
 
 

@@ -19,10 +19,7 @@ import tempfile
 from  django.db.models import Sum
 
 
-
-
-
-# Create your views here.
+#    -------------------------------------------     V A C A T I O N S  L I S T
 @login_required(login_url='login')
 def list_vacations(request):
 #    departments = Department.objects.all()
@@ -76,7 +73,7 @@ def list_vacations(request):
                }
    return render(request,"vacations\\vacations_list.html", context)
 
-
+#    -------------------------------------------     A D D / E D I T   V A C A T I O N
 @login_required(login_url='login')
 def vacations(request, id=0):
      
@@ -123,7 +120,7 @@ def vacations(request, id=0):
                updEls.daystaken_current += x
                updEls.save()            
                return redirect('list_vacations')
-            else:
+            else: 
                context = {
                'form':form,
                'updEls':{}, 
@@ -149,7 +146,7 @@ def vacations(request, id=0):
                 print('Invalid form')
                 return redirect('list_vacations')
                 
-     else:   # GET
+     else:   # GET request
          if id == 0 : # to open a blank from
             if request.user.username != "adminuser":         
               form = VacationForm(dep_id=request.user.department)
@@ -200,7 +197,8 @@ def getAppEmp(vac):
       return vac.third_approval.id
    elif vac.approval_position == 4:
       return vac.fourth_approval.id
-   
+
+#    -------------------------------------------     D E L E T E   V A C A T I O N    
 @login_required(login_url='login')
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
@@ -219,7 +217,7 @@ def workflow(request, id):
                   'vacations/workflow.html',
                   {'vac': vac}) 
 
-
+#    -------------------------------------------      A P P R O V E    V A C A T I O N 
 
 def vacation_approve(request, id):   
    vac = Vacation.objects.get(id=id) 
@@ -227,19 +225,23 @@ def vacation_approve(request, id):
    if vac.approval_position == 1 :
       vac.first_app_status = 1
       vac.approval_position = 2
+      vac.first_app_date = datetime.now()
    elif  vac.approval_position == 2 : 
       vac.second_app_status = 1
       vac.approval_position = 3
+      vac.second_app_date = datetime.now()
    elif  vac.approval_position == 3 : 
       vac.third_app_status = 1
       vac.approval_position = 4
+      vac.third_app_date = datetime.now()
    elif  vac.approval_position == 4 :     
       vac.fourth_app_status = 1
+      vac.fourth_app_date = datetime.now()
       vac.status = 1       
    vac.save()
    return redirect('list_vacations') 
 
-
+#    -------------------------------------------      R E J E C T    V A C A T I O N 
 def vacation_reject(request, id):   
    vac = Vacation.objects.get(id=id) 
    vac.status = 2 
@@ -263,7 +265,7 @@ def RequestedVac( from_date , to_date):
             from_date+= timedelta(days=1)
    return days
 
- 
+#    -------------------------------------------    NOT USED
 @login_required(login_url='login')
 def single_vacation(request, id):
   vac = Vacation.objects.get(id=id)
@@ -272,6 +274,7 @@ def single_vacation(request, id):
   }
   return render(request, 'vacations\\single_vacationPDF.html',context)
 
+#    -------------------------------------------     V A C A T I O N    R E P O R T   P D F
 def single_vacationPDF(request, id):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
 
@@ -314,7 +317,7 @@ def single_vacationPDF(request, id):
      response.write(output.read())
 
   return response  
-
+#    -------------------------------------------      E N T I T L E M E N T  M A I N  F O R M 
 @login_required(login_url='login')  
 def entitlement(request, em=0):
   
@@ -330,6 +333,7 @@ def entitlement(request, em=0):
    }       
    return render(request, 'vacations\\entitlement.html', context)
 
+#    -------------------------------------------      E N T I T L E M E N T  S U B   F O R M 
 @login_required(login_url='login')
 @permission_required("NormalUser", raise_exception=True)
 def entform(request, id, empl):
@@ -386,7 +390,7 @@ def entform(request, id, empl):
          return render(request, 'vacations\\ent_form.html', context)
 
    
-
+#    -------------------------------------------     D E L E T E   E N T I T L E M E N T 
 @login_required(login_url='login')
 @permission_required("NormalUser", raise_exception=True)
 def ent_delete(request, id):

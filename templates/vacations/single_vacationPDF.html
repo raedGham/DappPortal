@@ -239,7 +239,7 @@
       <div class="BorderBottom wb5 ">
          <label> From : </label>            
       </div>
-      <div class="BorderRight BorderBottom wb5">
+      <div class="BorderRight BorderBottom wb5">approve
          <label> To : </label>            
       </div>
    </div>
@@ -250,24 +250,26 @@
     
     <!-- Signatures-->
     <div class="mt1"></div>
-    
+      
     <div class="FLX"> 
       <div class="datacolor w5">
         <label>{{vac.employee.first_name}} {{vac.employee.last_name}}</label> 
       </div>
-     <div class="datacolor w5">
-        <label>{{vac.vac_date}} </label> 
+      <div class="datacolor w5">
+      
+         <label>{{vac.vac_date}} </label> 
+          
      </div>   
+      
      
-     
-    {% if vac.first_app_status == 1 %}
-      <div class="ml3"> 
-         <div class="datacolor w10 ">          
-           <label>{{vac.first_approval.first_name}} {{vac.first_approval.last_name}} / </label>     
+     {% if vac.first_app_status == 1 %}
+      <div class = "ml3"> 
+         <div class="datacolor w10">          
+           <label>{{vac.first_approval.first_name}} {{vac.first_approval.last_name}} / </label>                
            <label>{{vac.first_app_date | date:"Y-m-d" }}  {{vac.first_app_date | time:"H:i"}} </label> 
          </div>  
       </div> 
-    {% endif %} 
+    {% endif %}  
    </div>
 
     <div class="FLX"> 
@@ -330,8 +332,8 @@
     </div>
 
     {% if vac.fourth_app_status == 1 %}
-    <div class="ml4 mt2"> 
-       <div class="datacolor w10 ">          
+    <div class="ml4"> 
+       <div class="datacolor w10 mt2 ">          
          <label>{{vac.fourth_approval.first_name}} {{vac.fourth_approval.last_name}} / </label>     
          <label>{{vac.fourth_app_date | date:"Y-m-d" }}  {{vac.fourth_app_date | time:"H:i"}} </label> 
        </div>  
@@ -341,14 +343,25 @@
 
     <div class="FLX"> 
         <div class="ml4"></div>
-
-        <div class="BorderTop w5">
-            <p style="font-size: 10px;">(5) Plant Superintendent</p> 
-          </div>
-         <div class="BorderTop w5">
-           <p style="font-size: 10px;">Date</p> 
+        {% if vac.fourth_app_status != 1 %}
+        <div class="BorderTop w5 mt2">
+         <p style="font-size: 10px;">(5) Plant Superintendent</p> 
+        </div>
+         <div class="BorderTop w5 mt2">
+               <p style="font-size: 10px;">Date</p> 
          </div>
-        
+        {% else %}    
+        <div class="BorderTop w5">
+           <p style="font-size: 10px;">(5) Plant Superintendent</p> 
+        </div>
+         <div class="BorderTop w5">
+            <p style="font-size: 10px;">Date</p> 
+         </div>
+         {% endif %}   
+
+               
+         </div>
+      
     </div>
 
     <p style="font-size: 10px;" class="w3"> {{vac.id}}</p>
