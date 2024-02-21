@@ -24,7 +24,8 @@
                 <form method="POST" action="{% url 'ots_approve' %}">
                     {% csrf_token %}
                    
-                    <button type="button" id="select-all-button" class="btn btn-primary">Select All</button>
+                    <button type="button" id="select-all-button" class="btn btn-outline-primary" onClick="toggle(this)" >Select All</button>
+                    <button type="button" id="deselect-all-button" class="btn btn-outline-primary" onClick="deselect(this)" >Remove Select</button>
                      <ul class="list-group" style="font-size:14px;">
                        
 
@@ -49,14 +50,26 @@
 
 </main>
 <script>
-$(document).ready(function() {
-    console.log("jquery ready")
-    $('#select-all-button').on('click', function() {
-      $('.list-group-item input[type="checkbox"]').prop('checked', this.checked);
-    });
+
+  function toggle(source) {
+    
+    checkboxes = document.getElementsByName('overtime_ids');
+    
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+       checkboxes[i].checked = true;
+       }
+  }
+
+  function deselect(source) {
+    
+    checkboxes = document.getElementsByName('overtime_ids');
+    console.log(checkboxes)
+    for(var i=0, n=checkboxes.length;i<n;i++) {      
+      checkboxes[i].checked = false;    
+
+    }
+  }
   
-   
-  });
 </script>
 
 
