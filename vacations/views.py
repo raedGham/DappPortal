@@ -156,9 +156,9 @@ def vacations(request, id=0):
                if second_app is not None:
                  vacation.second_approval = second_app 
                if third_app is not None:
-                 vacation.first_approval = first_app
+                 vacation.third_approval = third_app
                if fourth_app is not None:
-                 vacation.second_approval = second_app   
+                 vacation.fourth_approval = fourth_app   
                vacation.save()  
                # update EmployeeLeaveStat 
              
@@ -269,7 +269,7 @@ def workflow(request, id):
 
 def vacation_approve(request, id):   
    vac = Vacation.objects.get(id=id) 
-
+   Mustafa = Account.objects.get(position = Position.objects.get(title="Superintendent"))
    if vac.approval_position == 1 :
       vac.first_app_status = 1
       vac.approval_position = 2
@@ -278,14 +278,16 @@ def vacation_approve(request, id):
       vac.second_app_status = 1
       vac.approval_position = 3
       vac.second_app_date = datetime.now()
+      if vac.second_approval == Mustafa: vac.status = 1 
    elif  vac.approval_position == 3 : 
       vac.third_app_status = 1
       vac.approval_position = 4
       vac.third_app_date = datetime.now()
+      if vac.third_approval == Mustafa: vac.status = 1 
    elif  vac.approval_position == 4 :     
       vac.fourth_app_status = 1
       vac.fourth_app_date = datetime.now()
-      vac.status = 1       
+      if vac.fourth_approval == Mustafa: vac.status = 1       
    vac.save()
    return redirect('list_vacations') 
 
