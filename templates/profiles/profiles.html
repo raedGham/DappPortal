@@ -107,16 +107,51 @@
                   </div>
                
                   <div class="row mt-3">
-                    <div class="form-group col-2">
-                      <label for="" class="form-label text-primary">Phone no</label>
-                        {{ form.phone_number }}                      
-                    </div> 
+                    
                     <div class="form-group col-2">
                      {{ form.is_head }}
                       <label for="" class="form-label text-primary">Head Dep</label>
                         
+                    </div>  
+                    <div class="form-group col-2">
+                      {{ form.is_engineer }}
+                       <label for="" class="form-label text-primary">Is Engineer</label>
+                         
                     </div>                                          
+                    <div class="form-group col-2">
+                      {{ form.is_deputy }}
+                       <label for="" class="form-label text-primary">Is Deputy</label>                         
+                    </div> 
+                    <div class="form-group col-2">
+                      {{ form.is_guard }}
+                       <label for="" class="form-label text-primary">Is Guard</label>                         
+                    </div>                                          
+                  </div> 
+                  <div class="row" mt-2>
+                    <div class="form-group col-2">
+                      {{ form.is_AdminNoHead }}
+                       <label for="" class="form-label text-primary">Is Admin No Head</label>                         
+                    </div> 
+                    <div class="form-group col-2">
+                      {{ form.is_AdminNoHead }}
+                       <label for="" class="form-label text-primary">Is Admin No Head</label>                         
+                    </div> 
+                    <div class="form-group col-2">
+                      {{ form.is_OMwithHead }}
+                       <label for="" class="form-label text-primary">Is O/M With Head</label>                         
+                    </div> 
+                    <div class="form-group col-2">
+                      {{ form.is_OMnoHead }}
+                       <label for="" class="form-label text-primary">Is O/M No Head</label>                         
+                    </div> 
+
                   </div>  
+                  <div class="row">
+                    <div class="form-group col-2">
+                      <label for="" class="form-label text-primary">Phone no</label>
+                        {{ form.phone_number }}                      
+                    </div> 
+                  </div>
                   <div class="row mt-2">
                     <div class="form-group col-8">
                       <label for="" class="form-label text-primary">Address</label>

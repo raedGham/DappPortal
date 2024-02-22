@@ -208,32 +208,39 @@ def profiles(request, id = 0):
             print("create new record")
             form = EmployeeAccountForm(request.POST, request.FILES)
             if form.is_valid():
-                first_name= form.cleaned_data['first_name']
-                middle_name= form.cleaned_data['middle_name']
-                last_name= form.cleaned_data['last_name']
-                phone_number = form.cleaned_data['phone_number']
-                email = form.cleaned_data['email']
-                password = form.cleaned_data['password']
-                username = email.split('@')[0]
-                ps_number =form.cleaned_data['ps_number']
-                financial_number=form.cleaned_data['financial_number']
-                nssf_number= form.cleaned_data['nssf_number']
-                work_start_date= form.cleaned_data['work_start_date']
-                work_finish_date= form.cleaned_data['work_finish_date']
-                department= form.cleaned_data['department']
-                position= form.cleaned_data['position']
-                head_dep= form.cleaned_data['head_dep']
-                remarks= form.cleaned_data['remarks']
-                address= form.cleaned_data['address']
-                profile_pic = form.cleaned_data['profile_pic']
-                is_head = form.cleaned_data['is_head']
-                
-                profile = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
+                first_name       = form.cleaned_data['first_name']
+                middle_name      = form.cleaned_data['middle_name']
+                last_name        = form.cleaned_data['last_name']
+                phone_number     = form.cleaned_data['phone_number']
+                email            = form.cleaned_data['email']
+                password         = form.cleaned_data['password']
+                username         = email.split('@')[0]
+                ps_number        = form.cleaned_data['ps_number']
+                financial_number = form.cleaned_data['financial_number']
+                nssf_number      = form.cleaned_data['nssf_number']
+                work_start_date  = form.cleaned_data['work_start_date']
+                work_finish_date = form.cleaned_data['work_finish_date']
+                department       = form.cleaned_data['department']
+                position         = form.cleaned_data['position']
+                head_dep         = form.cleaned_data['head_dep']
+                remarks          = form.cleaned_data['remarks']
+                address          = form.cleaned_data['address']
+                profile_pic      = form.cleaned_data['profile_pic']
+                is_head          = form.cleaned_data['is_head']
+                is_engineer      = form.cleaned_data['is_engineer']
+                is_deputy        = form.cleaned_data['is_deputy']
+                is_guard         = form.cleaned_data['is_guard']
+                is_AdminNoHead   = form.cleaned_data['is_AdminNoHead']
+                is_OMwithHead    = form.cleaned_data['is_OMwithHead']
+                is_OMnoHead      = form.cleaned_data['is_OMnoHead']
+                profile          = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
                                                       phone_number=phone_number,email=email, username=username, password = password,
                                                       ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
                                                       work_start_date=work_start_date,work_finish_date=work_finish_date,
                                                       department=department,position=position,head_dep=head_dep, remarks = remarks,
-                                                      address= address, profile_pic=profile_pic, is_head= is_head)
+                                                      address= address, profile_pic=profile_pic, is_head= is_head,
+                                                      is_engineer=is_engineer,is_deputy=is_deputy,is_guard=is_guard,
+                                                      is_AdminNoHead=is_AdminNoHead,is_OMwithHead=is_OMwithHead, is_OMnoHead=is_OMnoHead)
                 profile.save()
                #  messages.success(request, "New Employee Account saved successfully")
                 return redirect('list_profiles')
