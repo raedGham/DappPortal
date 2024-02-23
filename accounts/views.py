@@ -233,6 +233,7 @@ def profiles(request, id = 0):
                 is_AdminNoHead   = form.cleaned_data['is_AdminNoHead']
                 is_OMwithHead    = form.cleaned_data['is_OMwithHead']
                 is_OMnoHead      = form.cleaned_data['is_OMnoHead']
+                has_vac_ent      = False
                 profile          = Account.objects.create_user(first_name=first_name, middle_name=middle_name, last_name=last_name,
                                                       phone_number=phone_number,email=email, username=username, password = password,
                                                       ps_number=ps_number,financial_number=financial_number,nssf_number=nssf_number,
@@ -240,7 +241,7 @@ def profiles(request, id = 0):
                                                       department=department,position=position,head_dep=head_dep, remarks = remarks,
                                                       address= address, profile_pic=profile_pic, is_head= is_head,
                                                       is_engineer=is_engineer,is_deputy=is_deputy,is_guard=is_guard,
-                                                      is_AdminNoHead=is_AdminNoHead,is_OMwithHead=is_OMwithHead, is_OMnoHead=is_OMnoHead)
+                                                      is_AdminNoHead=is_AdminNoHead,is_OMwithHead=is_OMwithHead, is_OMnoHead=is_OMnoHead,has_vac_ent = has_vac_ent )
                 profile.save()
                #  messages.success(request, "New Employee Account saved successfully")
                 return redirect('list_profiles')

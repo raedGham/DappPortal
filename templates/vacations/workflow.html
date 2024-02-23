@@ -9,8 +9,8 @@
         <div class="card col-lg-12">
            <div class="row  m-3">            
                     <div class="col-lg-2"> Vacation ID: <span class="text-primary"> {{vac.id}} </span> </div> 
-                    <div class="col-lg-2"> Name: {{vac.employee.first_name}} {{vac.employee.last_name}} </div>
-                    <div class="col-lg-3"> Vacation Date: {{vac.vac_date}} </div>            
+                    <div class="col-lg-2"> Name: <span class="text-primary" > {{vac.employee.first_name}} {{vac.employee.last_name}} </span> </div>
+                    <div class="col-lg-3"> Vacation Date: <span class="text-primary" > {{vac.vac_date}} </span> </div>            
            </div> 
            <div class="card-body">
 
@@ -79,43 +79,59 @@
                 {{vac.fourth_approval.first_name}}  {{vac.fourth_approval.last_name}}
             </div>
          </div>
-
+         
          <div class="row mt-2 text-white">
-
-            {%  if vac.first_app_status == 0 %}
-            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-               <label >Waiting...</label>
-            </div>
-            {% elif vac.first_app_status == 1 %} 
-            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
-                <label >Approved</label>
-             </div>
-             {% elif vac.first_app_status == 2 %} 
-             <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
-                 <label >Rejected</label>
-             </div>
+            {% if vac.first_approval is not None %}              
+                {%  if vac.first_app_status == 0 %}
+                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+                    <label >Waiting...</label>
+                </div>
+                {% elif vac.first_app_status == 1 %} 
+                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                    <label >Approved</label>
+                </div>
+                {% elif vac.first_app_status == 2 %} 
+                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                    <label >Rejected</label>
+                </div>
+                {% endif%}  
+              {% else %}
+              <div class="col-lg-2 text-center rounded  p-2 m-1">            
+                <label ></label>
+               </div>  
             {% endif%}
 
-         {% if vac.first_app_status == 1 %}  <!-- if it gets first Approval-->
-            {%  if vac.second_app_status == 0 %}
-            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-               <label >Waiting...</label>
-            </div>
-            {% elif vac.second_app_status == 1 %} 
-            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
-                <label >Approved</label>
-             </div>
-             {% elif vac.second_app_status == 2 %} 
-             <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
-                 <label >Rejected</label>
-             </div>
+        
+
+         {% if vac.second_approval is not None %} 
+             
+            {% if vac.first_app_status == 1 %}  <!-- if it gets first Approval-->
+                {%  if vac.second_app_status == 0 %}
+                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+                    <label >Waiting...</label>
+                </div>
+                {% elif vac.second_app_status == 1 %} 
+                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                    <label >Approved</label>
+                </div>
+                {% elif vac.second_app_status == 2 %} 
+                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                    <label >Rejected</label>
+                </div>
             {% endif%}
+            
+          {% endif %}                   
+
+          {% else %}
+          <div class="col-lg-2 text-center rounded  p-2 m-1">            
+            <label ></label>
+           </div>  
         {% endif %}
 
         {% if vac.second_app_status == 1 %}  <!-- if it gets second Approval-->
-            {%  if vac.third_app_status == 0 %}
+            {% if vac.third_app_status == 0 %}
             <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-            <label >Waiting...</label>
+              <label >Waiting</label>
             </div>
             {% elif vac.third_app_status == 1 %} 
             <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            

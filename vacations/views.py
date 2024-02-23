@@ -98,10 +98,7 @@ def vacations(request, id=0):
                # set Vacation Approval Workflow
                Tarek = Account.objects.get(position = Position.objects.get(title="Admin Head"))
                Mustafa = Account.objects.get(position = Position.objects.get(title="Superintendent"))
-               Issam = Account.objects.get(position = Position.objects.get(title="Head of Security"))     
-               print(Mustafa) 
-               print(Tarek) 
-               print(Issam) 
+               Issam = Account.objects.get(position = Position.objects.get(title="Head of Security"))                  
                first_app = None
                second_app = None
                third_app = None
@@ -113,37 +110,41 @@ def vacations(request, id=0):
                            third_app = Tarek
                            fourth_app = Mustafa
                      elif employee.is_deputy:
-                           first_app = employee
-                           second_app = employee.head_dep 
+                           first_app = None
+                           second_app = employee
                            third_app = Tarek
                            fourth_app = Mustafa
-                     elif employee.position.title == "Security Guards Head":
-                           first_app = employee
-                           second_app = Tarek
-                           third_app = Mustafa
-                           fourth_app = None
+                     elif employee.position.title == "Head of Security":
+                           first_app = None
+                           second_app = employee 
+                           third_app =  Tarek 
+                           fourth_app = Mustafa
                      elif employee.position.title == "Admin Head":
-                          first_app= Tarek
-                          second_app= Mustafa
+                          first_app= None
+                          second_app= None
+                          third_app =  Tarek 
+                          fourth_app = Mustafa
                else:
                      if employee.is_guard:
-                          first_app = Issam
-                          second_app = Tarek
-                          third_app = Mustafa
-                          fourth_app = None  
+                          first_app = None
+                          second_app = Issam
+                          third_app = Tarek
+                          fourth_app = Mustafa  
                      elif employee.is_AdminNoHead:
-                          first_app = Tarek
-                          second_app = Mustafa                          
+                          first_app = None
+                          second_app = None
+                          third_app = Tarek
+                          fourth_app = Mustafa                        
                      elif employee.is_OMwithHead:
                           first_app = employee.head_dep
                           second_app = first_app.head_dep
                           third_app = Tarek
                           fourth_app = Mustafa                        
                      elif employee.is_OMnoHead:
-                          first_app = employee.dep_head
-                          second_app= Tarek
-                          third_app = Mustafa
-                          fourth_app = None                              
+                          first_app = None
+                          second_app= employee.dep_head
+                          third_app = Tarek
+                          fourth_app = Mustafa                              
                
                
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
@@ -153,8 +154,18 @@ def vacations(request, id=0):
                vacation.save()
                if first_app is not None:
                  vacation.first_approval = first_app
+                 vacation.approval_position = 1
+               else:  
+                 vacation.first_app_status=1
+                 vacation.approval_position = 2
+                 
                if second_app is not None:
-                 vacation.second_approval = second_app 
+                 vacation.second_approval = second_app                  
+               else:
+                 vacation.first_app_status=1
+                 vacation.second_app_status=1
+                 vacation.approval_position = 3
+
                if third_app is not None:
                  vacation.third_approval = third_app
                if fourth_app is not None:
@@ -269,7 +280,7 @@ def workflow(request, id):
 
 def vacation_approve(request, id):   
    vac = Vacation.objects.get(id=id) 
-   Mustafa = Account.objects.get(position = Position.objects.get(title="Superintendent"))
+
    if vac.approval_position == 1 :
       vac.first_app_status = 1
       vac.approval_position = 2
@@ -278,16 +289,14 @@ def vacation_approve(request, id):
       vac.second_app_status = 1
       vac.approval_position = 3
       vac.second_app_date = datetime.now()
-      if vac.second_approval == Mustafa: vac.status = 1 
    elif  vac.approval_position == 3 : 
       vac.third_app_status = 1
       vac.approval_position = 4
       vac.third_app_date = datetime.now()
-      if vac.third_approval == Mustafa: vac.status = 1 
    elif  vac.approval_position == 4 :     
       vac.fourth_app_status = 1
       vac.fourth_app_date = datetime.now()
-      if vac.fourth_approval == Mustafa: vac.status = 1       
+      vac.status = 1       
    vac.save()
    return redirect('list_vacations') 
 

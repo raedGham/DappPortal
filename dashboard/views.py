@@ -7,33 +7,46 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='login')
 def dashboard(request):
-    vacWaitApp = Vacation.objects.filter(status=0)
-  
+    vacWaitApp = Vacation.objects.filter(status=0)   
     vacWaitUserApp = []
+
     for vac in vacWaitApp:
-        if (vac.first_approval.id == request.user.id) and (vac.approval_position==1):
+      if vac.first_approval is not None:
+          if (vac.first_approval.id == request.user.id) and (vac.approval_position==1):
             vacWaitUserApp.append(vac)
-        elif (vac.second_approval.id == request.user.id) and (vac.approval_position==2):
-             vacWaitUserApp.append(vac)
-        elif (vac.third_approval is not None): 
-              if (vac.third_approval.id == request.user.id) and (vac.approval_position==3):
-                  vacWaitUserApp.append(vac)
-        elif (vac.third_approval is not None):   
-              if (vac.fourth_approval.id == request.user.id) and (vac.approval_position==4):
-                  vacWaitUserApp.append(vac)
+
+      if vac.second_approval is not None:
+          if (vac.second_approval.id == request.user.id) and (vac.approval_position==2):
+            vacWaitUserApp.append(vac)
+      
+      if vac.third_approval is not None:
+          if (vac.third_approval.id == request.user.id) and (vac.approval_position==3):
+            vacWaitUserApp.append(vac)           
+      
+      if vac.fourth_approval is not None:
+          if (vac.fourth_approval.id == request.user.id) and (vac.approval_position==4):
+            vacWaitUserApp.append(vac)           
+
 
     OTWaitApp = Overtime.objects.filter(status=0)
   
     OTWaitUserApp = []
     for OT in OTWaitApp:
-          if (OT.first_approval == request.user.id) and (OT.approval_position==1):
-               OTWaitUserApp.append(OT)
-          elif (OT.second_approval == request.user.id) and (OT.approval_position==2):
-               OTWaitUserApp.append(OT)
-          elif (OT.third_approval == request.user.id) and (OT.approval_position==3):
-               OTWaitUserApp.append(OT)
-          elif (OT.fourth_approval == request.user.id) and (OT.approval_position==4):
-               OTWaitUserApp.append(OT)
+       if OT.first_approval is not None:
+          if (OT.first_approval.id == request.user.id) and (OT.approval_position==1):
+            OTWaitUserApp.append(OT)
+
+       if OT.second_approval is not None:
+          if (OT.second_approval.id == request.user.id) and (OT.approval_position==2):
+            OTWaitUserApp.append(OT)
+      
+       if OT.third_approval is not None:
+          if (OT.third_approval.id == request.user.id) and (OT.approval_position==3):
+            OTWaitUserApp.append(OT)           
+      
+       if OT.fourth_approval is not None:
+          if (OT.fourth_approval.id == request.user.id) and (OT.approval_position==4):
+            OTWaitUserApp.append(OT)           
 
 
     leavestat = EmployeeLeaveStat.objects.filter(employee=request.user.id)
