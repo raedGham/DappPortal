@@ -9,7 +9,7 @@ from pathlib import Path
 from accounts.models import Account
 from positions.models import Position
 from django.utils.dateparse import parse_date
-from dapp.utils import GetFilterDepList 
+from dapp.utils import GetFilterDepList, SetWorkflow
 
 # imports for pdf generator
 import os
@@ -96,61 +96,10 @@ def vacations(request, id=0):
                   x = RequestedVac(from_date, to_date)
            
                # set Vacation Approval Workflow
-               Tarek = Account.objects.get(position = Position.objects.get(title="Admin Head"))
-               Mustafa = Account.objects.get(position = Position.objects.get(title="Superintendent"))
-               Issam = Account.objects.get(position = Position.objects.get(title="Head of Security"))                  
-               first_app = None
-               second_app = None
-               third_app = None
-               fourth_app = None                                 
-               if employee.is_head:
-                     if employee.is_engineer:
-                           first_app = employee
-                           second_app = employee.head_dep 
-                           third_app = Tarek
-                           fourth_app = Mustafa
-                     elif employee.is_deputy:
-                           first_app = None
-                           second_app = employee
-                           third_app = Tarek
-                           fourth_app = Mustafa
-                     elif employee.position.title == "Head of Security":
-                           first_app = None
-                           second_app = employee 
-                           third_app =  Tarek 
-                           fourth_app = Mustafa
-                     elif employee.position.title == "Admin Head":
-                          first_app= None
-                          second_app= None
-                          third_app =  Tarek 
-                          fourth_app = Mustafa
-               else:
-                     if employee.is_guard:
-                          first_app = None
-                          second_app = Issam
-                          third_app = Tarek
-                          fourth_app = Mustafa  
-                     elif employee.is_AdminNoHead:
-                          first_app = None
-                          second_app = None
-                          third_app = Tarek
-                          fourth_app = Mustafa                        
-                     elif employee.is_OMwithHead:
-                          first_app = employee.head_dep
-                          second_app = first_app.head_dep
-                          third_app = Tarek
-                          fourth_app = Mustafa                        
-                     elif employee.is_OMnoHead:
-                          first_app = None
-                          second_app= employee.dep_head
-                          third_app = Tarek
-                          fourth_app = Mustafa                              
-               
-               
+               first_app, second_app, third_app, fourth_app = SetWorkflow(employee)                               
+                              
                vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                   nodays=x,ampm=ampm, remarks=remarks)           
-                   
-               
+                                                   nodays=x,ampm=ampm, remarks=remarks)      
                vacation.save()
                if first_app is not None:
                  vacation.first_approval = first_app

@@ -5,7 +5,7 @@ from positions.models import Position
 from accounts.models import Account
 from datetime import datetime
 from .forms import OvertimeForm, OtByDateForm
-from dapp.utils import GetFilterDepList 
+from dapp.utils import GetFilterDepList, SetWorkflow
 from decimal import Decimal
 from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
@@ -124,25 +124,37 @@ def overtime(request,id):
        TT = datetime.combine(ot_date, to_time)                            
        TD = TT -FT             
        ot = form.save(commit=False)
-       if employee.is_head :
-          first_app = employee
-       else:   
-          first_app = employee.head_dep
-                
-       second_app = first_app.head_dep
-       third_app = Account.objects.get(position = Position.objects.get(title="Admin Head"))
-       fourth_app = Account.objects.get(position = Position.objects.get(title="Superintendent"))
 
+        # set Vacation Approval Workflow
+       first_app, second_app, third_app, fourth_app = SetWorkflow(employee) 
+       
        ot.employee = employee
        ot.total_hours = (TD.total_seconds()/60) /60
        ot.straight = Decimal(ot.total_hours) * ot.rate       
-       ot.save()    
-       upd_ot = Overtime.objects.get(id=ot.id)
-       upd_ot.first_approval = first_app
-       upd_ot.second_approval = second_app
-       upd_ot.third_approval = third_app
-       upd_ot.fourth_approval = fourth_app
-       upd_ot.save()   
+       ot.save()   
+       ot_upd = Overtime.objects.get(id=ot.id)
+       if first_app is not None:
+          ot_upd.first_approval = first_app
+          ot_upd.approval_position = 1
+       else:  
+          ot_upd.first_app_status=1
+          ot_upd.approval_position = 2
+                 
+       if second_app is not None:
+          ot_upd.second_approval = second_app                  
+       else:
+          ot_upd.first_app_status=1
+          ot_upd.second_app_status=1
+          ot_upd.approval_position = 3
+
+       if third_app is not None:
+          ot_upd.third_approval = third_app
+       if fourth_app is not None:
+          ot_upd.fourth_approval = fourth_app           
+
+    
+       ot_upd.save()   
+   
        
     else:
        return HttpResponse("Invalid")

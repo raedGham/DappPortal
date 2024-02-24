@@ -1,4 +1,59 @@
 from datetime import datetime
+from accounts.models import Account 
+from positions.models import Position
+def SetWorkflow(QS):
+     
+               Tarek = Account.objects.get(position = Position.objects.get(title="Admin Head"))
+               Mustafa = Account.objects.get(position = Position.objects.get(title="Superintendent"))
+               Issam = Account.objects.get(position = Position.objects.get(title="Head of Security"))                  
+               first_app = None
+               second_app = None
+               third_app = None
+               fourth_app = None                                 
+               if QS.is_head:
+                     if QS.is_engineer:
+                           first_app = QS
+                           second_app = QS.head_dep 
+                           third_app = Tarek
+                           fourth_app = Mustafa
+                     elif QS.is_deputy:
+                           first_app = None
+                           second_app = QS
+                           third_app = Tarek
+                           fourth_app = Mustafa
+                     elif QS.position.title == "Head of Security":
+                           first_app = None
+                           second_app = QS 
+                           third_app =  Tarek 
+                           fourth_app = Mustafa
+                     elif QS.position.title == "Admin Head":
+                          first_app= None
+                          second_app= None
+                          third_app =  Tarek 
+                          fourth_app = Mustafa
+               else:
+                     if QS.is_guard:
+                          first_app = None
+                          second_app = Issam
+                          third_app = Tarek
+                          fourth_app = Mustafa  
+                     elif QS.is_AdminNoHead:
+                          first_app = None
+                          second_app = None
+                          third_app = Tarek
+                          fourth_app = Mustafa                        
+                     elif QS.is_OMwithHead:
+                          first_app = QS.head_dep
+                          second_app = first_app.head_dep
+                          third_app = Tarek
+                          fourth_app = Mustafa                        
+                     elif QS.is_OMnoHead:
+                          first_app = None
+                          second_app= QS.dep_head
+                          third_app = Tarek
+                          fourth_app = Mustafa  
+
+               return first_app, second_app, third_app, fourth_app                               
 
 def  GetFilterDepList(u):
    if u.email == "admin@live.com":

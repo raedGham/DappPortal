@@ -8,9 +8,9 @@
     <section class="section">
         <div class="card col-lg-12">
            <div class="row  m-3">            
-                    <div class="col-lg-2"> Overtime  ID: <span class="text-primary"> {{ot.id}} </span> </div> 
-                    <div class="col-lg-2"> Name: <span class="text-primary" > {{ot.employee.first_name}} {{ot.employee.last_name}} </span> </div>
-                    <div class="col-lg-3"> OT Date: <span class="text-primary" > {{ot.ot_date}} </span> </div>            
+                    <div class="col-lg-2"> Overtime ID: <span class="text-primary"> {{ot.id}} </span> </div> 
+                    <div class="col-lg-2"> Name: <span class="text-primary"> {{ot.employee.first_name}} {{ot.employee.last_name}}</span> </div>
+                    <div class="col-lg-3"> OT Date:<span class="text-primary">  {{ot.ot_date}} </span></div>            
            </div> 
            <div class="card-body">
 
@@ -21,10 +21,9 @@
                 <div class="col-lg-2 text-center">
                     <label class="fw-bold">Dept. Head/Deputy</label>
                 </div>
-                <div class="col-lg-2 text-center">
-                    <label class="fw-bold">Admin Head</label>
-                    
-                </div>
+               <div class="col-lg-2 text-center">
+                    <label class="fw-bold">Admin Head</label>                    
+                </div> 
                 <div class="col-lg-2 text-center">
                     <label class="fw-bold">Superintendent</label>
                     
@@ -48,16 +47,16 @@
                     {% endif %}
                 </div>
 
-                <div class="col-lg-2 text-center">
-                    {% if ot.third_approval.profile_pic %}                
+               <div class="col-lg-2 text-center">
+                    {% if ot.third_approval..profile_pic %}                
                     <img src= "{{ot.third_approval.profile_pic.url}}" alt="Profile" class="rounded">
                     {% else %}  
                     <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
                     {% endif %}
-                </div>
+                </div> 
 
                 <div class="col-lg-2 text-center">
-                    {% if ot.forth_approval.profile_pic %}                
+                    {% if ot.forth_approval..profile_pic %}                
                     <img src= "{{ot.fourth_approval.profile_pic.url}}" alt="Profile" class="rounded">
                     {% else %}  
                     <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
@@ -72,66 +71,50 @@
             <div class="col-lg-2 text-center">
                 {{ot.second_approval.first_name}}  {{ot.second_approval.last_name}}
             </div>
-            <div class="col-lg-2 text-center">
+         <div class="col-lg-2 text-center">
                 {{ot.third_approval.first_name}}  {{ot.third_approval.last_name}}
-            </div>
+            </div> 
             <div class="col-lg-2 text-center">
                 {{ot.fourth_approval.first_name}}  {{ot.fourth_approval.last_name}}
             </div>
          </div>
-         
+
          <div class="row mt-2 text-white">
-            {% if ot.first_approval is not None %}              
-                {%  if ot.first_app_status == 0 %}
-                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-                    <label >Waiting...</label>
-                </div>
-                {% elif ot.first_app_status == 1 %} 
-                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
-                    <label >Approved</label>
-                </div>
-                {% elif ot.first_app_status == 2 %} 
-                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
-                    <label >Rejected</label>
-                </div>
-                {% endif%}  
-              {% else %}
-              <div class="col-lg-2 text-center rounded  p-2 m-1">            
-                <label ></label>
-               </div>  
+
+            {%  if ot.first_app_status == 0 %}
+            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+               <label >Waiting...</label>
+            </div>
+            {% elif ot.first_app_status == 1 %} 
+            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                <label >Approved</label>
+             </div>
+             {% elif ot.first_app_status == 2 %} 
+             <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                 <label >Rejected</label>
+             </div>
             {% endif%}
 
-        
-
-         {% if ot.second_approval is not None %} 
-             
-            {% if ot.first_app_status == 1 %}  <!-- if it gets first Approval-->
-                {%  if ot.second_app_status == 0 %}
-                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-                    <label >Waiting...</label>
-                </div>
-                {% elif ot.second_app_status == 1 %} 
-                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
-                    <label >Approved</label>
-                </div>
-                {% elif ot.second_app_status == 2 %} 
-                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
-                    <label >Rejected</label>
-                </div>
+         {% if ot.first_app_status == 1 %}  <!-- if it gets first Approval-->
+            {%  if ot.second_app_status == 0 %}
+            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+               <label >Waiting...</label>
+            </div>
+            {% elif ot.second_app_status == 1 %} 
+            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                <label >Approved</label>
+             </div>
+             {% elif ot.second_app_status == 2 %} 
+             <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                 <label >Rejected</label>
+             </div>
             {% endif%}
-            
-          {% endif %}                   
-
-          {% else %}
-          <div class="col-lg-2 text-center rounded  p-2 m-1">            
-            <label ></label>
-           </div>  
         {% endif %}
 
         {% if ot.second_app_status == 1 %}  <!-- if it gets second Approval-->
-            {% if ot.third_app_status == 0 %}
+            {%  if ot.third_app_status == 0 %}
             <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
-              <label >Waiting</label>
+            <label >Waiting...</label>
             </div>
             {% elif ot.third_app_status == 1 %} 
             <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
@@ -144,7 +127,7 @@
             {% endif%}
         {% endif %}
 
-        {% if ot.third_app_status == 1 %}  <!-- if it gets third Approval-->
+        {% comment %} {% if ot.third_app_status == 1 %}  <!-- if it gets third Approval-->
             {%  if ot.fourth_app_status == 0 %}
             <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
             <label >Waiting...</label>
@@ -158,7 +141,7 @@
                 <label >Rejected</label>
             </div>
             {% endif%}
-        {% endif %}
+        {% endif %} {% endcomment %}
          </div> <!-- row-->
 
            </div>
