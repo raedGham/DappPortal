@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from  departments.models import Department
 from vacations.models import Vacation
 from overtime.models import Overtime
+from medreps.models import Medrep
 from django.db.models import Count,Sum
 from collections import  namedtuple
 from datetime import datetime
@@ -35,14 +36,14 @@ def admindash(request):
  if request.user.username=="adminuser":
       if request.GET.get('dat') is not None:
             dat = request.GET.get('dat')
-            print("dat=",dat)
+            
             from_date = GetFromDate(dat)
             to_date = GetToDate(dat)
       else:
            dat = None
            from_date=None
            to_date=None      
-      # get vacations count
+      # ------------------------------------get vacations count
       if from_date is not None:       
          vacation_type_counts = Vacation.objects.values("employee__department__name").annotate(
          count=Count("id")).filter(Q(vac_date__gte =from_date) & Q(vac_date__lte =to_date) )
@@ -70,7 +71,7 @@ def admindash(request):
       departments = [department_count.department_name for department_count in department_counts]
       counts = [department_count.count for department_count in department_counts] 
            
-     # get OT hours
+     # -------------------------------get OT hours
       if from_date is not None:  
          OT_type_sum = Overtime.objects.values("employee__department__name").annotate(
          sum=Sum("straight")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) )
@@ -92,7 +93,7 @@ def admindash(request):
       departments1 = [department_sum.department_name for department_sum in department_sums]
       sums = [str(department_sum.total_sum) for department_sum in department_sums]
 
-   # get employee OT
+   # ----------------------------------------get employee OT
       if from_date is not None:
          OT_emp_sum = Overtime.objects.values("employee__first_name","employee__last_name").annotate(
          sum=Sum("straight")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) ).order_by('-sum')[:5]
@@ -119,7 +120,37 @@ def admindash(request):
       # Extract department and sum lists
       emps = [emp_sum.emp_name for emp_sum in emp_sums]
       empOT = [str(emp_sum.total_sum) for emp_sum in emp_sums]
-    
+
+     # ----------------------------------------get employee Medreps
+      if from_date is not None:
+         med_emp_sum = Medrep.objects.values("employee__first_name","employee__last_name").annotate(
+         sum=Sum("nodays")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) ).order_by('-sum')[:5]
+     
+      else:
+         med_emp_sum = Medrep.objects.values("employee__first_name","employee__last_name").annotate(
+         sum=Sum("nodays")).order_by('-sum')[:5] 
+  
+
+      
+      med_top_sum = 0
+      for over in med_emp_sum: 
+        
+       med_top_sum += over['sum']
+
+     # Define a namedtuple to represent the data structure
+      EmpSum1 = namedtuple('EmpSum1', ['emp_name', 'total_sum'])
+
+      # Convert the data to DepartmentSum objects
+      emp_sums1 = [
+         EmpSum1(item['employee__first_name']+" "+item['employee__last_name'], item['sum']) for item in med_emp_sum
+      ]
+
+      # Extract department and sum lists
+      emps1 = [emp_sum.emp_name for emp_sum in emp_sums1]
+      empMed = [str(emp_sum.total_sum) for emp_sum in emp_sums1]  
+      print(emps1)
+      print(empMed)
+
       context = {
          "labels1": departments, 
          "data1": counts, 
@@ -127,10 +158,13 @@ def admindash(request):
          "data2": sums, 
          "labels3": emps,
          "data3": empOT,
+         "labels4":emps1,
+         "data4":empMed,
          "sel_date": dat,
          "vacation_total_count":vacation_total_count.count(),
          'ot_total_sum':ot_total_sum,
          'ot_top_sum': ot_top_sum,
+         'med_top_sum':med_top_sum,
          }
       return  render(request, "admin_dash/admindash.html", context)
  else:

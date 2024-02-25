@@ -13,7 +13,10 @@
             </form> 
        </div>
       </div>
-        <div class="row mt-2">
+
+
+      <div class="row mt-2">
+
           <!-- Best vacationers dep -->
           <div class="col-lg-4">
              <div class="card">
@@ -76,66 +79,133 @@
                  </div>
               </div>
           </div>
-          <!-- Best ovrtimers dep-->
+   
+          <!-- Best Medical reporters -->
+
           <div class="col-lg-4">
-            <div class="card">
-              <h5 class="card-title ms-2"> Straight OT hours by Department </h5>
-              <h6 class ="ms-3 "> Total Hours: {{ot_total_sum | floatformat:"-2" }}</h6>
-               <div class="card-body">
-
-                <canvas id="barChart2" style="max-height: 250px; max-width: 400px; margin-left :30px;"></canvas>
-
-
-                <script>
+             <div class="card">
+                <h5 class="card-title ms-3"> Top 5 Medical Report Leavers   </h5>
+                <h6 class ="ms-3 "> Total Requests: {{med_top_sum}}</h6>
+                 <div class="card-body">
+               
              
-                    var labels2 = {{ labels2|safe}}  
-                    var data2 = {{ data2|safe }}    
-             
-                  document.addEventListener("DOMContentLoaded", () => {
-                    new Chart(document.querySelector('#barChart2'), {
-                      type: 'bar',
-                      data: {
-                        labels:labels2,
-                        datasets: [{
-                          label: 'Dep',
-                          data:data2,
-                          backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 205, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(201, 203, 207, 0.2)'
-                          ],
-                          borderColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)',
-                            'rgb(153, 102, 255)',
-                            'rgb(201, 203, 207)'
-                          ],
-                          borderWidth: 1
-                        }]
-                      },
-                      options: {
-                        scales: {
-                          y: {
-                            beginAtZero: true
-                          }
+            <canvas id="barChart4" style="max-height: 250px; max-width: 400px; margin-left :30px;"></canvas>
+
+
+              <script>
+           
+                  var labels4 = {{ labels4|safe}}  
+                  var data4 = {{ data4|safe }}    
+           
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart4'), {
+                    type: 'bar',
+                    data: {
+                      labels:labels4,
+                      datasets: [{
+                        label: 'Emp',
+                        data:data4,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
                         }
                       }
-                    });
-                  });
-                </script> 
+                       
+                    }
 
-               </div>
-            </div>
-          </div>        
-      </div>
+                    
+                  });
+                });
+              </script> 
+
+                 </div>
+              </div>
+          </div>
+
+
+       
+       </div>
+
       <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <h5 class="card-title ms-2"> Straight OT hours by Department </h5>
+            <h6 class ="ms-3 "> Total Hours: {{ot_total_sum | floatformat:"-2" }}</h6>
+             <div class="card-body">
+
+              <canvas id="barChart2" style="max-height: 250px; max-width: 400px; margin-left :30px;"></canvas>
+
+
+              <script>
+           
+                  var labels2 = {{ labels2|safe}}  
+                  var data2 = {{ data2|safe }}    
+           
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart2'), {
+                    type: 'bar',
+                    data: {
+                      labels:labels2,
+                      datasets: [{
+                        label: 'Dep',
+                        data:data2,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script> 
+
+             </div>
+          </div>
+        </div>  
         <div class="col-lg-4">
           <div class="card">
             <h5 class="card-title ms-2"> Employee Top 5 OT workers </h5>
