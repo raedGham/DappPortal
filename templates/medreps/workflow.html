@@ -1,0 +1,168 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Vacation Approval</h1>        
+    </div>
+    <section class="section">
+        <div class="card col-lg-12">
+           <div class="row  m-3">            
+                    <div class="col-lg-2"> Vacation ID: <span class="text-primary"> {{vac.id}} </span> </div> 
+                    <div class="col-lg-2"> Name: <span class="text-primary" > {{vac.employee.first_name}} {{vac.employee.last_name}} </span> </div>
+                    <div class="col-lg-3"> Vacation Date: <span class="text-primary" > {{vac.vac_date}} </span> </div>            
+           </div> 
+           <div class="card-body">
+
+            <div class="row mt-3" >
+                <div class="col-lg-2 text-center ">
+                    <label class="fw-bold">Dpet Engineer/SiC</label>
+                </div>
+                <div class="col-lg-2 text-center">
+                    <label class="fw-bold">Dept. Head/Deputy</label>
+                </div>
+                <div class="col-lg-2 text-center">
+                    <label class="fw-bold">Admin Head</label>
+                    
+                </div>
+                <div class="col-lg-2 text-center">
+                    <label class="fw-bold">Superintendent</label>
+                    
+                </div>
+             </div>
+            <div class="row mt-2">
+                <div class="col-lg-2 text-center">
+                    
+                    {% if vac.first_approval.profile_pic %}                       
+                    <img src= "{{vac.first_approval.profile_pic.url}}" alt="Profile" class="rounded-circle" height="100px">
+                    {% else %}  
+                    <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    {% if vac.second_approval.profile_pic %}                
+                    <img src= "{{vac.second_approval.profile_pic.url}}" alt="Profile" class="rounded">
+                    {% else %}  
+                    <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    {% if vac.third_approval..profile_pic %}                
+                    <img src= "{{vac.third_approval.profile_pic.url}}" alt="Profile" class="rounded">
+                    {% else %}  
+                    <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-2 text-center">
+                    {% if vac.forth_approval..profile_pic %}                
+                    <img src= "{{vac.fourth_approval.profile_pic.url}}" alt="Profile" class="rounded">
+                    {% else %}  
+                    <img src= "{% static 'assets/img/thumb.jpg' %} " alt="Profile" class="rounded" width="100px">
+                    {% endif %}
+                </div>
+           </div>
+           
+         <div class="row">
+            <div class="col-lg-2 text-center">
+                {{vac.first_approval.first_name}}  {{vac.first_approval.last_name}}
+            </div>
+            <div class="col-lg-2 text-center">
+                {{vac.second_approval.first_name}}  {{vac.second_approval.last_name}}
+            </div>
+            <div class="col-lg-2 text-center">
+                {{vac.third_approval.first_name}}  {{vac.third_approval.last_name}}
+            </div>
+            <div class="col-lg-2 text-center">
+                {{vac.fourth_approval.first_name}}  {{vac.fourth_approval.last_name}}
+            </div>
+         </div>
+         
+         <div class="row mt-2 text-white">
+            {% if vac.first_approval is not None %}              
+                {%  if vac.first_app_status == 0 %}
+                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+                    <label >Waiting...</label>
+                </div>
+                {% elif vac.first_app_status == 1 %} 
+                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                    <label >Approved</label>
+                </div>
+                {% elif vac.first_app_status == 2 %} 
+                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                    <label >Rejected</label>
+                </div>
+                {% endif%}  
+              {% else %}
+              <div class="col-lg-2 text-center rounded  p-2 m-1">            
+                <label ></label>
+               </div>  
+            {% endif%}
+
+        
+
+         {% if vac.second_approval is not None %} 
+             
+            {% if vac.first_app_status == 1 %}  <!-- if it gets first Approval-->
+                {%  if vac.second_app_status == 0 %}
+                <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+                    <label >Waiting...</label>
+                </div>
+                {% elif vac.second_app_status == 1 %} 
+                <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                    <label >Approved</label>
+                </div>
+                {% elif vac.second_app_status == 2 %} 
+                <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                    <label >Rejected</label>
+                </div>
+            {% endif%}
+            
+          {% endif %}                   
+
+          {% else %}
+          <div class="col-lg-2 text-center rounded  p-2 m-1">            
+            <label ></label>
+           </div>  
+        {% endif %}
+
+        {% if vac.second_app_status == 1 %}  <!-- if it gets second Approval-->
+            {% if vac.third_app_status == 0 %}
+            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+              <label >Waiting</label>
+            </div>
+            {% elif vac.third_app_status == 1 %} 
+            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                <label >Approved</label>
+            </div>
+            {% elif vac.third_app_status == 2 %} 
+            <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                <label >Rejected</label>
+            </div>
+            {% endif%}
+        {% endif %}
+
+        {% if vac.third_app_status == 1 %}  <!-- if it gets third Approval-->
+            {%  if vac.fourth_app_status == 0 %}
+            <div class="col-lg-2 text-center rounded bg-info p-2 m-1">            
+            <label >Waiting...</label>
+            </div>
+            {% elif vac.fourth_app_status == 1 %} 
+            <div class="col-lg-2 text-center rounded bg-success p-2 m-1">            
+                <label >Approved</label>
+            </div>
+            {% elif vac.fourth_app_status == 2 %} 
+            <div class="col-lg-2 text-center rounded bg-danger p-2 m-1">            
+                <label >Rejected</label>
+            </div>
+            {% endif%}
+        {% endif %}
+         </div> <!-- row-->
+
+           </div>
+        </div> 
+
+    </section>  
+{% endblock%}

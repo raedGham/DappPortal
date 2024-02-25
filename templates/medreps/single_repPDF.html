@@ -1,0 +1,371 @@
+{% extends 'base_nonav.html' %} 
+{% block content %}
+{% load static %}
+
+  <div class="Container">
+     <!-- Header  -->
+    
+    <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "700px"  alt="">
+    <h4 class="fw-bold">LEAVE APPLICATION FORM</h4>
+    <div class="row mt-2">
+     <!-- employee info  --> 
+    </div>
+    <div class="FLX">
+
+      <div class="LabelMargin w4">
+        <label> Name : </label>
+      </div>
+
+      <div class="  BorderBottom  w6" style="text-align:center;" >
+         <label for="" class="datacolor">{{vac.employee.first_name}} {{vac.employee.last_name}}</label>
+      </div>
+      <div class=" w5">
+        
+     </div>
+     <div class="LabelMargin w4">
+        <label> Personal No: </label>
+     </div>
+     <div class="BorderBottom w3" style="text-align:center;">
+        <label for="" class="datacolor"> {{vac.employee.ps_number}}</label>
+     </div>
+
+   </div>
+
+    <div class="w5"> </div>
+
+    <div class="FLX">
+        <div class="LabelMargin w4 mt1">
+            <label>Department :</label>
+        </div>
+          <div class="BorderBottom w6 mt1" style="text-align:center;">
+             <label for="" class="datacolor">{{vac.employee.department.name}}</label>
+          </div>
+          <div class="w5 mt1">
+            
+         </div>
+         <div class="LabelMargin w5 mt1">
+            <label> Shift personnel : </label>
+         </div>
+         <div class="BorderBottom ">
+            
+         </div>
+    </div>
+
+    
+    <div class = "FLX">
+        <div class="">
+            <p style="font-size: 10px;" class = "mt1"> Date to be taken : </p>
+          </div>
+          <div class=""> </div>
+          <div class="">
+            <p style="font-size: 10px; margin-left:510px;" class="w3 mt1">AM/PM</p>
+          </div>
+    </div>
+
+ 
+
+    <div class="FLX">
+        <div class="LabelMargin w3">
+            <label> From : </label>
+          </div>
+          <div class="BorderBottom w4">
+            <label for="" class="datacolor">{{vac.from_date}}</label> 
+          </div>                            
+         <div class="w3 ml1">
+            <label> To : </label>            
+         </div>
+         <div class="BorderBottom w4">
+           <label for="" class="datacolor">{{vac.to_date}}</label> 
+         </div>                            
+         <div class="w3 w4 ml1">
+            <label> No of Days: </label>            
+         </div>
+         <div class="BorderAll wb3">
+            <label for="" class="datacolor">{{vac.nodays}}</label>
+         </div>           
+         <div class="BorderAll wb3 ml2">
+            <label for="" class="datacolor">{{vac.ampm}}</label>
+            
+         </div>
+    </div>
+
+    <!-- Annual Leave-->
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
+            <label> Annual Leave </label>            
+         </div>
+         <div class="BorderTop BorderBottom mt1 wb4">
+            <label> No of days : </label>            
+         </div>
+         <div class="BorderTop BorderLeft mt1 wb10">
+            <label> Annual leave entitlement for the current year: </label>            
+         </div>
+         <div class="BorderTop BorderRight BorderBottom mt1 w3 center pt1"> 
+            <label class="datacolor"> {{updEls.current_year}} </label>
+         </div>         
+    </div>
+
+    <div class="FLX"> 
+        <div class="w9">
+         <p></p>
+        </div>        
+        
+        <div class="BorderLeft wb10">
+           <label> Annual leave entitlement for previous year(if approved): </label>                    
+        </div>     
+        <div class=" BorderRight BorderBottom w3 center pt1"> 
+         <label class="datacolor"> {{updEls.previous_year}} </label>
+      </div>         
+    </div>
+    
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10 ">
+            <label> Total annual leave entitlement: </label>            
+         </div>     
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label class="datacolor"> {{annual}} </label>
+         </div>
+    </div>
+ 
+
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10 ">  
+            <label> Days taken so far this calendar year: </label>            
+         </div>  
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor">{{updEls.daystaken_current}}</label>
+         </div> 
+    </div>
+
+  
+
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft wb10">  
+            <label> Days on this application:</label>            
+         </div>  
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor"> {{this}} </label>
+         </div>
+    </div>
+      
+    <div class="FLX"> 
+        <div class="w9"></div>        
+        <div class="BorderLeft BorderBottom wb10">  
+            <label> Balance remaining after this application:</label>                       
+         </div>  
+         <div class="BorderBottom BorderRight w3 center pt1">
+            <label for="" class="datacolor"> {{balance}} </label>
+         </div>
+
+    </div>
+    
+    
+    <!-- Medical Leave-->
+
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
+            <label> Medical Leave </label>            
+         </div>
+         <div class="BorderTop BorderBottom mt1 wb4">
+            <label> No of days : </label>            
+         </div>
+         <div class="BorderAll mt1 wb12">
+            <label> Days previously taken this calendar year :  </label>         
+         </div>                           
+    </div>
+
+   
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight BorderBottom  wb12"> </div>
+    </div>
+    
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
+    </div>
+    <div class="FLX"> 
+        <div class="w9"> </div>
+        <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
+    </div>
+
+    <!-- Unpaid Leave-->
+    <div class="FLX"> 
+        <div class="BorderAll mt1 wb4">
+            <label> Unpaid Leave </label>            
+         </div>
+         <div class="BorderTop BorderBottom mt1 wb4">
+            <label> No of days : </label>            
+         </div>
+         <div class="BorderAll mt1 wb12">
+            <label> Reason:  </label>         
+         </div>                           
+    </div>
+    
+    <div class="FLX"> 
+        <div class=" mt1 wb4"></div>
+        <div class="BorderLeft BorderRight BorderBottom wb4">
+            <label> Hours : </label>            
+         </div>
+         <div class="BorderBottom wb5 ">
+            <label> From : </label>            
+         </div>
+         <div class="BorderRight BorderBottom wb5">
+            <label> To : </label>            
+         </div>
+    </div>
+
+   <!-- paid Leave-->
+   <div class="FLX"> 
+      <div class="BorderAll mt1 wb4">
+         <label> Paid Leave </label>            
+      </div>
+      <div class=" BorderTop BorderBottom mt1 wb4">
+         <label> No of days : </label>            
+      </div>
+      <div class="BorderAll mt1 wb12">
+         <label> Reason:  </label>         
+      </div>                           
+   </div>
+
+   <div class="FLX"> 
+      <div class=" mt1 wb4"></div>
+      <div class="BorderLeft BorderRight BorderBottom wb4">
+         <label> Hours : </label>            
+      </div>
+      <div class="BorderBottom wb5 ">
+         <label> From : </label>            
+      </div>
+      <div class="BorderRight BorderBottom wb5">approve
+         <label> To : </label>            
+      </div>
+   </div>
+
+
+ 
+
+    
+    <!-- Signatures-->
+    <div class="mt1"></div>
+      
+    <div class="FLX"> 
+      <div class="datacolor w5">
+        <label>{{vac.employee.first_name}} {{vac.employee.last_name}}</label> 
+      </div>
+      <div class="datacolor w5">
+      
+         <label>{{vac.vac_date}} </label> 
+          
+     </div>   
+      
+     
+     {% if vac.first_app_status == 1 %}
+      <div class = "ml3"> 
+         <div class="datacolor w10">          
+           <label>{{vac.first_approval.first_name}} {{vac.first_approval.last_name}} / </label>                
+           <label>{{vac.first_app_date | date:"Y-m-d" }}  {{vac.first_app_date | time:"H:i"}} </label> 
+         </div>  
+      </div> 
+    {% endif %}  
+   </div>
+
+    <div class="FLX"> 
+      <div class="BorderTop w5 ">
+        <p style="font-size: 10px;">(1) Applicant</p> 
+      </div>
+     <div class="BorderTop w5">
+       <p style="font-size: 10px;">Date</p> 
+     </div>       
+  
+
+     <div class="ml3"></div>
+     <div class="BorderTop w5">
+        <p style="font-size: 10px;">(2) Dept Eng./SIS</p> 
+      </div>
+     <div class="BorderTop w5">
+       <p style="font-size: 10px;">Date</p> 
+     </div>
+
+    </div>
+ 
+<div class="FLX mt2"> 
+         
+    {% if vac.second_app_status == 1 %}
+      <div> 
+         <div class="datacolor w10 ">          
+           <label>{{vac.second_approval.first_name}} {{vac.second_approval.last_name}} / </label>     
+           <label>{{vac.second_app_date | date:"Y-m-d" }}  {{vac.second_app_date | time:"H:i"}} </label> 
+         </div>  
+      </div> 
+    {% endif %} 
+   
+    
+         
+      {% if vac.third_app_status == 1 %}
+        <div class="ml5"> 
+           <div class="datacolor w10 ">          
+             <label>{{vac.third_approval.first_name}} {{vac.third_approval.last_name}} / </label>     
+             <label>{{vac.third_app_date | date:"Y-m-d" }}  {{vac.third_app_date | time:"H:i"}} </label> 
+           </div>  
+        </div> 
+      {% endif %} 
+     </div>   
+
+    <div class="FLX "> 
+        <div class="BorderTop w5">
+            <p style="font-size: 10px;">(3) Head/Deputy of Dpt</p> 
+          </div>
+         <div class="BorderTop w5">
+           <p style="font-size: 10px;">Date</p> 
+         </div>
+
+         <div class="ml3"></div>
+         <div class="BorderTop w5">
+            <p style="font-size: 10px;">(4) Admin Head</p> 
+          </div>
+         <div class="BorderTop w5">
+           <p style="font-size: 10px;">Date</p> 
+         </div>
+    </div>
+
+    {% if vac.fourth_app_status == 1 %}
+    <div class="ml4"> 
+       <div class="datacolor w10 mt2 ">          
+         <label>{{vac.fourth_approval.first_name}} {{vac.fourth_approval.last_name}} / </label>     
+         <label>{{vac.fourth_app_date | date:"Y-m-d" }}  {{vac.fourth_app_date | time:"H:i"}} </label> 
+       </div>  
+    </div> 
+  {% endif %} 
+ 
+
+    <div class="FLX"> 
+        <div class="ml4"></div>
+        {% if vac.fourth_app_status != 1 %}
+        <div class="BorderTop w5 mt2">
+         <p style="font-size: 10px;">(5) Plant Superintendent</p> 
+        </div>
+         <div class="BorderTop w5 mt2">
+               <p style="font-size: 10px;">Date</p> 
+         </div>
+        {% else %}    
+        <div class="BorderTop w5">
+           <p style="font-size: 10px;">(5) Plant Superintendent</p> 
+        </div>
+         <div class="BorderTop w5">
+            <p style="font-size: 10px;">Date</p> 
+         </div>
+         {% endif %}   
+
+               
+         </div>
+      
+    </div>
+
+    <p style="font-size: 10px;" class="w3"> {{vac.id}}</p>
+</div>  
+    
+
+{% endblock %}

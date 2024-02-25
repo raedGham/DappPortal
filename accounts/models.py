@@ -96,7 +96,8 @@ class Account(AbstractBaseUser,PermissionsMixin):
     is_OMwithHead   = models.BooleanField(default=False)  
     is_OMnoHead     = models.BooleanField(default=False)  
     has_vac_ent     = models.BooleanField(default=False)
-
+    has_med_ent     = models.BooleanField(default=False)
+    
     USERNAME_FIELD  = 'email'
     REQUIRED_FIELDS = ['username'] 
 

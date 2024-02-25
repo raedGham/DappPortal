@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container mt-5 pt-5">
+ 
+    <div class="row">
+       
+            <div class="col-lg-3">
+          
+            </div>
+
+            <div class="col-lg-7 ">
+                <div class="card">
+                    <div class="card-title m-3">
+                       <h4>Delete Entitlement</h4><br>
+                    </div>
+                    <div class="card-body">
+                    <p>Are you sure you want to delete this Entitlement?: <span class="text-danger fw-bolder">{{ ent.description }} </span> </p>
+                    
+                     <p class="text-danger fw-bolder" > for {{ent.employee.first_name}} {{ent.employee.last_name}} </p>
+                
+                    <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" class="btn btn-primary ms-2">
+                    <a href= "{% url 'entitlement' ent.employee.id%}" class="btn btn-outline-primary mx-1" > Back </a>
+                    </form>
+                   </div>
+            </div>
+            </div>
+          
+    </div>   
+</div>
+{% endblock %}
