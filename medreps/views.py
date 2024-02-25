@@ -201,27 +201,27 @@ def getAppEmp(med):
    elif med.approval_position == 4:
       return med.fourth_approval.id
 
-#    -------------------------------------------     D E L E T E   V A C A T I O N    
+#    -------------------------------------------     D E L E T E   M E D R E P   
 @login_required(login_url='login')
 def medrep_delete(request,id):
-      med = Medrep.objects.get(id=id)
+      medrep = Medrep.objects.get(id=id)
       if request.method == "POST":                
-         med.delete()
+         medrep.delete()
          return redirect('list_medreps')
       
       return render(request,
                   'medreps/medrep_delete.html',
-                  {'med': med}) 
+                  {'medrep': medrep}) 
 
 @login_required(login_url='login')
 def workflow(request, id):
-     med = Medrep.objects.get(id=id)
+     medrep = Medrep.objects.get(id=id)
      return render(request,
                   'medreps/workflow.html',
-                  {'med': med}) 
+                  {'medrep': medrep}) 
 
-#    -------------------------------------------      A P P R O V E    V A C A T I O N 
-
+#    -------------------------------------------      A P P R O V E    M E D R E P
+@login_required(login_url='login')
 def medrep_approve(request, id):   
    med = Medrep.objects.get(id=id) 
 
@@ -244,7 +244,8 @@ def medrep_approve(request, id):
    med.save()
    return redirect('list_medreps') 
 
-#    -------------------------------------------      R E J E C T    V A C A T I O N 
+#    -------------------------------------------      R E J E C T     M E D R E P 
+@login_required(login_url='login')
 def medrep_reject(request, id):   
    med = Medrep.objects.get(id=id) 
    med.status = 2 
@@ -277,7 +278,8 @@ def single_medrep(request, id):
   }
   return render(request, 'medreps\\single_medrepPDF.html',context)
 
-#    -------------------------------------------     V A C A T I O N    R E P O R T   P D F
+#    -------------------------------------------     M E D    R E P O R T   P D F
+@login_required(login_url='login')
 def single_medrepPDF(request, id):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
 
@@ -334,7 +336,7 @@ def med_entitlement(request, em=0):
       'emps': emps,
       'entitlement': entitlement
    }       
-   return render(request, 'medreps\\entitlement.html', context)
+   return render(request, 'medreps\\med_entitlement.html', context)
 
 #    -------------------------------------------      E N T I T L E M E N T  S U B   F O R M 
 @login_required(login_url='login')
@@ -350,12 +352,12 @@ def med_entform(request, id, empl):
                description= form.cleaned_data['description']
                current_year= form.cleaned_data['current_year']               
                daystaken_current = form.cleaned_data['daystaken_current']             
-               total_annual = current_year
+            
                entitlement = EmployeeMedLeaveStat.objects.create(employee=employee , description = description , current_year = current_year,
-                                                            daystaken_current=daystaken_current, total_annual = total_annual  )
+                                                            daystaken_current=daystaken_current )
                entitlement.save()               
                employee.save()
-               return redirect('entitlement', employee.id)
+               return redirect('med_entitlement', empl)
             else:
                 return HttpResponse('invalid form')
             
@@ -366,17 +368,18 @@ def med_entform(request, id, empl):
             form = EntitlementMedForm(request.POST, instance = entitlement)  
             if form.is_valid():
                form.save()
-               return redirect('entitlement', employee.id)
+               return redirect('med_entitlement', employee.id)
             else:
                 print('Invalid form')
-                return redirect('entitlement', employee.id)
+                return redirect('med_entitlement', employee.id)
                 
     else:   # GET
          if id == 0 : # to open a blank from          
             form = EntitlementMedForm()
             context = {
                      'form':form,
-                     'employee':'', 
+                     'employee':'',
+                     'empl':empl 
                   }
             
          else: # to populate the form with the data needed to be updated
@@ -389,7 +392,7 @@ def med_entform(request, id, empl):
                      'employee':employee, 
                   }
     
-         return render(request, 'medreps\\ent_form.html', context)
+         return render(request, 'medreps\\med_ent_form.html', context)
 
    
 #    -------------------------------------------     D E L E T E   E N T I T L E M E N T 
@@ -402,10 +405,10 @@ def med_ent_delete(request, id):
       emp.save()
       if request.method == "POST":
          entitlement.delete()
-         return redirect('entitlement', entitlement.employee.id)
+         return redirect('med_entitlement', entitlement.employee.id)
       
       return render(request,
-                  'medreps/entitlement_delete.html',
+                  'medreps/med_entitlement_delete.html',
                   {'ent': entitlement}) 
 
    

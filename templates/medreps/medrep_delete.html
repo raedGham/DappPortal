@@ -11,15 +11,15 @@
             <div class="col-lg-7 ">
                 <div class="card">
                     <div class="card-title m-3">
-                       <h4>Delete Vacation</h4><br>
+                       <h4>Delete Medical Report</h4><br>
                     </div>
                     <div class="card-body">
-                    <p>Are you sure you want to delete this Vacation?: <span class="text-danger fw-bolder">{{ vac.vac_date }} for {{vac.employee.first_name}} {{vac.employee.last_name}}</span> </p>
+                    <p>Are you sure you want to delete this Report?: <span class="text-danger fw-bolder">{{ medrep.medrep_date }} for {{medrep.employee.first_name}} {{medrep.employee.last_name}}</span> </p>
                 
                     <form action="" method="post">
                     {% csrf_token %}
                     <input type="submit" value="Delete" class="btn btn-primary ms-2">
-                    <a href= "{% url 'list_vacations'%}" class="btn btn-outline-primary mx-1" > Back </a>
+                    <a href= "{% url 'list_medreps'%}" class="btn btn-outline-primary mx-1" > Back </a>
                     </form>
                    </div>
             </div>

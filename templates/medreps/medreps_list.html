@@ -35,8 +35,8 @@
                 <thead>
                   <tr>     
                     <th></th>        
-                    <th>ID</th>
-                    <th>Rep.Date</th>     
+                    <th >ID</th>
+                    <th >Rep.Date</th>     
                     <th>PS no</th>
                     <th>Name </th>                     
                     <th>From Date </th>   
@@ -75,16 +75,16 @@
                     <td class="p-1 mb-1 bg-light"> </td>
                     {% endif %} 
 
-                    <td>{{medrep.id}}</td>
-                    <td>{{medrep.vac_date}}</td>
-                    <td class="text-start" scope="col">{{medrep.employee.ps_number}}</td>
+                    <td >{{medrep.id}}</td>
+                    <td>{{medrep.medrep_date}}</td>                    
+                    <td  class="text-start" scope="col">{{medrep.employee.ps_number}}</td>
                     {% if medrep.middle_name != None or  medrep.middle_name is not None %}
                     <td>{{ medrep.employee.first_name}} {{medrep.employee.middle_name}}  {{medrep.employee.last_name}}</td> 
                     {% else %}
                     <td>{{ medrep.employee.first_name}} {{medrep.employee.last_name}}</td> 
                     {% endif%}
                     <td>{{medrep.from_date}}</td>
-                    <td >{{medrep.to_date}} <br> <span class="text-primary"> Description:</span> <strong>{{medrep.description}}</strong> </td></td>   
+                    <td  >{{medrep.to_date}} </td>   
                     <td >{{medrep.nodays}}</td>   
                                    
                     {% if medrep.status == 1 %}
@@ -97,15 +97,20 @@
                     <td> <a href="{% url 'single_medrepPDF' medrep.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
                     <td> <a href = "{% url 'm_workflow' medrep.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                     {% if  medrep.status != 1 and medrep.status != 2 %}
-                    <td> <a href="{% url 'vac_update' medrep.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                    <td> <a href="{% url 'medrep_update' medrep.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'medrep_delete' medrep.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     {% else %}
                     <td></td>
                     <td></td>                    
                     {% endif %}
-                    
+                
+                 
                   </tr>
-               
+                  <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td colspan=5> <span class="text-primary"> Description:</span> <strong>{{medrep.description}}</strong></td>
+                  </tr>
                  {% endfor%} 
                 </tbody>
 

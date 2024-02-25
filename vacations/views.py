@@ -226,7 +226,7 @@ def workflow(request, id):
                   {'vac': vac}) 
 
 #    -------------------------------------------      A P P R O V E    V A C A T I O N 
-
+@login_required(login_url='login')
 def vacation_approve(request, id):   
    vac = Vacation.objects.get(id=id) 
 
@@ -250,6 +250,7 @@ def vacation_approve(request, id):
    return redirect('list_vacations') 
 
 #    -------------------------------------------      R E J E C T    V A C A T I O N 
+@login_required(login_url='login')
 def vacation_reject(request, id):   
    vac = Vacation.objects.get(id=id) 
    vac.status = 2 
@@ -283,6 +284,7 @@ def single_vacation(request, id):
   return render(request, 'vacations\\single_vacationPDF.html',context)
 
 #    -------------------------------------------     V A C A T I O N    R E P O R T   P D F
+@login_required(login_url='login')
 def single_vacationPDF(request, id):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
 
