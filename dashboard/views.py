@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from vacations.models import Vacation, EmployeeLeaveStat
 from overtime.models import Overtime
+from medreps.models import Medrep
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
@@ -27,7 +28,7 @@ def dashboard(request):
           if (vac.fourth_approval.id == request.user.id) and (vac.approval_position==4):
             vacWaitUserApp.append(vac)           
 
-
+# ------------------------------ OVERTIME
     OTWaitApp = Overtime.objects.filter(status=0)
   
     OTWaitUserApp = []
@@ -48,6 +49,27 @@ def dashboard(request):
           if (OT.fourth_approval.id == request.user.id) and (OT.approval_position==4):
             OTWaitUserApp.append(OT)           
 
+# --------------------------------------  medrep
+    medWaitApp = Medrep.objects.filter(status=0)
+  
+    medWaitUserApp = []
+    for MED in medWaitApp:
+       if MED.first_approval is not None:
+          if (MED.first_approval.id == request.user.id) and (MED.approval_position==1):
+            medWaitUserApp.append(MED)
+
+       if MED.second_approval is not None:
+          if (MED.second_approval.id == request.user.id) and (MED.approval_position==2):
+            medWaitUserApp.append(MED)
+      
+       if MED.third_approval is not None:
+          if (MED.third_approval.id == request.user.id) and (MED.approval_position==3):
+            medWaitUserApp.append(MED)           
+      
+       if MED.fourth_approval is not None:
+          if (MED.fourth_approval.id == request.user.id) and (MED.approval_position==4):
+            medWaitUserApp.append(MED)     
+
 
     leavestat = EmployeeLeaveStat.objects.filter(employee=request.user.id)
 
@@ -66,11 +88,15 @@ def dashboard(request):
     page1 = request.GET.get('page')
     p_OTWaitApp = p1.get_page(page1)
 
+    p2 = Paginator(medWaitUserApp,20)
+    page1 = request.GET.get('page')
+    p_medWaitApp = p2.get_page(page1)
 
     context= {'vacWaitApp':p_vacWaitApp,
               'leavestat':ls,
               'remain': remain,
               'OTWaitApp':p_OTWaitApp,
+              'medWaitApp':p_medWaitApp,
               }
     
     return render(request,'dashboard\main.html', context)

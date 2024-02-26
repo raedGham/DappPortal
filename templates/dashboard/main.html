@@ -13,102 +13,13 @@
 </style>
 <main id="main" class="main">
   <section class="section">
-  <div class="row">
+ <div class="row">
+    <div class="col-lg-9">        
 
-    <!-- Left side columns -->
-    <div class="col-lg-10">
-      <div class="row">
-
-        <!-- Sales Card -->
-        <div class="col-lg-3 col-md-6">
-          <div class="card info-card sales-card">
-
-               <div class="card-body">
-              <h5 class="card-title">Vacations <span>| This Year</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div style="font-size:32px">
-                  <i class="bx bx-calendar"></i>
-                </div>
-                <div class="ps-3"  >
-                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary" >{{leavestat.current_year}}</h6>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div><!-- End Sales Card -->
-
-    
-        <!-- Sales Card -->
-        <div class="col-lg-3 col-md-6">
-          <div class="card info-card sales-card">
-            <div class="card-body">
-              <h5 class="card-title">Vacations <span>| Last Year</span></h5>
-
-              <div class="d-flex align-items-center">
-                <div style="font-size:32px">
-                  <i class="bx bx-calendar-plus"></i>
-                </div>
-                <div class="ps-3"  >
-                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary">{{leavestat.previous_year}}</h6>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div><!-- End Sales Card -->
-
-
-            
-        <!-- Sales Card -->
-        <div class="col-lg-3 col-md-6">
-          <div class="card info-card sales-card">
-            <div class="card-body">
-              <h5 class="card-title">Vacations <span>| Taken </span></h5>
-
-              <div class="d-flex align-items-center">
-                <div  style="font-size:32px">
-                  <i class="bx bx-calendar-minus"></i>
-                </div>
-                <div class="ps-3"  >
-                  <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-danger" >{{leavestat.daystaken_current}}</h6>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div><!-- End Sales Card -->
-        
-
-             <!-- Sales Card -->
-             <div class="col-lg-3 col-md-6">
-              <div class="card info-card sales-card">   
-                <div class="card-body">
-                  <h5 class="card-title">Vacations <span>| Remaining </span></h5>
-    
-                  <div class="d-flex align-items-center">
-                    <div style="font-size:32px">
-                      <i class="bx bx-calendar-check"></i>
-                    </div>
-                    <div class="ps-3"  >
-                     
-                      <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-success" >{{remain|safe}} </h6>
-                    </div>
-                  </div>
-                </div>
-    
-              </div>
-            </div><!-- End Sales Card -->
-      </div>
-    </div>
-
-      <div class="row">
-        
-
-          <div class="card ms-2">
+    <div class="row">
+            <div class="card ms-2">
              <div style=" font-family:Poppins, sans-serif; font-size:16px; font-weight:500; color: #012970; ">
-             <p class = " ps-1 card-title"> Vacations waiting for your Approval </p>
+             <p class = " ps-1 card-title1"> <span class = "text-primary " >Vacations </span> waiting for your Approval </p>
             </div>
            
            <div class="card-body">                 
@@ -203,15 +114,15 @@
             </div>
           </div>
 
-        </div>
+    </div>
         <!-- Paginator-->
    <!-- overtime --> 
-        <div class="row">
+    <div class="row">
         
 
           <div class="card ms-2">
              <div style=" font-family:Poppins, sans-serif; font-size:16px; font-weight:500; color: #012970; ">
-             <p class = " ps-1 card-title"> Overtime waiting for your Approval </p>
+             <p class = " ps-1 card-title1"> <span class = "text-primary " >Overtime</span> waiting for your Approval </p>
             </div>
            
            <div class="card-body">                 
@@ -306,10 +217,204 @@
             </div>
           </div>
 
-        </div>
+    </div>
        
+    <div class="row">        
+          <!--                                                 M E D I C A L    R E P O R T -->
+          <div class="card ms-2">
+             <div style=" font-family:Poppins, sans-serif; font-size:16px; font-weight:500; color: #012970; ">
+             <p class = " ps-1 card-title1"> <span class = "text-primary " >Medical Reports</span> waiting for your Approval </p>
+            </div>
+           
+           <div class="card-body">                 
+                 
+              <!-- Table with stripped rows -->
+         
+              <table class="table datatable">
+                <thead>
+                  <tr>     
+                    <th></th>        
+                    <th>ID</th>
+                    <th>Rep Date</th>     
+                    <th>PS no</th>
+                    <th>Name </th>                     
+                    <th>From Date </th>   
+                    <th>To Date </th>
+                    <th>No of Days </th> 
+                    <th>Description </th>                                                        
+                    <th>Status </th>                                                     
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {% for medrep in medWaitApp %}                        
+                    {% if medrep.employee.department.name == "ELE" %} 
+                    <td class="p-1 mb-1 bg-primary"> </td>
+                    {% elif medrep.employee.department.name == "INS" %}
+                    <td class="p-1 mb-1 bg-success"> </td>
+                    {% elif medrep.employee.department.name == "MEC" %}
+                    <td class="p-1 mb-1 bg-info"> </td>
+                    {% elif medrep.employee.department.name == "GSR" %}
+                    <td class="p-1 mb-1 bg-danger"> </td>
+                    {% elif medrep.employee.department.name == "OPER" %}
+                    <td class="p-1 mb-1 bg-warning"> </td>
+                    {% elif medrep.employee.department.name == "MAINT" %}
+                    <td class="p-1 mb-1 bg-secondary"> </td>
+                    {% elif medrep.employee.department.name == "ADMIN" %}
+                    <td class="p-1 mb-1 bg-dark"> </td>
+                    {% elif medrep.employee.department.name == "IT" %}
+                    <td class="p-1 mb-1 bg-light"> </td>
+                    {% endif %} 
 
- 
+                    <td>{{medrep.id}}</td>
+                    <td>{{medrep.medrep_date}}</td>
+                    <td class="text-start" scope="col">{{medrep.employee.ps_number}}</td>
+                    {% if medrep.middle_name != None or  medrep.middle_name is not None %}
+                    <td>{{ medrep.employee.first_name}} {{medrep.employee.middle_name}}  {{medrep.employee.last_name}}</td> 
+                    {% else %}
+                    <td>{{ medrep.employee.first_name}} {{medrep.employee.last_name}}</td> 
+                    {% endif%}
+                    <td>{{medrep.from_date}}</td>
+                    <td >{{medrep.to_date}}</td>   
+                    <td >{{medrep.nodays}}</td>   
+                         
+                   
+                    <td> </td>
+                  
+                  
+                              
+                    <td> <a href = "{% url 'medrep_update' medrep.id %}" > <i class="bi bi-journal-text"></i> </td>
+                    <td> <a href = "{% url 'm_workflow' medrep.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
+                  </tr>
+               
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+
+                <!-- Basic Pagination -->
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  
+                  {% if medWaitApp.has_previous %} 
+                   <li class="page-item"><a class="page-link" href="?page={{medWaitApp.previous_page_number}}">Previous</a></li>
+                  {% else %}
+                   <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+                  {% endif %}
+
+                  <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                  <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                  <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
+                  
+                  {% if medWaitApp.has_next %}        
+                   <li class="page-item"><a class="page-link" href="?page={{medWaitApp.next_page_number}}">Next</a></li>
+                  {% else %}
+                   <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
+                  {% endif %}
+                </ul>
+              </nav><!-- End Basic Pagination -->
+
+            </div>
+          </div>
+
+     </div>
+        <!-- Paginator-->
+    </div>  <!-- end column 9-->
+
+  <div class="col-lg-2">   <!-- right column 3-->
+    
+    <div class="row">        <!-- Vacation this year card -->
+         
+        
+      <div class="col-lg-12 col-md-12 ms-2">
+        <div class="card info-card sales-card">
+
+             <div class="card-body">
+            <h5 class="card-title">Vacations <span>| This Year</span></h5>
+
+            <div class="d-flex align-items-center">
+              <div style="font-size:32px">
+                <i class="bx bx-calendar"></i>
+              </div>
+              <div class="ps-3"  >
+                <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary" >{{leavestat.current_year}}</h6>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
+    </div>
+
+    <div class="row">        <!-- Vacation Last year card-->
+      
+      <div class="col-lg-12 col-md-12 ms-2">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Vacations <span>| Last Year</span></h5>
+
+            <div class="d-flex align-items-center">
+              <div style="font-size:32px">
+                <i class="bx bx-calendar-plus"></i>
+              </div>
+              <div class="ps-3"  >
+                <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-primary">{{leavestat.previous_year}}</h6>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
+    </div>
+    
+    <div class="row">              <!-- Vacations taken card -->
+      
+      <div class="col-lg-12 col-md-12 ms-2">
+        <div class="card info-card sales-card">
+          <div class="card-body">
+            <h5 class="card-title">Vacations <span>| Taken </span></h5>
+
+            <div class="d-flex align-items-center">
+              <div  style="font-size:32px">
+                <i class="bx bx-calendar-minus"></i>
+              </div>
+              <div class="ps-3"  >
+                <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-danger" >{{leavestat.daystaken_current}}</h6>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    
+    </div>  
+    
+    <div class="row">          <!-- Vacations remaining card -->
+           
+      <div class="col-lg-12 col-md-12 ms-2">
+            <div class="card info-card sales-card">   
+              <div class="card-body">
+                <h5 class="card-title">Vacations <span>| Remaining </span></h5>
+  
+                <div class="d-flex align-items-center">
+                  <div style="font-size:32px">
+                    <i class="bx bx-calendar-check"></i>
+                  </div>
+                  <div class="ps-3"  >                     
+                    <h6 class = "title1 badge rounded-pill bg-successbadge rounded-pill bg-success" >{{remain|safe}} </h6>
+                  </div>
+                </div>
+              </div>    
+            </div>
+      </div>
+
+    </div> 
+
+  </div>
+</div>
     </section>
 </main>   
 {% endblock %}

@@ -74,7 +74,7 @@ h6 {
 
 @media (max-width: 1199px) {
   #main {
-    padding: 20px;
+    padding: 10px;
   }
 }
 
@@ -273,6 +273,7 @@ h6 {
 }
 
 .card-title1 {
+  padding: 10px 0 15px 0;
   font-weight: 500;
   color: #012970;
   font-family: "Poppins", sans-serif;

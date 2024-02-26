@@ -10,6 +10,7 @@ from accounts.models import Account
 from positions.models import Position
 from django.utils.dateparse import parse_date
 from dapp.utils import GetFilterDepList, SetWorkflow
+from decimal import Decimal
 
 # imports for pdf generator
 import os
@@ -141,14 +142,22 @@ def vacations(request, id=0):
             
        else: # to update the edited record in the table
             print("the update submitted")
+            print("session previousnodays:", request.session['prevnodays'])
+ 
             vacation = Vacation.objects.get(pk=id)
             from_date=  datetime.strptime(request.POST.get('from_date'),'%Y-%m-%d')
             to_date= datetime.strptime(request.POST.get('to_date'), '%Y-%m-%d')
-            vacation.nodays = RequestedVac(from_date,to_date)     
-                        
+            vacation.nodays = RequestedVac(from_date,to_date)              
             form = VacationForm(request.POST, instance = vacation)  
             if form.is_valid():
-               vacation.save()
+               if Decimal(request.session["prevnodays"] != vacation.nodays):                
+                  els = EmployeeLeaveStat.objects.filter(employee = vacation.employee)               
+                  idy = els[0].id
+                  updEls = EmployeeLeaveStat.objects.get(id= idy )               
+                  updEls.daystaken_current += (vacation.nodays - Decimal(request.session["prevnodays"]))
+                  updEls.save()               
+
+               vacation.save()               
                return redirect('list_vacations')
             else:
                 print('Invalid form')
@@ -172,7 +181,10 @@ def vacations(request, id=0):
          
          else: # to populate the form with the data needed to be updated
             vacation = Vacation.objects.get(pk=id)
-           
+            request.session['prevnodays'] = str(vacation.nodays)
+
+
+            
             form = VacationForm(instance=vacation)          
             els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)                         
             idy = els[0].id
@@ -210,7 +222,12 @@ def getAppEmp(vac):
 @login_required(login_url='login')
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
-      if request.method == "POST":                
+      if request.method == "POST":
+         els = EmployeeLeaveStat.objects.filter(employee = vac.employee)               
+         idy = els[0].id
+         updEls = EmployeeLeaveStat.objects.get(id= idy )               
+         updEls.daystaken_current -= vac.nodays
+         updEls.save()               
          vac.delete()
          return redirect('list_vacations')
       
