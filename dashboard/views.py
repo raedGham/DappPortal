@@ -13,7 +13,7 @@ def dashboard(request):
       query = request.GET['query'] 
 
     if query!="":     
-     vacWaitApp = Vacation.objects.filter(status=0 , employee__first_name__icontains=query )   
+     vacWaitApp = Vacation.objects.filter(status=0 , employee__first_name__icontains=query)   
     else:
      vacWaitApp = Vacation.objects.filter(status=0)   
     vacWaitUserApp = []
@@ -36,7 +36,10 @@ def dashboard(request):
             vacWaitUserApp.append(vac)           
 
 # ------------------------------ OVERTIME
-    OTWaitApp = Overtime.objects.filter(status=0)
+    if query!="":           
+      OTWaitApp = Overtime.objects.filter(status=0 , employee__first_name__icontains=query)
+    else:
+      OTWaitApp = Overtime.objects.filter(status=0)  
   
     OTWaitUserApp = []
     for OT in OTWaitApp:
@@ -57,7 +60,10 @@ def dashboard(request):
             OTWaitUserApp.append(OT)           
 
 # --------------------------------------  medrep
-    medWaitApp = Medrep.objects.filter(status=0)
+    if query!="":   
+       medWaitApp = Medrep.objects.filter(status=0,employee__first_name__icontains=query)      
+    else:       
+       medWaitApp = Medrep.objects.filter(status=0)
   
     medWaitUserApp = []
     for MED in medWaitApp:

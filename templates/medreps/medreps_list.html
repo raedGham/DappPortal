@@ -94,6 +94,8 @@
                     {% else %}
                     <td> </td>
                     {% endif %}    
+                    
+                    <td> <a href="{%url 'pdf_view' medrep.id %}"> <i class="bi bi-paperclip text-primary "></i> </a> </td>
                     <td> <a href="{% url 'single_medrepPDF' medrep.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
                     <td> <a href = "{% url 'm_workflow' medrep.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                     {% if  medrep.status != 1 and medrep.status != 2 %}
@@ -109,7 +111,7 @@
                   <tr>
                     <td> </td>
                     <td> </td>
-                    <td colspan=5> <span class="text-primary"> Description:</span> <strong>{{medrep.description}}</strong></td>
+                    <td colspan=11> <span class="text-primary"> Description:</span> {{medrep.description}}</td>
                   </tr>
                  {% endfor%} 
                 </tbody>

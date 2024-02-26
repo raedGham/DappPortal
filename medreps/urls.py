@@ -14,5 +14,7 @@ urlpatterns = [
   path('entadd/<int:id>/<int:empl>', views.med_entform, name='med_ent_add'),
   path('entupd/<int:id>/<int:empl>', views.med_entform, name='med_ent_update'),
   path('entdel/<int:id>/', views.med_ent_delete, name='med_ent_delete'),
+  path('pdf/<int:id>/', views.pdf_view, name='pdf_view'),
+  
   
 ]

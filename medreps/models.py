@@ -11,6 +11,7 @@ class Medrep (models.Model):
     from_date = models.DateField(blank=True, null=True )
     to_date   = models.DateField(blank=True, null=True )
     nodays    = models.IntegerField(blank=True)
+    pdf_attachment = models.FileField(null=True, blank=True,upload_to='pdf/Reports/')
       
     first_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='first_approval_medreps')
     first_app_status = models.IntegerField(default=0)

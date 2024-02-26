@@ -14,6 +14,7 @@ class MedrepForm(forms.ModelForm):
   from_date = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}))
   to_date   = forms.DateField(widget = forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}) )
   nodays    = forms.DecimalField(decimal_places=1, max_digits=3,required=False, disabled=True)
+  pdf_attachment = forms.FileField(required=False)
   
  
   
@@ -28,7 +29,7 @@ class MedrepForm(forms.ModelForm):
 
   class Meta:
     model = Medrep
-    fields = ['employee','medrep_date','description','from_date', 'to_date','nodays']
+    fields = ['employee','medrep_date','description','from_date', 'to_date','nodays','pdf_attachment']
     
   def __init__(self,*args, **kwargs):
     dep_id = kwargs.pop('dep_id', None)
@@ -36,7 +37,7 @@ class MedrepForm(forms.ModelForm):
     super(MedrepForm, self).__init__(*args, **kwargs)
     print("Dep ID passed:", str(dep_id))
     if dep_id is not None:            
-            self.fields['employee'].queryset = Account.objects.filter(has_vac_ent=True, department=dep_id)
+            self.fields['employee'].queryset = Account.objects.filter(has_med_ent=True, department=dep_id)
 
     for field in self.fields:
         self.fields[field].widget.attrs['class']= "form-control"

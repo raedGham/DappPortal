@@ -10,7 +10,7 @@ from accounts.models import Account
 from positions.models import Position
 from django.utils.dateparse import parse_date
 from dapp.utils import GetFilterDepList, SetWorkflow
-
+from django.http import FileResponse, Http404
 # imports for pdf generator
 import os
 from django.template.loader import render_to_string
@@ -19,7 +19,7 @@ import tempfile
 from  django.db.models import Sum
 
 
-#    -------------------------------------------     V A C A T I O N S  L I S T
+#    -------------------------------------------     M E D R E P S   L I S T
 @login_required(login_url='login')
 def list_medreps(request):
 #    departments = Department.objects.all()
@@ -73,28 +73,29 @@ def list_medreps(request):
                }
    return render(request,"medreps\\medreps_list.html", context)
 
-#    -------------------------------------------     A D D / E D I T   V A C A T I O N
+#    -------------------------------------------     A D D / E D I T   M E D R E P
 @login_required(login_url='login')
 def medreps(request, id=0):
      
      if request.method == "POST":
        if id == 0: # to create a new record and append it to the table            
-            form = MedrepForm(request.POST)
+            form = MedrepForm(request.POST, request.FILES)
             if form.is_valid():
                employee= form.cleaned_data['employee']
                medrep_date= form.cleaned_data['medrep_date']
                from_date= form.cleaned_data['from_date']
                to_date= form.cleaned_data['to_date']
-               nodays= form.cleaned_data['nodays']            
+               nodays= form.cleaned_data['nodays'] 
+               pdf_attachment=form.cleaned_data['pdf_attachment']         
                description  = form.cleaned_data['description']
-             
+               
                x = RequestedVac(from_date, to_date)
            
                # set medrep Approval Workflow
                first_app, second_app, third_app, fourth_app = SetWorkflow(employee)                               
                               
                medrep = Medrep.objects.create(employee=employee,medrep_date=medrep_date,from_date=from_date, to_date=to_date,
-                                                   nodays=x,description=description)      
+                                                   nodays=x,description=description, pdf_attachment=pdf_attachment)      
                medrep.save()
                if first_app is not None:
                  medrep.first_approval = first_app
@@ -141,7 +142,7 @@ def medreps(request, id=0):
             to_date= datetime.strptime(request.POST.get('to_date'), '%Y-%m-%d')
             medrep.nodays = RequestedVac(from_date,to_date)     
                         
-            form = MedrepForm(request.POST, instance = medrep)  
+            form = MedrepForm(request.POST,request.FILES, instance = medrep)  
             if form.is_valid():
                medrep.save()
                return redirect('list_medreps')
@@ -185,11 +186,21 @@ def medreps(request, id=0):
                'annual': updEls.current_year,
                'this': medrep.nodays,
                'balance': (updEls.current_year)-(updEls.daystaken_current+medrep.nodays),
-               'med' : medrep,
+               'medrep' : medrep,
                'RejAcc': RejAcc,
                }    
       
          return render(request, 'medreps\\medreps.html', context)
+     
+def pdf_view(request,id):
+    medrep = Medrep.objects.get(pk=id)
+   # return HttpResponse(medrep.pdf_attachment.name)
+    if medrep.pdf_attachment.name is not None and  medrep.pdf_attachment.name !="":
+      return FileResponse(open("media/"+ str(medrep.pdf_attachment), 'rb'), content_type='application/pdf')
+    else:
+      return HttpResponse("No Attachment...")
+       
+ 
 
 def getAppEmp(med):
    if med.approval_position == 1 :
