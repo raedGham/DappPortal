@@ -8,7 +8,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='login')
 def dashboard(request):
-    vacWaitApp = Vacation.objects.filter(status=0)   
+    query =""
+    if 'query' in request.GET:
+      query = request.GET['query'] 
+
+    if query!="":     
+     vacWaitApp = Vacation.objects.filter(status=0 , employee__first_name__icontains=query )   
+    else:
+     vacWaitApp = Vacation.objects.filter(status=0)   
     vacWaitUserApp = []
 
     for vac in vacWaitApp:
@@ -100,3 +107,9 @@ def dashboard(request):
               }
     
     return render(request,'dashboard\main.html', context)
+
+
+def searchQuery(request):
+
+    
+   return HttpResponse("search Query")
