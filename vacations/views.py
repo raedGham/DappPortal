@@ -321,7 +321,8 @@ def single_vacationPDF(request, id):
       'updEls':updEls, 
       'annual': updEls.current_year + updEls.previous_year,
       'this': vac.nodays,
-      'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vac.nodays)
+      'sofar':updEls.daystaken_current -vac.nodays,
+      'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current)
    }
   else:
         context = {
