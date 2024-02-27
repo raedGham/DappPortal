@@ -124,7 +124,7 @@ def admindash(request):
      # ----------------------------------------get employee Medreps
       if from_date is not None:
          med_emp_sum = Medrep.objects.values("employee__first_name","employee__last_name").annotate(
-         sum=Sum("nodays")).filter(Q(ot_date__gte =from_date) & Q(ot_date__lte =to_date) ).order_by('-sum')[:5]
+         sum=Sum("nodays")).filter(Q(medrep_date__gte =from_date) & Q(medrep_date__lte =to_date) ).order_by('-sum')[:5]
      
       else:
          med_emp_sum = Medrep.objects.values("employee__first_name","employee__last_name").annotate(
