@@ -12,6 +12,7 @@ class Vacation (models.Model):
     nodays    = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     ampm      = models.CharField(max_length =2, blank=True, null=True)    
     remarks   = models.TextField(blank=True)
+    sofar     = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     first_approval = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True, related_name='first_approval_vacations')
     first_app_status = models.IntegerField(default=0)
     first_app_date = models.DateTimeField(auto_now_add=True , null=True)
@@ -39,10 +40,10 @@ class Vacation (models.Model):
 class EmployeeLeaveStat (models.Model):
     employee = models.OneToOneField(Account, on_delete=models.CASCADE)
     description = models.CharField(max_length=50, default="")
-    current_year = models.IntegerField()
-    previous_year = models.IntegerField()
-    total_annual= models.IntegerField()
-    daystaken_current = models.IntegerField()
+    current_year = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
+    previous_year = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
+    total_annual= models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
+    daystaken_current = models.DecimalField(decimal_places=1, max_digits=3, blank=True, null=True)
     
     def __str__(self) :
         return self.employee.first_name+" "+self.employee.last_name

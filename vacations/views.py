@@ -92,7 +92,7 @@ def vacations(request, id=0):
                if ampm.lower() == 'am' or ampm.lower() =='pm':
                   if to_date>from_date:
                      to_date = from_date
-                     x = 0.5
+                  x = 0.5
                else:      
                   x = RequestedVac(from_date, to_date)
            
@@ -120,14 +120,16 @@ def vacations(request, id=0):
                  vacation.third_approval = third_app
                if fourth_app is not None:
                  vacation.fourth_approval = fourth_app   
-               vacation.save()  
+                 
                # update EmployeeLeaveStat 
              
                els = EmployeeLeaveStat.objects.filter(employee = employee)               
                idy = els[0].id
-               updEls = EmployeeLeaveStat.objects.get(id= idy )               
-               updEls.daystaken_current += x
-               updEls.save()            
+               updEls = EmployeeLeaveStat.objects.get(id= idy ) 
+               vacation.sofar = updEls.daystaken_current            
+               updEls.daystaken_current = updEls.daystaken_current + Decimal(vacation.nodays)
+               updEls.save()         
+               vacation.save()
                return redirect('list_vacations')
             else: 
                context = {
@@ -153,7 +155,8 @@ def vacations(request, id=0):
                if Decimal(request.session["prevnodays"] != vacation.nodays):                
                   els = EmployeeLeaveStat.objects.filter(employee = vacation.employee)               
                   idy = els[0].id
-                  updEls = EmployeeLeaveStat.objects.get(id= idy )               
+                  updEls = EmployeeLeaveStat.objects.get(id= idy ) 
+                                
                   updEls.daystaken_current += (vacation.nodays - Decimal(request.session["prevnodays"]))
                   updEls.save()               
 
@@ -199,9 +202,10 @@ def vacations(request, id=0):
             context = {
                'form':form,
                'updEls':updEls, 
-               'annual': updEls.current_year + updEls.previous_year,
+               'annual': updEls.total_annual,
                'this': vacation.nodays,
-               'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current+vacation.nodays),
+               'sofar':vacation.sofar,
+               'balance': updEls.total_annual -(vacation.sofar)-(vacation.nodays),
                'vac' : vacation,
                'RejAcc': RejAcc,
                }    
@@ -316,13 +320,20 @@ def single_vacationPDF(request, id):
   if els.exists():                         
    idy = els[0].id  
    updEls = EmployeeLeaveStat.objects.get(id= idy )  
+   # if updEls.daystaken_current == 0:
+   #     y = 0
+   # else:
+   #    y=vac.nodays 
+
+   # sofar =   updEls.daystaken_current - y    
+
    context = {
       'vac' : vac,
       'updEls':updEls, 
-      'annual': updEls.current_year + updEls.previous_year,
+      'annual': updEls.total_annual,
       'this': vac.nodays,
-      'sofar':updEls.daystaken_current -vac.nodays,
-      'balance': (updEls.current_year + updEls.previous_year)-(updEls.daystaken_current)
+      'sofar':vac.sofar,
+      'balance': (updEls.total_annual)-(vac.sofar)-(vac.nodays)
    }
   else:
         context = {
