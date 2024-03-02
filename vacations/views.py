@@ -187,37 +187,37 @@ def vacations(request, id=0):
 
             vacation = Vacation.objects.get(pk=id)
             request.session['prevnodays'] = str(vacation.nodays)
-            # if (vacation.approval_position == 1 and vacation.first_approval==request.user) or (
-            #     vacation.approval_position == 2 and vacation.second_approval==request.user) or(
-            #     vacation.approval_position == 3 and vacation.third_approval==request.user) or ( 
-            #     vacation.approval_position == 4 and vacation.fourth_approval==request.user) : 
+            if (vacation.approval_position == 1 and vacation.first_approval==request.user) or (
+                 vacation.approval_position == 2 and vacation.second_approval==request.user) or(
+                 vacation.approval_position == 3 and vacation.third_approval==request.user) or ( 
+                 vacation.approval_position == 4 and vacation.fourth_approval==request.user) : 
 
             
-            form = VacationForm(instance=vacation)          
-            els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)                         
-            idy = els[0].id
-            updEls = EmployeeLeaveStat.objects.get(id= idy )                    
+               form = VacationForm(instance=vacation)          
+               els = EmployeeLeaveStat.objects.filter(employee = vacation.employee.id)                         
+               idy = els[0].id
+               updEls = EmployeeLeaveStat.objects.get(id= idy )                    
 
-                  
-            if request.user.id == getAppEmp(vacation):
-                RejAcc = True
+                     
+               if request.user.id == getAppEmp(vacation):
+                  RejAcc = True
+               else:
+                  RejAcc = False   
+
+               context = {
+                        'form':form,
+                        'updEls':updEls, 
+                        'annual': updEls.total_annual,
+                        'this': vacation.nodays,
+                        'sofar':vacation.sofar,
+                        'balance': updEls.total_annual -(vacation.sofar)-(vacation.nodays),
+                        'vac' : vacation,
+                        'RejAcc': RejAcc,
+                        }    
             else:
-                RejAcc = False   
-
-            context = {
-                     'form':form,
-                     'updEls':updEls, 
-                     'annual': updEls.total_annual,
-                     'this': vacation.nodays,
-                     'sofar':vacation.sofar,
-                     'balance': updEls.total_annual -(vacation.sofar)-(vacation.nodays),
-                     'vac' : vacation,
-                     'RejAcc': RejAcc,
-                     }    
-            # else:
-            #    return HttpResponse("Not Allowed to edit ...")
+                return HttpResponse("Not Allowed to edit ...")
             
-         return render(request, 'vacations\\vacations.html', context)
+            return render(request, 'vacations\\vacations.html', context)
 
 def getAppEmp(vac):
    if vac.approval_position == 1 :
@@ -232,34 +232,36 @@ def getAppEmp(vac):
 #    -------------------------------------------     D E L E T E   V A C A T I O N    
 @login_required(login_url='login')
 def vacation_delete(request,id):
-      vac = Vacation.objects.get(id=id)
-      if request.method == "POST":
+   vac = Vacation.objects.get(id=id)
+   if (vac.approval_position == 1 and vac.first_approval==request.user) or (
+                 vac.approval_position == 2 and vac.second_approval==request.user) or(
+                 vac.approval_position == 3 and vac.third_approval==request.user) or ( 
+                 vac.approval_position == 4 and vac.fourth_approval==request.user) : 
+         
+        if request.method == "POST":
+        
          no_of_days = vac.nodays
          leaveId = vac.leave_stat_id
          vacid  = vac.id
-         # els = EmployeeLeaveStat.objects.filter(employee = vac.employee)               
-         # idy = els[0].id
-
          updEls = EmployeeLeaveStat.objects.get(id= vac.leave_stat_id.id )               
          updEls.daystaken_current -= vac.nodays
          updEls.save()               
          vac.delete()
-         
+           
          UpdVac = Vacation.objects.filter(leave_stat_id = leaveId)
-         
+            
          for updvac in UpdVac:
-            if updvac.id > vacid:
-     #          print(updvac.id)
-               updvac.sofar -= no_of_days 
-               updvac.save()
-
-
-         
-         return redirect('list_vacations')
+               if updvac.id > vacid:
+      #          print(updvac.id)
+                  updvac.sofar -= no_of_days 
+                  updvac.save()
+         return redirect('list_vacations')      
       
-      return render(request,
-                  'vacations/vacation_delete.html',
-                  {'vac': vac}) 
+   else:
+     print("CANNOT DELETE")
+     return HttpResponse("Not allowed to Delete ...")       
+         
+   return render(request,'vacations/vacation_delete.html',{'vac': vac}) 
 
 @login_required(login_url='login')
 def workflow(request, id):
