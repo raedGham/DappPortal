@@ -98,7 +98,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.mysql', 
     #     'NAME': 'dappportal',
     #     'USER': 'root',
-    #     'PASSWORD': 'Rg@16101974',
+    #     'PASSWORD': 'Root',
     #     'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
     #     'PORT': '3306',
     # }

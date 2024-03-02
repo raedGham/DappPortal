@@ -70,7 +70,8 @@ def list_vacations(request):
    
 
    context = { 
-               'p_vacations':p_vacations,               
+               'p_vacations':p_vacations, 
+                           
                }
    return render(request,"vacations\\vacations_list.html", context)
 
@@ -78,71 +79,72 @@ def list_vacations(request):
 @login_required(login_url='login')
 def vacations(request, id=0):
      
-     if request.method == "POST":
-       if id == 0: # to create a new record and append it to the table            
+   if request.method == "POST":
+      if id == 0: # to create a new record and append it to the table            
             form = VacationForm(request.POST)
             if form.is_valid():
-               employee= form.cleaned_data['employee']
-               vac_date= form.cleaned_data['vac_date']
-               from_date= form.cleaned_data['from_date']
-               to_date= form.cleaned_data['to_date']
-               nodays= form.cleaned_data['nodays']
-               ampm  = form.cleaned_data['ampm']
-               remarks  = form.cleaned_data['remarks']
-               if ampm.lower() == 'am' or ampm.lower() =='pm':
-                  if to_date>from_date:
-                     to_date = from_date
-                  x = 0.5
-               else:      
-                  x = RequestedVac(from_date, to_date)
-           
-               # set Vacation Approval Workflow
-               first_app, second_app, third_app, fourth_app = SetWorkflow(employee)                               
-                              
-               vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
-                                                   nodays=x,ampm=ampm, remarks=remarks)      
-               vacation.save()
-               if first_app is not None:
-                 vacation.first_approval = first_app
-                 vacation.approval_position = 1
-               else:  
-                 vacation.first_app_status=1
-                 vacation.approval_position = 2
-                 
-               if second_app is not None:
-                 vacation.second_approval = second_app                  
-               else:
-                 vacation.first_app_status=1
-                 vacation.second_app_status=1
-                 vacation.approval_position = 3
-
-               if third_app is not None:
-                 vacation.third_approval = third_app
-               if fourth_app is not None:
-                 vacation.fourth_approval = fourth_app   
-                 
-               # update EmployeeLeaveStat 
-             
-               els = EmployeeLeaveStat.objects.filter(employee = employee)               
-               idy = els[0].id
-               updEls = EmployeeLeaveStat.objects.get(id= idy ) 
-               vacation.sofar = updEls.daystaken_current            
-               updEls.daystaken_current = updEls.daystaken_current + Decimal(vacation.nodays)
-               updEls.save()         
-               vacation.save()
-               return redirect('list_vacations')
-            else: 
-               context = {
-               'form':form,
-               'updEls':{}, 
-               'annual': '',
-               'this': '',
-               'balance': '',
-               'RejAcc': False,
-            }
-               return render(request, 'vacations\\vacations.html',context)
+                  employee= form.cleaned_data['employee']
+                  vac_date= form.cleaned_data['vac_date']
+                  from_date= form.cleaned_data['from_date']
+                  to_date= form.cleaned_data['to_date']
+                  nodays= form.cleaned_data['nodays']
+                  ampm  = form.cleaned_data['ampm']
+                  remarks  = form.cleaned_data['remarks']
+                  if ampm.lower() == 'am' or ampm.lower() =='pm':
+                     if to_date>from_date:
+                        to_date = from_date
+                     x = 0.5
+                  else:      
+                     x = RequestedVac(from_date, to_date)
             
-       else: # to update the edited record in the table
+                  # set Vacation Approval Workflow
+                  first_app, second_app, third_app, fourth_app = SetWorkflow(employee)                               
+                                 
+                  vacation = Vacation.objects.create(employee=employee,vac_date=vac_date,from_date=from_date, to_date=to_date,
+                                                      nodays=x,ampm=ampm, remarks=remarks)      
+                  vacation.save()
+                  if first_app is not None:
+                     vacation.first_approval = first_app
+                     vacation.approval_position = 1
+                  else:  
+                     vacation.first_app_status=1
+                     vacation.approval_position = 2
+                  
+                  if second_app is not None:
+                     vacation.second_approval = second_app                  
+                  else:
+                     vacation.first_app_status=1
+                     vacation.second_app_status=1
+                     vacation.approval_position = 3
+
+                  if third_app is not None:
+                     vacation.third_approval = third_app
+                  if fourth_app is not None:
+                     vacation.fourth_approval = fourth_app   
+                  
+                  # update EmployeeLeaveStat 
+               
+                  els = EmployeeLeaveStat.objects.filter(employee = employee)               
+                  idy = els[0].id
+                  updEls = EmployeeLeaveStat.objects.get(id= idy ) 
+                  vacation.sofar = updEls.daystaken_current 
+                  vacation.leave_stat_id = updEls          
+                  updEls.daystaken_current = updEls.daystaken_current + Decimal(vacation.nodays)
+                  updEls.save()         
+                  vacation.save()
+                  return redirect('list_vacations')
+            else: 
+                  context = {
+                  'form':form,
+                  'updEls':{}, 
+                  'annual': '',
+                  'this': '',
+                  'balance': '',
+                  'RejAcc': False,
+               }
+            return render(request, 'vacations\\vacations.html',context)
+            
+      else: # to update the edited record in the table 
             print("the update submitted")
             print("session previousnodays:", request.session['prevnodays'])
  
@@ -155,10 +157,9 @@ def vacations(request, id=0):
                if Decimal(request.session["prevnodays"] != vacation.nodays):                
                   els = EmployeeLeaveStat.objects.filter(employee = vacation.employee)               
                   idy = els[0].id
-                  updEls = EmployeeLeaveStat.objects.get(id= idy ) 
-                                
+                  updEls = EmployeeLeaveStat.objects.get(id= idy )                                
                   updEls.daystaken_current += (vacation.nodays - Decimal(request.session["prevnodays"]))
-                  updEls.save()               
+                  updEls.save()             
 
                vacation.save()               
                return redirect('list_vacations')
@@ -166,7 +167,7 @@ def vacations(request, id=0):
                 print('Invalid form')
                 return redirect('list_vacations')
                 
-     else:   # GET request
+   else:   # GET request
          if id == 0 : # to open a blank from
             if request.user.username != "adminuser":         
               form = VacationForm(dep_id=request.user.department)
@@ -183,9 +184,13 @@ def vacations(request, id=0):
             }
          
          else: # to populate the form with the data needed to be updated
+
             vacation = Vacation.objects.get(pk=id)
             request.session['prevnodays'] = str(vacation.nodays)
-
+            # if (vacation.approval_position == 1 and vacation.first_approval==request.user) or (
+            #     vacation.approval_position == 2 and vacation.second_approval==request.user) or(
+            #     vacation.approval_position == 3 and vacation.third_approval==request.user) or ( 
+            #     vacation.approval_position == 4 and vacation.fourth_approval==request.user) : 
 
             
             form = VacationForm(instance=vacation)          
@@ -193,23 +198,25 @@ def vacations(request, id=0):
             idy = els[0].id
             updEls = EmployeeLeaveStat.objects.get(id= idy )                    
 
-            
+                  
             if request.user.id == getAppEmp(vacation):
-               RejAcc = True
+                RejAcc = True
             else:
-               RejAcc = False   
-   
+                RejAcc = False   
+
             context = {
-               'form':form,
-               'updEls':updEls, 
-               'annual': updEls.total_annual,
-               'this': vacation.nodays,
-               'sofar':vacation.sofar,
-               'balance': updEls.total_annual -(vacation.sofar)-(vacation.nodays),
-               'vac' : vacation,
-               'RejAcc': RejAcc,
-               }    
-      
+                     'form':form,
+                     'updEls':updEls, 
+                     'annual': updEls.total_annual,
+                     'this': vacation.nodays,
+                     'sofar':vacation.sofar,
+                     'balance': updEls.total_annual -(vacation.sofar)-(vacation.nodays),
+                     'vac' : vacation,
+                     'RejAcc': RejAcc,
+                     }    
+            # else:
+            #    return HttpResponse("Not Allowed to edit ...")
+            
          return render(request, 'vacations\\vacations.html', context)
 
 def getAppEmp(vac):
@@ -227,12 +234,27 @@ def getAppEmp(vac):
 def vacation_delete(request,id):
       vac = Vacation.objects.get(id=id)
       if request.method == "POST":
-         els = EmployeeLeaveStat.objects.filter(employee = vac.employee)               
-         idy = els[0].id
-         updEls = EmployeeLeaveStat.objects.get(id= idy )               
+         no_of_days = vac.nodays
+         leaveId = vac.leave_stat_id
+         vacid  = vac.id
+         # els = EmployeeLeaveStat.objects.filter(employee = vac.employee)               
+         # idy = els[0].id
+
+         updEls = EmployeeLeaveStat.objects.get(id= vac.leave_stat_id.id )               
          updEls.daystaken_current -= vac.nodays
          updEls.save()               
          vac.delete()
+         
+         UpdVac = Vacation.objects.filter(leave_stat_id = leaveId)
+         
+         for updvac in UpdVac:
+            if updvac.id > vacid:
+     #          print(updvac.id)
+               updvac.sofar -= no_of_days 
+               updvac.save()
+
+
+         
          return redirect('list_vacations')
       
       return render(request,
@@ -275,12 +297,20 @@ def vacation_approve(request, id):
 def vacation_reject(request, id):   
    vac = Vacation.objects.get(id=id) 
    vac.status = 2 
-   emplleavestatList = EmployeeLeaveStat.objects.filter(employee=vac.employee)
-   ide = emplleavestatList[0].id
-   ELS = EmployeeLeaveStat.objects.get(id=ide)
+   no_of_days = vac.nodays
+   vacid = vac.id
+  
+   ELS = EmployeeLeaveStat.objects.get(id = vac.leave_stat_id.id)   
    ELS.daystaken_current -= vac.nodays
    ELS.save()
    vac.save()
+
+   UpdVac = Vacation.objects.filter(leave_stat_id = vac.leave_stat_id.id)
+   for updvac in UpdVac:
+            if updvac.id > vacid:     
+               updvac.sofar -= no_of_days 
+               updvac.save()
+
    return redirect('list_vacations') 
 
 
