@@ -11,7 +11,7 @@ from positions.models import Position
 from django.utils.dateparse import parse_date
 from dapp.utils import GetFilterDepList, SetWorkflow
 from decimal import Decimal
-
+from django.contrib import messages
 # imports for pdf generator
 import os
 from django.template.loader import render_to_string
@@ -68,9 +68,25 @@ def list_vacations(request):
    page = request.GET.get('page')
    p_vacations = p.get_page(page)
    
+   # calculate canDel
 
+   canDelete=[]
+  
+   for vac in data:
+       print(request.user.username)
+       if  request.user.username == 'adminuser' and vac.status not in [1,2]:
+         canDelete.append(vac.id)
+
+       if       (vac.approval_position == 1 and vac.first_approval==request.user) or (
+                 vac.approval_position == 2 and vac.second_approval==request.user) or(
+                 vac.approval_position == 3 and vac.third_approval==request.user) or ( 
+                 vac.approval_position == 4 and vac.fourth_approval==request.user): 
+          canDelete.append(vac.id)
+
+   
    context = { 
                'p_vacations':p_vacations, 
+               'canDelete': canDelete,
                            
                }
    return render(request,"vacations\\vacations_list.html", context)
@@ -168,6 +184,7 @@ def vacations(request, id=0):
                 return redirect('list_vacations')
                 
    else:   # GET request
+         print("GET")
          if id == 0 : # to open a blank from
             if request.user.username != "adminuser":         
               form = VacationForm(dep_id=request.user.department)
@@ -190,7 +207,7 @@ def vacations(request, id=0):
             if (vacation.approval_position == 1 and vacation.first_approval==request.user) or (
                  vacation.approval_position == 2 and vacation.second_approval==request.user) or(
                  vacation.approval_position == 3 and vacation.third_approval==request.user) or ( 
-                 vacation.approval_position == 4 and vacation.fourth_approval==request.user) : 
+                 vacation.approval_position == 4 and vacation.fourth_approval==request.user) or request.user.username=="adminuser" : 
 
             
                form = VacationForm(instance=vacation)          
@@ -215,9 +232,10 @@ def vacations(request, id=0):
                         'RejAcc': RejAcc,
                         }    
             else:
-                return HttpResponse("Not Allowed to edit ...")
-            
-            return render(request, 'vacations\\vacations.html', context)
+                messages.warning(request, 'Not Allowed to edit ...')
+                return redirect('list_vacations')
+                           
+   return render(request, 'vacations\\vacations.html', context)
 
 def getAppEmp(vac):
    if vac.approval_position == 1 :
@@ -236,7 +254,7 @@ def vacation_delete(request,id):
    if (vac.approval_position == 1 and vac.first_approval==request.user) or (
                  vac.approval_position == 2 and vac.second_approval==request.user) or(
                  vac.approval_position == 3 and vac.third_approval==request.user) or ( 
-                 vac.approval_position == 4 and vac.fourth_approval==request.user) : 
+                 vac.approval_position == 4 and vac.fourth_approval==request.user) or request.user.username=="adminuser": 
          
         if request.method == "POST":
         
@@ -259,7 +277,9 @@ def vacation_delete(request,id):
       
    else:
      print("CANNOT DELETE")
-     return HttpResponse("Not allowed to Delete ...")       
+     messages.warning(request, 'Not Allowed to Delete ...')
+     return redirect('list_vacations')
+        
          
    return render(request,'vacations/vacation_delete.html',{'vac': vac}) 
 
