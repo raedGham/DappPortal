@@ -96,7 +96,9 @@ def list_vacations(request):
 def vacations(request, id=0):
      
    if request.method == "POST":
-      if id == 0: # to create a new record and append it to the table            
+      if id == 0: # to create a new record and append it to the table      
+            
+
             form = VacationForm(request.POST)
             if form.is_valid():
                   employee= form.cleaned_data['employee']
@@ -106,13 +108,20 @@ def vacations(request, id=0):
                   nodays= form.cleaned_data['nodays']
                   ampm  = form.cleaned_data['ampm']
                   remarks  = form.cleaned_data['remarks']
+                 
+                  els = EmployeeLeaveStat.objects.filter(employee = employee)               
+                  idy = els[0].id
+                  updEls = EmployeeLeaveStat.objects.get(id= idy ) 
+                  drem = updEls.current_year + updEls.previous_year - updEls.daystaken_current
                   if ampm.lower() == 'am' or ampm.lower() =='pm':
                      if to_date>from_date:
                         to_date = from_date
                      x = 0.5
                   else:      
                      x = RequestedVac(from_date, to_date)
-            
+                  if x> drem :
+                     messages.error(request, str(drem)+  " days remaining only")
+                     return redirect('list_vacations')
                   # set Vacation Approval Workflow
                   first_app, second_app, third_app, fourth_app = SetWorkflow(employee)                               
                                  
