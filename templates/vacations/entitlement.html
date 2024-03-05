@@ -30,6 +30,7 @@
                 <table  class="table datatable">
                     <thead>
                       <tr>  
+                        <th> ID</th>
                         <th> Description </th>
                         <th> Current Yr</th>
                         <th> Previous Yr</th>
@@ -45,11 +46,12 @@
                     <tbody>
                     {% for ent in entitlement%}
                     <tr>
-                      <td>{{ ent.description}}
-                      <td>{{ ent.current_year}}  
-                      <td>{{ ent.previous_year}}    
-                      <td>{{ ent.total_annual}} 
-                      <td>{{ ent.daystaken_current}} 
+                      <td>{{ ent.id}}</td>
+                      <td>{{ ent.description}}</td>
+                      <td>{{ ent.current_year}}  </td>
+                      <td>{{ ent.previous_year}}  </td>  
+                      <td>{{ ent.total_annual}}  </td>
+                      <td>{{ ent.daystaken_current}} </td>
                       <td > <a href="{% url 'ent_update' ent.id selected_emp %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                       <td > <a href = "{% url 'ent_delete' ent.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                       

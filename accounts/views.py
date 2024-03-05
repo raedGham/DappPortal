@@ -6,7 +6,7 @@ from django.contrib.auth import update_session_auth_hash
 from .models import Account,Department,Position
 from overtime.models import Overtime
 from vacations.models import EmployeeLeaveStat
-from django.contrib import messages
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages, auth
 from dapp.utils import GetFilterDepList,GetCurrentMonthStart,GetCurrentMonthEnd, GetPreviousMonthStart, GetPreviousMonthEnd
@@ -21,7 +21,7 @@ from datetime import datetime
 
 # @permission_required("accounts.view_account")
 def modifypassword(request):
-   u = Account.objects.get(username="Adel.Adraa")
+   u = Account.objects.get(username="Moumin.Mohamad")
    u.is_active = True
    u.is_admin = True
    u.is_staff = True
