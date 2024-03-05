@@ -8,7 +8,7 @@ from django.utils import timezone
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, username, email, password, first_name , last_name, middle_name , phone_number,ps_number,financial_number,nssf_number,work_start_date,
-                    work_finish_date, department, position, head_dep, remarks, address,profile_pic, is_head,is_engineer,is_deputy, is_guard, is_AdminNoHead,is_OMwithHead,is_OMnoHead,has_vac_ent) :       
+                    work_finish_date, department, position, head_dep, remarks, address,profile_pic, is_head,is_engineer,is_deputy, is_guard, is_AdminNoHead,is_OMwithHead,is_OMnoHead,has_vac_ent, has_med_ent) :       
                                                      
         if not email:
             raise ValueError('User must have an email address')
@@ -41,6 +41,7 @@ class MyAccountManager(BaseUserManager):
             is_OMwithHead   = is_OMwithHead,
             is_OMnoHead     = is_OMnoHead,
             has_vac_ent     = has_vac_ent,
+            has_med_ent     = has_med_ent,
             
         )
 

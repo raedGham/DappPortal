@@ -1,0 +1,59 @@
+{% extends 'base_nonav.html' %} 
+
+
+
+
+
+
+{% block content %}
+<style> @page { size: A4 landscape; margin: 1cm; } </style>
+<main id="main" class="main">
+ 
+    <section class="mar">
+              <!-- Table with stripped rows -->
+              <table class="PDFtable">
+                <thead class = "PDFtable">
+                  <tr >                  
+                    <th>ID</th>
+                    <th>OT Date</th>
+                    <th>PS no</th>
+                    <th>Name </th>                      
+                    <th>Department </th>
+                    <th>From Time </th>
+                    <th>To Time </th>
+                    <th>Total Hours </th>
+                    <th>Rate </th>
+                    <th>Straight </th>
+                    <th>Reason </th>
+                  </tr>
+                </thead>
+                
+                <tbody class = "">
+                {% for ot in ots %}       
+                  <tr class="PDFtable h1">
+                    <td>{{ot.id}}</td>
+                    <td>{{ot.ot_date}}</td>
+                    <td class="" scope="col">{{ot.employee.ps_number}}</td>
+                    {% if ot.employee.middle_name != None or  ot.employee.middle_name is not None %}
+                    <td>{{ ot.employee.first_name}} {{ot.employee.middle_name}}  {{ot.employee.last_name}}</td> 
+                    {% else %}
+                    <td>{{ ot.employee.first_name}} {{ot.employee.last_name}}</td> 
+                    {% endif%}                    
+                    <td class="" scope="col" >{{ot.employee.department}}</td>
+                    <td>{{ot.from_time}}</td>
+                    <td>{{ot.to_time}}</td>
+                    <td>{{ot.total_hours}}</td>
+                    <td>{{ot.rate}}</td>                    
+                    <td>{{ot.straight}}</td>                   
+                    <td>{{ot.reason}}</td>
+
+                    
+                    
+                  </tr>                            
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+    </section>
+{% endblock %}

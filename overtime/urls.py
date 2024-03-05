@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 urlpatterns = [
   path('otlist/', views.ot_list, name='ot_list'),
+   path('listPDF/', views.OTPDF, name='OTSPDF'),
   path('overtime/<int:id>/', views.overtime, name='overtime'),
   path('ot_by_date/<str:otdate>/', views.ot_by_date, name='ot_by_date'),
   path('workflow/<int:id>/', views.workflow, name='o_workflow'),

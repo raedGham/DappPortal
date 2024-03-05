@@ -11,7 +11,11 @@ from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
 from django.db.models import Q
 import json
-# Create your views here.
+# imports for pdf generator
+import os
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from datetime import datetime
 
 
 def getAppEmp(ot):
@@ -24,6 +28,30 @@ def getAppEmp(ot):
    elif ot.approval_position == 4:
       return ot.fourth_approval.id
 
+#--------------------------------------------------------------------------    P D F    L I S T   
+@login_required(login_url='login')
+def OTPDF(request):
+  os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
+  response = HttpResponse(content_type='application/pdf')
+  response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
+  response['Content-Transfer-Encoding'] = 'binary'
+  name_search = request.session["name_search"]
+  PSno_search = request.session["PSno_search"]
+  print("name search:", name_search)
+  data = Overtime.objects.all()
+  if name_search !='' and name_search is not None:
+    data = Overtime.objects.filter(employee__first_name__icontains=name_search )
+  if PSno_search !='' and PSno_search is not None:
+    data = Overtime.objects.filter(employee__ps_number__icontains= PSno_search)
+  context = {
+      'ots' : data ,      
+   }
+  
+  html_string = render_to_string('overtime\\OTSPDF.html', context)
+  html=HTML(string=html_string, base_url=request.build_absolute_uri())
+  result= html.write_pdf(response , presentational_hints=True)
+  return response     
+ #--------------------------------------------------------------------------    O T   L I S T
 @login_required(login_url='login')
 def ot_list(request):
     # Pagination
@@ -33,7 +61,8 @@ def ot_list(request):
    PSno_search = request.GET.get('PSno_search')  
    S_fromdate = request.GET.get('S_fromdate')  
    S_todate = request.GET.get('S_todate') 
-
+   request.session["name_search"] = name_search 
+   request.session["PSno_search"] = PSno_search
    FilterDepList = GetFilterDepList(request.user)
    # sortby = request.GET.get('sortby')
    sortby = "-id"
@@ -91,7 +120,7 @@ def ot_list(request):
       'selected_date':selected_date,
     }
    return render(request, 'overtime/ot_list.html', context)
-
+#--------------------------------------------------------------------------    C R E A T E   O T   F O R M
 def create_ot_form(request):    
     form = OvertimeForm()
     context = {
@@ -108,6 +137,7 @@ def create_ot_By_date_form(request):
     }
     return render(request, "overtime/ot_form1.html", context)
 
+#--------------------------------------------------------------------------    O V E R T I M E   F O R M
 @login_required(login_url='login')
 def overtime(request,id):
  employee = Account.objects.get(id=id)
@@ -168,6 +198,9 @@ def overtime(request,id):
       
  return render(request, 'overtime\\overtime.html', context)
 
+
+
+
 def Getdoweek(date_str, format="%Y-%m-%d"):
    try:
         date_obj = datetime.strptime(date_str, format)
@@ -183,6 +216,7 @@ def Getdoweek(date_str, format="%Y-%m-%d"):
    except ValueError:
         raise ValueError("Invalid date string or format. Please use the correct format:", format)
 
+#--------------------------------------------------------------------------    O V E R T I M E   B Y   D A T E   F O R M
 
 @login_required(login_url='login')
 def ot_by_date(request,otdate):
@@ -238,6 +272,8 @@ def ot_by_date(request,otdate):
       
  return render(request, 'overtime\\ot_by_date.html', context)
 
+
+#--------------------------------------------------------------------------    O V E R T I M E   U P D A T E   F O R M
 @login_required(login_url='login')     
 def ot_update(request, id):   
     if request.method == "POST":            
@@ -276,7 +312,7 @@ def ot_update(request, id):
           
 
 
-
+#--------------------------------------------------------------------------    O V E R T I M E   A P P R O V E
 @login_required(login_url='login')     
 def overtime_approve(request, id):   
    ot = Overtime.objects.get(id=id) 
@@ -296,7 +332,7 @@ def overtime_approve(request, id):
    ot.save()
    return redirect('ot_list') 
 
-
+#--------------------------------------------------------------------------    O V E R T I M E   M U L T I P L E  A P P R O V E
 def ots_approve(request):
    usr = request.user
    
@@ -333,7 +369,7 @@ def ots_approve(request):
          'ots':ots
             }
       return render(request,'overtime/ots_approve.html', context)
-
+#--------------------------------------------------------------------------    O V E R T I M E   R E J E C T
 @login_required(login_url='login')
 def overtime_reject(request, id):   
    ot = Overtime.objects.get(id=id) 
