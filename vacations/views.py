@@ -19,6 +19,30 @@ from weasyprint import HTML
 import tempfile
 from  django.db.models import Sum
 
+#--------------------------------------------------------------------------    P D F  V A C A T I O N  L I S T   
+@login_required(login_url='login')
+def vacListPDF(request):
+  os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
+  response = HttpResponse(content_type='application/pdf')
+  response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
+  response['Content-Transfer-Encoding'] = 'binary'
+  name_search = request.session["name_search"]
+  PSno_search = request.session["PSno_search"]
+  print("name search:", name_search)
+  data = Vacation.objects.all()
+  if name_search !='' and name_search is not None:
+    data = Vacation.objects.filter(employee__first_name__icontains=name_search )
+  if PSno_search !='' and PSno_search is not None:
+    data = Vacation.objects.filter(employee__ps_number__icontains= PSno_search)
+  context = {
+      'vacs' : data ,      
+   }
+  
+  html_string = render_to_string('vacations\\vacListPDF.html', context)
+  html=HTML(string=html_string, base_url=request.build_absolute_uri())
+  result= html.write_pdf(response , presentational_hints=True)
+  return response     
+
 
 #    -------------------------------------------     V A C A T I O N S  L I S T
 @login_required(login_url='login')
@@ -32,7 +56,8 @@ def list_vacations(request):
    S_fromdate = request.GET.get('S_fromdate')  
    S_todate = request.GET.get('S_todate') 
 
-  
+   request.session["name_search"]= name_search
+   request.session["PSno_search"]= PSno_search
    FilterDepList = GetFilterDepList(request.user)
    # sortby = request.GET.get('sortby')
    sortby = "-id"

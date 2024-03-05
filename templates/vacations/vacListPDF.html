@@ -1,0 +1,56 @@
+{% extends 'base_nonav.html' %} 
+{%load static%}
+{% block content %}
+<style> @page { size: A4 landscape; margin: 1cm; } </style>
+<main id="main" class="main">
+ 
+    <section class="mar">
+              <!-- Table with stripped rows -->
+              <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "700px"  alt="">
+              <h3>List of Vacations</h3>
+              <table class="PDFtable">
+                <thead class = "PDFtable">
+                  <tr >                  
+                    <th>ID</th>
+                    <th>Vac. Date</th>
+                    <th>PS no</th>
+                    <th>Name </th>                      
+                    <th>Department </th>
+                    <th>From Date </th>
+                    <th>To Date </th>
+                    <th>No of Days </th>
+                    <th>AM/PM </th>
+                    <th>Remarks</th>
+                   
+                  </tr>
+                </thead>
+                
+                <tbody class = "">
+                {% for vac in vacs %}       
+                  <tr class="PDFtable h1">
+                    <td class="wb3">{{vac.id}}</td>
+                    <td class="wb4">{{vac.vac_date}}</td>
+                    <td class="" scope="col">{{vac.employee.ps_number}}</td>
+                    {% if vac.employee.middle_name != None or  vac.employee.middle_name is not None %}
+                    <td class="w5">{{ vac.employee.first_name}} {{vac.employee.middle_name}}  {{vac.employee.last_name}}</td> 
+                    {% else %}
+                    <td class="w5">{{ vac.employee.first_name}} {{vac.employee.last_name}}</td> 
+                    {% endif%}                    
+                    <td class="" scope="col" >{{vac.employee.department}}</td>
+                    <td class="w5">{{vac.from_date}}</td>
+                    <td class="w5">{{vac.to_date}}</td>
+                    <td class="w3">{{vac.nodays}}</td>
+                    <td class="w3">{{vac.ampm}}</td>                    
+                    <td class="wb5">{{vac.remarks}}</td>                   
+                   
+
+                    
+                    
+                  </tr>                            
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+    </section>
+{% endblock %}

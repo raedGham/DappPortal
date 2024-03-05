@@ -1,15 +1,12 @@
 {% extends 'base_nonav.html' %} 
-
-
-
-
-
-
+{%load static%}
 {% block content %}
 <style> @page { size: A4 landscape; margin: 1cm; } </style>
 <main id="main" class="main">
  
     <section class="mar">
+      <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "700px"  alt="">
+      <h3>Overtime List</h3>
               <!-- Table with stripped rows -->
               <table class="PDFtable">
                 <thead class = "PDFtable">

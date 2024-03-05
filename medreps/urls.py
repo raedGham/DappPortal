@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 urlpatterns = [
   path('list/', views.list_medreps, name='list_medreps'),
+  path('listPDF/', views.medrepListPDF, name='medrepListPDF'),
   path('form/', views.medreps, name='medreps'),
   path('workflow/<int:id>/', views.workflow, name='m_workflow'),
   path('medrep_approve/<int:id>/', views.medrep_approve, name='medrep_approve'),  

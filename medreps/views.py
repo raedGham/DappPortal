@@ -18,6 +18,30 @@ from weasyprint import HTML
 import tempfile
 from  django.db.models import Sum
 
+#--------------------------------------------------------------------------    P D F  M E D R E P  L I S T   
+@login_required(login_url='login')
+def medrepListPDF(request):
+  os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
+  response = HttpResponse(content_type='application/pdf')
+  response['Content-Disposition'] = 'inline; filename=Vacation'+ str(datetime.now) + '.pdf'
+  response['Content-Transfer-Encoding'] = 'binary'
+  name_search = request.session["name_search"]
+  PSno_search = request.session["PSno_search"]
+  
+  data = Medrep.objects.all()
+  if name_search !='' and name_search is not None:
+    data = Medrep.objects.filter(employee__first_name__icontains=name_search )
+  if PSno_search !='' and PSno_search is not None:
+    data = Medrep.objects.filter(employee__ps_number__icontains= PSno_search)
+  context = {
+      'medreps' : data ,      
+   }
+  
+  html_string = render_to_string('medreps\\medrepListPDF.html', context)
+  html=HTML(string=html_string, base_url=request.build_absolute_uri())
+  result= html.write_pdf(response , presentational_hints=True)
+  return response     
+
 
 #    -------------------------------------------     M E D R E P S   L I S T
 @login_required(login_url='login')
@@ -31,6 +55,8 @@ def list_medreps(request):
    S_fromdate = request.GET.get('S_fromdate')  
    S_todate = request.GET.get('S_todate') 
 
+   request.session["name_search"]= name_search
+   request.session["PSno_search"]= PSno_search
   
    FilterDepList = GetFilterDepList(request.user)
    # sortby = request.GET.get('sortby')

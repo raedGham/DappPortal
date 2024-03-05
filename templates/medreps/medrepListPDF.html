@@ -1,0 +1,54 @@
+{% extends 'base_nonav.html' %} 
+{%load static%}
+{% block content %}
+<style> @page { size: A4 landscape; margin: 1cm; } </style>
+<main id="main" class="main">
+ 
+    <section class="mar">
+      <img src=" {% static 'assets\img\vac-header.jpg' %} " width = "700px"  alt="">
+      <h3>List of Medical Reports</h3>
+              <!-- Table with stripped rows -->
+              <table class="PDFtable">
+                <thead class = "PDFtable">
+                  <tr >                  
+                    <th>ID</th>
+                    <th>Report Date</th>
+                    <th>PS no</th>
+                    <th>Name </th>                      
+                    <th>Department </th>
+                    <th>From Date </th>
+                    <th>To Date </th>
+                    <th>No of Days</th>
+                    <th>Status </th>                    
+                    <th>Description </th>
+                  </tr>
+                </thead>
+                
+                <tbody class = "">
+                {% for medrep in medreps %}       
+                  <tr class="PDFtable h1">
+                    <td>{{medrep.id}}</td>
+                    <td>{{medrep.ot_date}}</td>
+                    <td class="" scope="col">{{medrep.employee.ps_number}}</td>
+                    {% if medrep.employee.middle_name != None or  medrep.employee.middle_name is not None %}
+                    <td>{{ medrep.employee.first_name}} {{medrep.employee.middle_name}}  {{medrep.employee.last_name}}</td> 
+                    {% else %}
+                    <td>{{ medrep.employee.first_name}} {{medrep.employee.last_name}}</td> 
+                    {% endif%}                    
+                    <td class="" scope="col" >{{medrep.employee.department}}</td>
+                    <td>{{medrep.from_date}}</td>
+                    <td>{{medrep.to_date}}</td>
+                    <td>{{medrep.nodays}}</td>
+                    <td>{{medrep.status}}</td>                 
+                    <td>{{medrep.description}}</td>
+
+                    
+                    
+                  </tr>                            
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+              <!-- End Table with stripped rows -->
+    </section>
+{% endblock %}

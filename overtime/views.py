@@ -28,7 +28,7 @@ def getAppEmp(ot):
    elif ot.approval_position == 4:
       return ot.fourth_approval.id
 
-#--------------------------------------------------------------------------    P D F    L I S T   
+#--------------------------------------------------------------------------    P D F  O T  L I S T   
 @login_required(login_url='login')
 def OTPDF(request):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
