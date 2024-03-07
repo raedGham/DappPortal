@@ -31,6 +31,7 @@
               <table class="table datatable">
                 <thead>
                   <tr>
+                    <th style="width:15px"> </th>
                     <th>Name</th>
                     <th >Description</th>  
                     <th> </th>         
@@ -43,6 +44,24 @@
                 <tbody>
                 {% for dep in departments %}       
                   <tr>
+                    {% if dep.name == "ELE" %} 
+                    <td class="p-1 mb-1 bg-primary"> </td>
+                    {% elif dep.name == "INS" %}
+                    <td class="p-1 mb-1 bg-success"> </td>
+                    {% elif dep.name == "MEC" %}
+                    <td class="p-1 mb-1 bg-info"> </td>
+                    {% elif dep.name == "GSR" %}
+                    <td class="p-1 mb-1 bg-danger"> </td>
+                    {% elif dep.name == "OPER" %}
+                    <td class="p-1 mb-1 bg-warning"> </td>
+                    {% elif dep.name == "MAINT" %}
+                    <td class="p-1 mb-1 bg-secondary"> </td>
+                    {% elif dep.name == "ADMIN" %}
+                    <td class="p-1 mb-1 bg-dark"> </td>
+                    {% elif dep.name == "IT" %}
+                    <td class="p-1 mb-1 bg-light"> </td>
+                    {% endif %}  
+
                     <td>{{dep.name}}</td>
                     <td>{{dep.description}}</td> 
                     {% if userType == "AdminUser" or user.email == "admin@live.com" %}  

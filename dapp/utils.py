@@ -1,6 +1,8 @@
 from datetime import datetime
 from accounts.models import Account 
 from positions.models import Position
+from django import template
+
 def SetWorkflow(QS):
      
                Tarek = Account.objects.get(position = Position.objects.get(title="Admin Head"))
@@ -132,3 +134,6 @@ def GetPreviousMonthEnd():
       else: 
          e = 28
    return datetime(year=y, month=m , day =e)      
+
+
+

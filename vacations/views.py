@@ -112,6 +112,7 @@ def list_vacations(request):
    context = { 
                'p_vacations':p_vacations, 
                'canDelete': canDelete,
+               
                            
                }
    return render(request,"vacations\\vacations_list.html", context)
