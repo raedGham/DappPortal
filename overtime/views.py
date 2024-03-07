@@ -15,7 +15,23 @@ import json
 import os
 from django.template.loader import render_to_string
 from weasyprint import HTML
-from datetime import datetime
+from datetime import datetime, timedelta
+
+
+def subtract_times(time1, time2):
+
+  # Check if time2 is midnight
+  if time2.hour == 0 and time2.minute == 0 and time2.second == 0:
+    # If time1 is also midnight, return 0
+    if time1.hour == 0 and time1.minute == 0 and time1.second == 0:
+      return timedelta(seconds=0)
+    # Otherwise, subtract a day from time1 before subtracting
+    time1 -= timedelta(days=1)
+
+ 
+  return (time1 - time2)*-1
+
+
 
 
 def getAppEmp(ot):
@@ -113,11 +129,29 @@ def ot_list(request):
    emps = Account.objects.filter(department__name__in=FilterDepList).order_by("username")
   
 
+     # calculate canDel
+
+   canDelete=[]
+  
+   for ot in data:
+       print(request.user.username)
+       if  request.user.username == 'adminuser' and ot.status not in [1,2]:
+         canDelete.append(ot.id)
+
+       if       (ot.approval_position == 1 and ot.first_approval==request.user) or (
+                 ot.approval_position == 2 and ot.second_approval==request.user) or(
+                 ot.approval_position == 3 and ot.third_approval==request.user) or ( 
+                 ot.approval_position == 4 and ot.fourth_approval==request.user): 
+          canDelete.append(ot.id)
+
+
+
    context={
       'p_ots':p_overtime,
       'emps' :emps,
       'selected_emp':int(selected_emp),
       'selected_date':selected_date,
+      'canDelete':canDelete,
     }
    return render(request, 'overtime/ot_list.html', context)
 #--------------------------------------------------------------------------    C R E A T E   O T   F O R M
@@ -151,8 +185,11 @@ def overtime(request,id):
        from_time= form.cleaned_data['from_time']
        to_time=  form.cleaned_data['to_time']
        FT = datetime.combine(ot_date, from_time)
-       TT = datetime.combine(ot_date, to_time)                            
-       TD = TT -FT             
+       TT = datetime.combine(ot_date, to_time)
+       TD = subtract_times(FT, TT)
+       print(f"Difference: {TD}")
+
+
        ot = form.save(commit=False)
 
         # set Vacation Approval Workflow
@@ -184,8 +221,8 @@ def overtime(request,id):
 
     
        ot_upd.save()   
-   
-       
+       print("Submit the form")
+       return HttpResponse("Success")
     else:
        return HttpResponse("Invalid")
     
@@ -234,7 +271,8 @@ def ot_by_date(request,otdate):
        ot_date = datetime.strptime(otdate, "%Y-%m-%d" )
 
        FT = datetime.combine(ot_date, from_time)
-       TT = datetime.combine(ot_date, to_time)                            
+       TT = datetime.combine(ot_date, to_time)  
+       print(TT)
        TD = TT -FT             
        ot = form.save(commit=False)
        if employee.is_head :

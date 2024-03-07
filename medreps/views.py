@@ -92,10 +92,26 @@ def list_medreps(request):
    p = Paginator(data,20)
    page = request.GET.get('page')
    p_medreps = p.get_page(page)
-   
+
+ # calculate canDel
+
+   canDelete=[]
+  
+   for medrep in data:
+       print(request.user.username)
+       if  request.user.username == 'adminuser' and medrep.status not in [1,2]:
+         canDelete.append(medrep.id)
+
+       if       (medrep.approval_position == 1 and medrep.first_approval==request.user) or (
+                 medrep.approval_position == 2 and medrep.second_approval==request.user) or(
+                 medrep.approval_position == 3 and medrep.third_approval==request.user) or ( 
+                 medrep.approval_position == 4 and medrep.fourth_approval==request.user): 
+          canDelete.append(medrep.id)
+
 
    context = { 
-               'p_medreps':p_medreps,               
+               'p_medreps':p_medreps, 
+               'canDelete':canDelete,              
                }
    return render(request,"medreps\\medreps_list.html", context)
 

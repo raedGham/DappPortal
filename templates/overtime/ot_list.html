@@ -137,7 +137,7 @@
                     {% endif %}    
                   
                     <td style="width:auto"> <a href = "{% url 'o_workflow' ot.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
-                    {% if  ot.status != 1 and ot.status != 2 %}
+                    {% if  ot.status != 1 and ot.status != 2 and ot.id in canDelete  %}
                     <td style="width:auto"> <a href="{% url 'ot_update' ot.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td style="width:auto"> <a href = "{% url 'ot_delete' ot.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     {% else %}

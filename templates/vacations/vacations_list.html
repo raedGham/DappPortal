@@ -100,8 +100,8 @@
                     {% else %}
                     <td> </td>
                     {% endif %} 
-                    <td>{{vacation.sofar}}</td>
-                    <td>{{vacation.leave_stat_id}}</td>
+                    {% comment %} <td>{{vacation.sofar}}</td>
+                    <td>{{vacation.leave_stat_id}}</td> {% endcomment %}
                     <td> <a href="{% url 'single_vacationPDF' vacation.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
                     <td> <a href = "{% url 'v_workflow' vacation.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
                   
