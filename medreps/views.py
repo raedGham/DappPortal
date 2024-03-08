@@ -98,7 +98,7 @@ def list_medreps(request):
    canDelete=[]
   
    for medrep in data:
-       print(request.user.username)
+
        if  request.user.username == 'adminuser' and medrep.status not in [1,2]:
          canDelete.append(medrep.id)
 
@@ -106,6 +106,7 @@ def list_medreps(request):
                  medrep.approval_position == 2 and medrep.second_approval==request.user) or(
                  medrep.approval_position == 3 and medrep.third_approval==request.user) or ( 
                  medrep.approval_position == 4 and medrep.fourth_approval==request.user): 
+          
           canDelete.append(medrep.id)
 
 

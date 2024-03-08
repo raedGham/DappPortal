@@ -3,7 +3,11 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
+      {% if request.user.username == "adminuser" %}
+      <a href="{% url 'admindash' %}" class="logo d-flex align-items-center">
+       {% else %} 
+       <a href="{% url 'dashboard' %}" class="logo d-flex align-items-center">
+       {% endif %} 
         <img src=" {% static 'assets/img/logo.jpg' %} " width = "200px"  alt="">
      
       </a>

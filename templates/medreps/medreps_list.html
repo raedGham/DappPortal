@@ -101,7 +101,7 @@
                     <td> <a href="{%url 'pdf_view' medrep.id %}"> <i class="bi bi-paperclip text-primary "></i> </a> </td>
                     <td> <a href="{% url 'single_medrepPDF' medrep.id %}"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
                     <td> <a href = "{% url 'm_workflow' medrep.id %}" > <i class="bi bi-people text-primary"></i> </a> </td>
-                    {% if  medrep.status != 1 and medrep.status != 2 in canDelete %}
+                    {% if  medrep.status != 1 and medrep.status != 2 or  canDelete %}
                     <td> <a href="{% url 'medrep_update' medrep.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
                     <td> <a href = "{% url 'medrep_delete' medrep.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
                     {% else %}
