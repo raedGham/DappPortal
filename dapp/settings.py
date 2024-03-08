@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-95dn@%(aw#r8tgij%r=4j%j$flfl+(f2ks#19vcum34igh*9f-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.12.191','127.0.0.1']
+ALLOWED_HOSTS = ['10.10.12.250','127.0.0.1']
 
 
 # Application definition
@@ -89,19 +89,19 @@ WSGI_APPLICATION = 'dapp.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-
-    #  'default': {
-    #     'ENGINE': 'django.db.backends.mysql', 
-    #     'NAME': 'dappportal',
-    #     'USER': 'root',
-    #     'PASSWORD': 'Root',
-    #     'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-    #     'PORT': '3306',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+
+     'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'dappportal',
+        'USER': 'root',
+        'PASSWORD': 'Root',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+    }
 
 
 }
