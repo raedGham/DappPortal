@@ -411,6 +411,18 @@ def ots_approve(request):
 @login_required(login_url='login')
 def overtime_reject(request, id):   
    ot = Overtime.objects.get(id=id) 
+   if ot.approval_position == 1 :
+      ot.first_app_status = 2      
+      ot.first_app_date = datetime.now()
+   elif  ot.approval_position == 2 : 
+      ot.second_app_status = 2      
+      ot.second_app_date = datetime.now()
+   elif  ot.approval_position == 3 : 
+      ot.third_app_status = 2      
+      ot.third_app_date = datetime.now()
+   elif  ot.approval_position == 4 :     
+      ot.fourth_app_status = 2
+      ot.fourth_app_date = datetime.now()
    ot.status = 2    
    ot.save()
    return redirect('ot_list') 

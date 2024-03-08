@@ -353,6 +353,20 @@ def vacation_approve(request, id):
 @login_required(login_url='login')
 def vacation_reject(request, id):   
    vac = Vacation.objects.get(id=id) 
+   if vac.approval_position == 1 :
+      vac.first_app_status = 2      
+      vac.first_app_date = datetime.now()
+   elif  vac.approval_position == 2 : 
+      vac.second_app_status = 2      
+      vac.second_app_date = datetime.now()
+   elif  vac.approval_position == 3 : 
+      vac.third_app_status = 2      
+      vac.third_app_date = datetime.now()
+   elif  vac.approval_position == 4 :     
+      vac.fourth_app_status = 2
+      vac.fourth_app_date = datetime.now()
+   
+   
    vac.status = 2 
    no_of_days = vac.nodays
    vacid = vac.id

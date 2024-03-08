@@ -302,6 +302,18 @@ def medrep_approve(request, id):
 @login_required(login_url='login')
 def medrep_reject(request, id):   
    med = Medrep.objects.get(id=id) 
+   if med.approval_position == 1 :
+      med.first_app_status = 2      
+      med.first_app_date = datetime.now()
+   elif  med.approval_position == 2 : 
+      med.second_app_status = 2      
+      med.second_app_date = datetime.now()
+   elif  med.approval_position == 3 : 
+      med.third_app_status = 2      
+      med.third_app_date = datetime.now()
+   elif  med.approval_position == 4 :     
+      med.fourth_app_status = 2
+      med.fourth_app_date = datetime.now()
    med.status = 2 
    emplleavestatList = EmployeeMedLeaveStat.objects.filter(employee=med.employee)
    ide = emplleavestatList[0].id
