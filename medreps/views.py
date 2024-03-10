@@ -346,7 +346,7 @@ def single_medrep(request, id):
 
 #    -------------------------------------------     M E D    R E P O R T   P D F
 @login_required(login_url='login')
-def single_medrepPDF(request, id):
+def single_repPDF(request, id):
   os.add_dll_directory(r"C:/Program Files/GTK3-Runtime Win64/bin")
 
   response = HttpResponse(content_type='application/pdf')
@@ -356,7 +356,7 @@ def single_medrepPDF(request, id):
 
   med = Medrep.objects.get(id=id)
   els = EmployeeMedLeaveStat.objects.filter(employee = med.employee.id)
- 
+  print(els[0])
   if els.exists():                         
    idy = els[0].id  
    updEls = EmployeeMedLeaveStat.objects.get(id= idy )  
@@ -367,6 +367,7 @@ def single_medrepPDF(request, id):
       'this': med.nodays,
       'balance': (updEls.current_year )-(updEls.daystaken_current+med.nodays)
    }
+   print(context['balance'])
   else:
         context = {
                'med':med,
@@ -375,7 +376,7 @@ def single_medrepPDF(request, id):
                'this': '',
                'balance': ''
             }   
-  html_string = render_to_string('medreps\\single_medrepPDF.html', context)
+  html_string = render_to_string('medreps\\single_repPDF.html', context)
   html=HTML(string=html_string, base_url=request.build_absolute_uri())
   result= html.write_pdf(response , presentational_hints=True)
   return response  

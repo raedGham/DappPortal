@@ -1,30 +1,30 @@
 .datacolor {
-    color:blue;    
+  color: blue;
 }
 
 .BorderAll {
-    border-style: solid;
-    border-width: 1px;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .BorderTop {
-    border-top-style: solid;
-    border-width: 1px;
+  border-top-style: solid;
+  border-width: 1px;
 }
 
 .BorderBottom {
-    border-bottom-style: solid;
-    border-width: 1px;
+  border-bottom-style: solid;
+  border-width: 1px;
 }
 
 .BorderLeft {
-    border-left-style: solid;
-    border-width: 1px;
+  border-left-style: solid;
+  border-width: 1px;
 }
 
 .BorderRight {
-    border-right-style: solid;
-    border-width: 1px;
+  border-right-style: solid;
+  border-width: 1px;
 }
 
 
@@ -34,118 +34,136 @@ body {
 }
 
 .Container {
-    padding-right: 25px;
-    padding-left: 25px;
-    margin-right: auto;
-    margin-left: auto;
-  }
+  padding-right: 25px;
+  padding-left: 25px;
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .FLX {
-    display: flex;
-}  
+  display: flex;
+}
 
 .LabelMargin {
-    margin-right: 50px;
+  margin-right: 50px;
+}
+
+.w2 {
+  width: 40px;
+  height: 20px;
 }
 
 .w3 {
-  width:60px;
+  width: 60px;
 }
 
 .wb3 {
-  width:25px;
-  height:20px;
-  padding :3px;    
-}  
+  width: 25px;
+  height: 20px;
+  padding: 3px;
+}
 
 .w4 {
-    width:100px;    
-  }
+  width: 100px;
+}
 
 .wb4 {
-    width:100px;
-    height:20px;
-    padding :3px;    
-}  
+  width: 100px;
+  height: 20px;
+  padding: 3px;
+}
+
 .w5 {
-    width:130px;
-  }  
+  width: 130px;
+}
 
-  .wb5 {
-    width:226px;
-    height:20px;
-    padding-left :3px;    
-   padding-top :3px;    
-   padding-bottom :3px;    
-  }
-  .w6 {
-    width:160px;
-  } 
- 
-  .w9 {
-    width:215px;    
-  } 
-  .w10 {
-    width:240px;    
-  } 
- 
-  .wb10 {
-    width:390px;
-    height:20px;
-    padding :3px;   
-  } 
- 
-  .wb11 {
-    width:390px;
-    height:20px;
-    padding-left :3px;   
-  } 
+.wb5 {
+  width: 226px;
+  height: 20px;
+  padding-left: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 
-  .wb12 {
-    width:450px;
-    height:20px;
-    padding :3px;   
-  } 
+.w6 {
+  width: 160px;
+}
+
+.w9 {
+  width: 215px;
+}
+
+.w10 {
+  width: 240px;
+}
+
+.wb10 {
+  width: 390px;
+  height: 20px;
+  padding: 3px;
+}
+
+.wb11 {
+  width: 390px;
+  height: 20px;
+  padding-left: 3px;
+}
+
+.wb12 {
+  width: 450px;
+  height: 20px;
+  padding: 3px;
+}
+
+.wb14 {
+  width: 665px;
+  height: auto;
+  padding: 3px;
+
+}
+
 .mt1 {
-    margin-top: 25px;
-}  
+  margin-top: 25px;
+}
 
 .mt2 {
-    margin-top: 50px;
-}  
+  margin-top: 50px;
+}
+
 .ml1 {
-    margin-left: 25px;
-}  
+  margin-left: 25px;
+}
 
 .ml2 {
-    margin-left: 40px;
-}  
+  margin-left: 40px;
+}
 
 .ml3 {
-    margin-left: 140px;
-}  
+  margin-left: 140px;
+}
 
 .ml4 {
-    margin-left: 230px;
-}  
+  margin-left: 230px;
+}
 
 .ml5 {
   margin-left: 160px;
-}  
+}
 
 .mar {
-   margin: 20px;
+  margin: 20px;
 }
+
 .center {
   text-align: center;
- 
+
 }
 
 .pt1 {
   padding-top: 5px;
 }
 
-.PDFtable  {
+.PDFtable {
   border-collapse: collapse;
   border: 1px solid;
 }
@@ -154,3 +172,11 @@ body {
   height: 30px;
 }
 
+.pl {
+  padding-left: 25px;
+
+}
+
+.pls {
+  padding-left: 10px;
+}

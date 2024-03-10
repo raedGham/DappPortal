@@ -17,7 +17,7 @@
       </div>
 
       <div class="  BorderBottom  w6" style="text-align:center;" >
-         <label for="" class="datacolor">{{vac.employee.first_name}} {{vac.employee.last_name}}</label>
+         <label for="" class="datacolor">{{med.employee.first_name}} {{med.employee.last_name}}</label>
       </div>
       <div class=" w5">
         
@@ -26,7 +26,7 @@
         <label> Personal No: </label>
      </div>
      <div class="BorderBottom w3" style="text-align:center;">
-        <label for="" class="datacolor"> {{vac.employee.ps_number}}</label>
+        <label for="" class="datacolor"> {{med.employee.ps_number}}</label>
      </div>
 
    </div>
@@ -38,7 +38,7 @@
             <label>Department :</label>
         </div>
           <div class="BorderBottom w6 mt1" style="text-align:center;">
-             <label for="" class="datacolor">{{vac.employee.department.name}}</label>
+             <label for="" class="datacolor">{{med.employee.department.name}}</label>
           </div>
           <div class="w5 mt1">
             
@@ -69,24 +69,21 @@
             <label> From : </label>
           </div>
           <div class="BorderBottom w4">
-            <label for="" class="datacolor">{{vac.from_date}}</label> 
+            <label for="" class="datacolor">{{med.from_date}}</label> 
           </div>                            
          <div class="w3 ml1">
             <label> To : </label>            
          </div>
          <div class="BorderBottom w4">
-           <label for="" class="datacolor">{{vac.to_date}}</label> 
+           <label for="" class="datacolor">{{med.to_date}}</label> 
          </div>                            
          <div class="w3 w4 ml1">
             <label> No of Days: </label>            
          </div>
          <div class="BorderAll wb3">
-            <label for="" class="datacolor">{{vac.nodays}}</label>
+            <label for="" class="datacolor pls">{{med.nodays}}</label>
          </div>           
-         <div class="BorderAll wb3 ml2">
-            <label for="" class="datacolor">{{vac.ampm}}</label>
-            
-         </div>
+       
     </div>
 
     <!-- Annual Leave-->
@@ -101,7 +98,7 @@
             <label> Annual leave entitlement for the current year: </label>            
          </div>
          <div class="BorderTop BorderRight BorderBottom mt1 w3 center pt1"> 
-            <label class="datacolor"> {{updEls.current_year}} </label>
+            {% comment %} <label class="datacolor"> {{updEls.current_year}} </label> {% endcomment %}
          </div>         
     </div>
 
@@ -114,7 +111,7 @@
            <label> Annual leave entitlement for previous year(if approved): </label>                    
         </div>     
         <div class=" BorderRight BorderBottom w3 center pt1"> 
-         <label class="datacolor"> {{updEls.previous_year}} </label>
+         {% comment %} <label class="datacolor"> {{updEls.previous_year}} </label> {% endcomment %}
       </div>         
     </div>
     
@@ -124,7 +121,7 @@
             <label> Total annual leave entitlement: </label>            
          </div>     
          <div class="BorderBottom BorderRight w3 center pt1">
-            <label class="datacolor"> {{annual}} </label>
+            {% comment %} <label class="datacolor"> {{annual}} </label> {% endcomment %}
          </div>
     </div>
  
@@ -135,7 +132,7 @@
             <label> Days taken so far this calendar year: </label>            
          </div>  
          <div class="BorderBottom BorderRight w3 center pt1">
-            <label for="" class="datacolor">{{updEls.daystaken_current}}</label>
+            {% comment %} <label for="" class="datacolor">{{updEls.daystaken_current}}</label> {% endcomment %}
          </div> 
     </div>
 
@@ -147,7 +144,7 @@
             <label> Days on this application:</label>            
          </div>  
          <div class="BorderBottom BorderRight w3 center pt1">
-            <label for="" class="datacolor"> {{this}} </label>
+            {% comment %} <label for="" class="datacolor"> {{this}} </label> {% endcomment %}
          </div>
     </div>
       
@@ -157,7 +154,7 @@
             <label> Balance remaining after this application:</label>                       
          </div>  
          <div class="BorderBottom BorderRight w3 center pt1">
-            <label for="" class="datacolor"> {{balance}} </label>
+            {% comment %} <label for="" class="datacolor"> {{balance}} </label> {% endcomment %}
          </div>
 
     </div>
@@ -172,25 +169,26 @@
          <div class="BorderTop BorderBottom mt1 wb4">
             <label> No of days : </label>            
          </div>
-         <div class="BorderAll mt1 wb12">
+         <div class="BorderLeft BorderTop BorderBottom mt1 wb10">
             <label> Days previously taken this calendar year :  </label>         
+         </div> 
+        <div class="BorderRight BorderBottom BorderTop mt1 w3">
+            <label for="" class="datacolor pl" >{{balance}}</label>
          </div>                           
     </div>
 
-   
-    <div class="FLX"> 
-        <div class="w9"> </div>
-        <div class="BorderLeft BorderRight BorderBottom  wb12"> </div>
+    <div class="BorderLeft BorderRight  BorderBottom wb14"> 
+      <div class="datacolor">
+      {{med.description}}
+      </div>
     </div>
+
     
-    <div class="FLX"> 
+ 
+    {% comment %} <div class="FLX"> 
         <div class="w9"> </div>
         <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
-    </div>
-    <div class="FLX"> 
-        <div class="w9"> </div>
-        <div class="BorderLeft BorderRight  BorderBottom wb12"> </div>
-    </div>
+    </div> {% endcomment %}
 
     <!-- Unpaid Leave-->
     <div class="FLX"> 
@@ -253,20 +251,20 @@
       
     <div class="FLX"> 
       <div class="datacolor w5">
-        <label>{{vac.employee.first_name}} {{vac.employee.last_name}}</label> 
+        <label>{{med.employee.first_name}} {{med.employee.last_name}}</label> 
       </div>
       <div class="datacolor w5">
       
-         <label>{{vac.vac_date}} </label> 
+         <label>{{med.vac_date}} </label> 
           
      </div>   
       
      
-     {% if vac.first_app_status == 1 %}
+     {% if med.first_app_status == 1 %}
       <div class = "ml3"> 
          <div class="datacolor w10">          
-           <label>{{vac.first_approval.first_name}} {{vac.first_approval.last_name}} / </label>                
-           <label>{{vac.first_app_date | date:"Y-m-d" }}  {{vac.first_app_date | time:"H:i"}} </label> 
+           <label>{{med.first_approval.first_name}} {{med.first_approval.last_name}} / </label>                
+           <label>{{med.first_app_date | date:"Y-m-d" }}  {{med.first_app_date | time:"H:i"}} </label> 
          </div>  
       </div> 
     {% endif %}  
@@ -293,22 +291,22 @@
  
 <div class="FLX mt2"> 
          
-    {% if vac.second_app_status == 1 %}
+    {% if med.second_app_status == 1 %}
       <div> 
          <div class="datacolor w10 ">          
-           <label>{{vac.second_approval.first_name}} {{vac.second_approval.last_name}} / </label>     
-           <label>{{vac.second_app_date | date:"Y-m-d" }}  {{vac.second_app_date | time:"H:i"}} </label> 
+           <label>{{med.second_approval.first_name}} {{med.second_approval.last_name}} / </label>     
+           <label>{{med.second_app_date | date:"Y-m-d" }}  {{med.second_app_date | time:"H:i"}} </label> 
          </div>  
       </div> 
     {% endif %} 
    
     
          
-      {% if vac.third_app_status == 1 %}
+      {% if med.third_app_status == 1 %}
         <div class="ml5"> 
            <div class="datacolor w10 ">          
-             <label>{{vac.third_approval.first_name}} {{vac.third_approval.last_name}} / </label>     
-             <label>{{vac.third_app_date | date:"Y-m-d" }}  {{vac.third_app_date | time:"H:i"}} </label> 
+             <label>{{med.third_approval.first_name}} {{med.third_approval.last_name}} / </label>     
+             <label>{{med.third_app_date | date:"Y-m-d" }}  {{med.third_app_date | time:"H:i"}} </label> 
            </div>  
         </div> 
       {% endif %} 
@@ -331,11 +329,11 @@
          </div>
     </div>
 
-    {% if vac.fourth_app_status == 1 %}
+    {% if med.fourth_app_status == 1 %}
     <div class="ml4"> 
        <div class="datacolor w10 mt2 ">          
-         <label>{{vac.fourth_approval.first_name}} {{vac.fourth_approval.last_name}} / </label>     
-         <label>{{vac.fourth_app_date | date:"Y-m-d" }}  {{vac.fourth_app_date | time:"H:i"}} </label> 
+         <label>{{med.fourth_approval.first_name}} {{med.fourth_approval.last_name}} / </label>     
+         <label>{{med.fourth_app_date | date:"Y-m-d" }}  {{med.fourth_app_date | time:"H:i"}} </label> 
        </div>  
     </div> 
   {% endif %} 
@@ -343,7 +341,7 @@
 
     <div class="FLX"> 
         <div class="ml4"></div>
-        {% if vac.fourth_app_status != 1 %}
+        {% if med.fourth_app_status != 1 %}
         <div class="BorderTop w5 mt2">
          <p style="font-size: 10px;">(5) Plant Superintendent</p> 
         </div>
@@ -364,7 +362,7 @@
       
     </div>
 
-    <p style="font-size: 10px;" class="w3"> {{vac.id}}</p>
+    <p style="font-size: 10px;" class="w3"> {{med.id}}</p>
 </div>  
     
 
