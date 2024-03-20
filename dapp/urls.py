@@ -33,6 +33,7 @@ urlpatterns = [
     path('admindash/',include('admin_dash.urls')),
     path('ot/',include('overtime.urls')),
     path('medreps/',include('medreps.urls')),
+    path('log/',include('log.urls')),
     
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

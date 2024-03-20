@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'dashboard',
     'vacations',
     'overtime', 
-    'medreps',    
+    'medreps',
+    'log',    
     'import_export',
     'weasyprint',  
     
