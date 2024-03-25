@@ -1,6 +1,5 @@
 {% extends 'base.html' %} 
 {% block content %}
-
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -8,44 +7,56 @@
        <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item">Log</li>
+          <li class="breadcrumb-item">Logs</li>
           <li class="breadcrumb-item active">Log List</li>
         </ol>
-       </nav>
+      </nav>
       
     </div><!-- End Page Title -->
  
-  <section class="section"> 
+    <section class="section">
       <div class="row">
         <div class="col-lg-9">
+
           <div class="card">
            <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3">
-                    <h5 class="card-title">Operation Log List </h5>            
-                  </div>   
-             </div>
-
+             <div class="row">
+              <div class="col-lg-8">
+              <h5 class="card-title">Operation Log List </h5>            
+            </div>
+            <div class="col-lg-2 mt-3">
+              <a  href = "{% url 'medrepListPDF' %} " class="btn btn-outline-primary"><i class="bx bx-printer text-primary "></i> Print</a>              
+            </div>
+          
+            <div class="col-lg-2 mt-3">
+              <a  href = "{% url 'logs' %}" class="btn btn-outline-primary">Add Log</a>
+            </div>
+          </div>
               <!-- Table with stripped rows -->
          
-              <table class="table datatable" style="white-space: nowrap; overflow: hidden;table-layout: fixed ">
+              <table class="table datatable">
                 <thead>
                   <tr>     
-                    <th style="width:20px"></th>        
-                    <th style="width:40px">ID</th>
-                    <th style="width:120px">Log Date </th>     
-                    <th style="width:50px">PS no</th>
-                    <th style="width:160px">Name </th>                     
-                    <th style="width:auto">Log Time </th>   
-                                     
-                    <th style="width:auto">Section</th>                                                    
+                    <th></th>        
+                    <th>ID</th>
+                    <th>Log Date </th>     
+                    <th>PS no</th>
+                    <th>Name </th>                     
+                    <th>Log Time </th> 
+                    <th>Section</th>                                                    
                   </tr>
                 </thead>
-              
-               <tbody>
+                
+                <tbody>
                 {% for log in p_log %}       
 
-                  <tr> 
+                {% if log.status == 1 %}
+                  <tr class="table-primary">
+                {% elif log.status == 2 %}  
+                  <tr class="table-danger">
+                {% else %}    
+                  <tr>  
+                {% endif %} 
                   
                     {% if log.employee.department.name == "ELE" %} 
                     <td class="p-1 mb-1 bg-primary"> </td>
@@ -64,67 +75,80 @@
                     {% elif log.employee.department.name == "IT" %}
                     <td class="p-1 mb-1 bg-light"> </td>
                     {% endif %} 
-                    
-                    <td style="width:30px;" >{{log.id}}</td>
-                    <td>  {{log.log_date}}  <br> <span class="text-primary"> Description:</span>{{log.description}} </td>
-                    <td style="width:auto" class="text-start" scope="col">{{log.employee.ps_number}}</td>
-                 
+
+                    <td >{{log.id}}</td>
+                    <td>{{log.log_date}}</td>                    
+                    <td  class="text-start" scope="col">{{log.employee.ps_number}}</td>
+                    {% if log.middle_name != None or  log.middle_name is not None %}
+                    <td>{{ log.employee.first_name}} {{log.employee.middle_name}}  {{log.employee.last_name}}</td> 
+                    {% else %}
                     <td>{{ log.employee.first_name}} {{log.employee.last_name}}</td> 
-                  
-                    <td style="width:auto">{{log.log_time}}</td>
-                    <td style="width:auto">{{log.section}}</td>   
-                                    
-                    
-                  
-                   
-                    <td style="width:auto"> <a href="#"> <i class="bx bx-edit text-success "></i> </a> </td>                  
-                    <td style="width:auto"> <a href = "#" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    {% endif%}
+                    <td>{{log.log_time}}</td>
                   
                                    
-                                    
-                         
+            
+                    
+                    <td> <a href="#"> <i class="bi bi-paperclip text-primary "></i> </a> </td>
+                    <td> <a href="#"> <i class="bx bx-search-alt-2 text-primary "></i> </a> </td>                     
+                    <td> <a href = "#" > <i class="bi bi-people text-primary"></i> </a> </td>
+                    {% if   canDelete %}
+                    <td> <a href="{% url 'medrep_update' log.id %}"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                    <td> <a href = "{% url 'medrep_delete' log.id %}" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                    {% else %}
+                    <td></td>
+                    <td></td>                    
+                    {% endif %}
+                
+                 
                   </tr>
-                  
+                  <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td colspan=11> <span class="text-primary"> Description:</span> {{log.description}}</td>
+                  </tr>
                  {% endfor%} 
                 </tbody>
 
               </table>
-                            <!-- Basic Pagination -->
-                            <nav aria-label="Page navigation">
-                              <ul class="pagination">
-                                
-                                {% if p_log.has_previous %} 
-                                 <li class="page-item"><a class="page-link" href="?page={{p_ots.previous_page_number}}">Previous</a></li>
-                                {% else %}
-                                 <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
-                                {% endif %}
-              
-                                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-                                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
-                                
-                                {% if p_log.has_next %}        
-                                 <li class="page-item"><a class="page-link" href="?page={{p_log.next_page_number}}">Next</a></li>
-                                {% else %}
-                                 <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
-                                {% endif %}
-                              </ul>
-                            </nav><!-- End Basic Pagination -->
-                          </div>
-                        </div>
-              
-                    </div>
-                      <!-- Paginator-->
-                 
-   
               <!-- End Table with stripped rows -->
 
-        
+                <!-- Basic Pagination -->
+              <nav aria-label="Page navigation">
+                <ul class="pagination">
+                  
+                  {% if p_medreps.has_previous %} 
+                   <li class="page-item"><a class="page-link" href="?page={{p_medreps.previous_page_number}}">Previous</a></li>
+                  {% else %}
+                   <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+                  {% endif %}
+
+                  <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                  <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                  <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
+                  
+                  {% if p_medreps.has_next %}        
+                   <li class="page-item"><a class="page-link" href="?page={{p_medreps.next_page_number}}">Next</a></li>
+                  {% else %}
+                   <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
+                  {% endif %}
+                </ul>
+              </nav><!-- End Basic Pagination -->
+            </div>
+          </div>
+
+      </div>
+        <!-- Paginator-->
+   
+
+
+     {% comment %} search card {% endcomment %}
+     
         <div class="col-lg-3">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Search Logs </h5>
+              <h5 class="card-title">Search Reports </h5>
               
               <form action="" method="GET" class="row g-3">
 
@@ -136,7 +160,9 @@
                 <div class="form-group col-12">
                   <label for="" class="form-label">Name</label>
                  <input name='name_search' class ="form-control"/>
-                </div>             
+                </div>
+
+             
 
                 <div class="input-group input-daterange">
                   <input type="date" class="form-control"  name='S_fromdate'>
@@ -144,13 +170,16 @@
                   <input type="date" class="form-control" name='S_todate'>
                  </div>
                </div>                 
-               <div class="input-group mb-3">
-                <button type="submit" class = "btn btn-outline-primary m-auto col-6"> Search </button>
-              </div>
-              </form>             
+               
+                <div class="input-group mb-3">
+                  <button type="submit" class = "btn btn-outline-primary m-auto col-6"> Search </button>
+                </div>
+              </form>
+              
             </div>
           </div>
-       
-   </section> 
-    
+        
+     
+    </section>
+  
 {% endblock %}

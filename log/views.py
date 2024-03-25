@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from dapp.utils import GetFilterDepList
+from .forms import LogForm
 from log.models import Log
 from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
@@ -86,3 +87,69 @@ def log_list(request):
       
     }
    return render(request, 'log/log_list.html', context)
+
+
+
+#    -------------------------------------------     A D D / E D I T   L O G S
+@login_required(login_url='login')
+def medreps(request, id=0):
+     
+     if request.method == "POST":
+       if id == 0: # to create a new record and append it to the table            
+            form = LogForm(request.POST, request.FILES)
+            if form.is_valid():
+               employee= form.cleaned_data['employee']
+               log_date= form.cleaned_data['log_date']
+               log_time= form.cleaned_data['logtime']                 
+               description  = form.cleaned_data['description']
+               log = Log.objects.create(employee=employee,log_date=log_date,log_time=log_time,description=description)      
+               log.save()
+               
+               return redirect('list_log')
+            else: 
+               context = {
+               'form':form,
+               
+            }
+               return render(request, 'log\\log.html',context)
+            
+       else: # to update the edited record in the table
+            print("the update submitted")
+            log = Log.objects.get(pk=id)
+             
+                        
+            form = LogForm(request.POST,request.FILES, instance = log)  
+            if form.is_valid():
+               log.save()
+               return redirect('log_list')
+            else:
+                print('Invalid form')
+                return redirect('list_medreps')
+                
+     else:   # GET request
+         if id == 0 : # to open a blank from
+            if request.user.username != "adminuser":         
+              form = LogForm(dep_id=request.user.department)
+            else: 
+              form = LogForm()   
+              
+            context = {
+               'form':form,
+             
+            }
+         
+         else: # to populate the form with the data needed to be updated
+            log = Log.objects.get(pk=id)
+           
+            form = LogForm(instance=log)          
+                            
+
+            
+            
+   
+            context = {
+               'form':form,
+              
+               }    
+      
+         return render(request, 'log\\log.html', context)

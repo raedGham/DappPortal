@@ -1,0 +1,156 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Log</h1>
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item">Log</li>
+          <li class="breadcrumb-item active">Log List</li>
+        </ol>
+       </nav>
+      
+    </div><!-- End Page Title -->
+ 
+  <section class="section"> 
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="card">
+           <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <h5 class="card-title">Operation Log List </h5>            
+                  </div>   
+             </div>
+
+              <!-- Table with stripped rows -->
+         
+              <table class="table datatable" style="white-space: nowrap; overflow: hidden;table-layout: fixed ">
+                <thead>
+                  <tr>     
+                    <th style="width:20px"></th>        
+                    <th style="width:40px">ID</th>
+                    <th style="width:120px">Log Date </th>     
+                    <th style="width:50px">PS no</th>
+                    <th style="width:160px">Name </th>                     
+                    <th style="width:auto">Log Time </th>   
+                                     
+                    <th style="width:auto">Section</th>                                                    
+                  </tr>
+                </thead>
+              
+               <tbody>
+                {% for log in p_log %}       
+
+                  <tr> 
+                  
+                    {% if log.employee.department.name == "ELE" %} 
+                    <td class="p-1 mb-1 bg-primary"> </td>
+                    {% elif log.employee.department.name == "INS" %}
+                    <td class="p-1 mb-1 bg-success"> </td>
+                    {% elif log.employee.department.name == "MEC" %}
+                    <td class="p-1 mb-1 bg-info"> </td>
+                    {% elif log.employee.department.name == "GSR" %}
+                    <td class="p-1 mb-1 bg-danger"> </td>
+                    {% elif log.employee.department.name == "OPER" %}
+                    <td class="p-1 mb-1 bg-warning"> </td>
+                    {% elif log.employee.department.name == "MAINT" %}
+                    <td class="p-1 mb-1 bg-secondary"> </td>
+                    {% elif log.employee.department.name == "ADMIN" %}
+                    <td class="p-1 mb-1 bg-dark"> </td>
+                    {% elif log.employee.department.name == "IT" %}
+                    <td class="p-1 mb-1 bg-light"> </td>
+                    {% endif %} 
+                    
+                    <td style="width:30px;" >{{log.id}}</td>
+                    <td>  {{log.log_date}}  <br> <span class="text-primary"> Description:</span>{{log.description}} </td>
+                    <td style="width:auto" class="text-start" scope="col">{{log.employee.ps_number}}</td>
+                 
+                    <td>{{ log.employee.first_name}} {{log.employee.last_name}}</td> 
+                  
+                    <td style="width:auto">{{log.log_time}}</td>
+                    <td style="width:auto">{{log.section}}</td>   
+                                    
+                    
+                  
+                   
+                    <td style="width:auto"> <a href="#"> <i class="bx bx-edit text-success "></i> </a> </td>                  
+                    <td style="width:auto"> <a href = "#" > <i class="bx bxs-trash text-danger"></i> </a> </td>
+                  
+                                   
+                                    
+                         
+                  </tr>
+                  
+                 {% endfor%} 
+                </tbody>
+
+              </table>
+                            <!-- Basic Pagination -->
+                            <nav aria-label="Page navigation">
+                              <ul class="pagination">
+                                
+                                {% if p_log.has_previous %} 
+                                 <li class="page-item"><a class="page-link" href="?page={{p_ots.previous_page_number}}">Previous</a></li>
+                                {% else %}
+                                 <li class="page-item"><a class="page-link disabled" href="#">Previous</a></li>
+                                {% endif %}
+              
+                                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>        
+                                
+                                {% if p_log.has_next %}        
+                                 <li class="page-item"><a class="page-link" href="?page={{p_log.next_page_number}}">Next</a></li>
+                                {% else %}
+                                 <li class="page-item"><a class="page-link disabled" href="#">Next</a></li>
+                                {% endif %}
+                              </ul>
+                            </nav><!-- End Basic Pagination -->
+                          </div>
+                        </div>
+              
+                    </div>
+                      <!-- Paginator-->
+                 
+   
+              <!-- End Table with stripped rows -->
+
+        
+        <div class="col-lg-3">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Search Logs </h5>
+              
+              <form action="" method="GET" class="row g-3">
+
+                <div class="form-group col-12">
+                  <label for="" class="form-label">PS No</label>
+                 <input name='PSno_search' class ="form-control"/>
+                </div>
+
+                <div class="form-group col-12">
+                  <label for="" class="form-label">Name</label>
+                 <input name='name_search' class ="form-control"/>
+                </div>             
+
+                <div class="input-group input-daterange">
+                  <input type="date" class="form-control"  name='S_fromdate'>
+                  <div class="input-group-addon">to</div>
+                  <input type="date" class="form-control" name='S_todate'>
+                 </div>
+               </div>                 
+               <div class="input-group mb-3">
+                <button type="submit" class = "btn btn-outline-primary m-auto col-6"> Search </button>
+              </div>
+              </form>             
+            </div>
+          </div>
+       
+   </section> 
+    
+{% endblock %}
