@@ -92,7 +92,7 @@ def log_list(request):
 
 #    -------------------------------------------     A D D / E D I T   L O G S
 @login_required(login_url='login')
-def medreps(request, id=0):
+def logs(request, id=0):
      
      if request.method == "POST":
        if id == 0: # to create a new record and append it to the table            
